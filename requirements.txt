@@ -1,0 +1,4 @@
+xarray>=0.15
+dask[complete]
+netcdf4
+git+https://github.com/roocs/clisops#egg=clisops
