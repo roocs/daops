@@ -46,7 +46,7 @@ def test_pre_process_fix_only():
 
 
 def teardown_module(module):
-    module.CMIP5_ARCHIVE_BASE = 'mini-esgf-data/test_data/badc/cmip5/data'
+    module.CMIP5_ARCHIVE_BASE = 'tests/mini-esgf-data/test_data/badc/cmip5/data'
     utils.fixer.Fixer.FIX_DIR  = 'tests/test_fixes'
     module.CMIP5_FPATHS = [
         CMIP5_ARCHIVE_BASE + '/cmip5/output1/INM/inmcm4/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc',

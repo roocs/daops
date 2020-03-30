@@ -1,7 +1,7 @@
-import clisops
+from clisops import utils
 
 def double_array(da):
-    var_id = clisops.utils.get_main_variable(da)
+    var_id = utils.get_coords.get_main_variable(da)
     da[var_id].data = da[var_id].data * 2
     return da
 
