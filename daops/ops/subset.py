@@ -28,15 +28,17 @@ def subset(data_refs, time=None, space=None, level=None,
     :return:
     """
     # Consolidate data inputs so they can be passed to Xarray
-    data_refs = consolidate.consolidate(data_refs, time=time, data_root_dir=data_root_dir)
-    # Normalise (i.e. "fix") data inputs based on their "character"
+    data_refs = consolidate.consolidate(data_refs, time=time, 
+                                 data_root_dir=data_root_dir)
+    # Normalise (i.e. "fix") data inputs based on "character"
     norm_dsets = normalise.normalise(data_refs)
 
     rs = normalise.ResultSet(vars())
 
     for data_ref, norm_dset in norm_dsets.items():
 
-        # Process each input dataset (either in series or parallel)
+        # Process each input dataset (either in series or 
+        # parallel)
         rs.add(
             data_ref,
             process(
@@ -53,3 +55,5 @@ def subset(data_refs, time=None, space=None, level=None,
         )
 
     return rs
+
+
