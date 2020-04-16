@@ -1,0 +1,13 @@
+# conda env create -f environment.yml
+name: daops
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - pip
+  - xarray>=0.15
+  - dask
+  - netcdf4
+  # tests
+  - pytest

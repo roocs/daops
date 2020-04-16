@@ -1,0 +1,26 @@
+{
+    "post_processors":  [
+        {
+            "args": null,
+            "func": "daops.data_utils.squeeze_dims",
+            "kwargs": {
+                "dim": "lev"
+            }
+        },
+        {
+            "args": null,
+            "func": "daops.data_utils.do_nothing",
+            "kwargs": null
+        }
+
+    ],
+
+    "pre_processors": [
+        {
+            "func": "daops.data_utils.do_nothing"
+        },
+        {
+            "func": "daops.data_utils.do_nothing"
+        }
+    ]
+}
