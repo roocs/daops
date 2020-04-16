@@ -50,7 +50,7 @@ def _make_nc_modify_global_attr(nc_path, attr, value):
 
 def _make_nc_modify_var_id(nc_path, old_var_id, new_var_id):
     ds = _open(nc_path)
-    ds.rename({old_var_id: new_var_id})
+    ds = ds.rename({old_var_id: new_var_id})
     ds.to_netcdf("modify_var_id.nc")
     tmp_path = os.path.abspath("modify_var_id.nc")
     return tmp_path
@@ -154,9 +154,18 @@ def test_agg_behaviour_diff_global_attrs_change_3(global_attr):
             str(exc)
             == "Could not find any dimension coordinates to use to order the datasets for concatenation"
         )
+        
 
-
-def test_agg_fails_diff_var_id():
+def test_agg_fails_diff_var_id_change_F1():
+    new_var_id = "blah"
+    old_var_id = "tas"
+    file_paths = _make_nc_modify_var_id(F1, old_var_id, new_var_id), F2, F3
+    ds = _open(file_paths)
+    assert new_var_id in ds.variables
+    ds.close()
+    
+    
+def test_agg_fails_diff_var_id_change_F2():
     new_var_id = "blah"
     old_var_id = "tas"
     file_paths = F1, _make_nc_modify_var_id(F2, old_var_id, new_var_id), F3
