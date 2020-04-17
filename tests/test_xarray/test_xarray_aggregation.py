@@ -18,6 +18,8 @@ import xarray as xr
 import os
 import numpy as np
 import pytest
+import tempfile
+import pathlib
 
 test_files = [
     "tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc",
@@ -33,7 +35,6 @@ F1, F2, F3 = test_files
 def _make_nc_modify_var_attr(nc_path, var_id, attr, value):
     ds = _open(nc_path)
     ds[var_id].attrs[attr] = value
-    # ds.to_netcdf(path=tmp_path.mkdir("test_dir").join("modify_var_attr.nc"))
     ds.to_netcdf("modify_var_attr.nc")
     tmp_path = os.path.abspath("modify_var_attr.nc")
     return tmp_path
@@ -154,23 +155,26 @@ def test_agg_behaviour_diff_global_attrs_change_3(global_attr):
             str(exc)
             == "Could not find any dimension coordinates to use to order the datasets for concatenation"
         )
-        
+
+
+
+# both new_var_id and old_var_id are in ds.variables no matter which file is changed
 
 def test_agg_fails_diff_var_id_change_F1():
     new_var_id = "blah"
     old_var_id = "tas"
     file_paths = _make_nc_modify_var_id(F1, old_var_id, new_var_id), F2, F3
     ds = _open(file_paths)
-    assert new_var_id in ds.variables
+    assert new_var_id, old_var_id in ds.variables
     ds.close()
-    
-    
+
+
 def test_agg_fails_diff_var_id_change_F2():
     new_var_id = "blah"
     old_var_id = "tas"
     file_paths = F1, _make_nc_modify_var_id(F2, old_var_id, new_var_id), F3
     ds = _open(file_paths)
-    assert old_var_id in ds.variables
+    assert new_var_id, old_var_id in ds.variables
     ds.close()
 
 
@@ -209,7 +213,7 @@ def test_agg_affected_by_order():
             ds.close()
 
         # opens with incorrect change when change is in first file (earliest time)
-        # otherwise no change
+        # otherwise no change (except in the case of var_id)
         # the changes cause the aggregation to fail
 
         # this is the case for all modifications
