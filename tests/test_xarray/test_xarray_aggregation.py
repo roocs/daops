@@ -66,22 +66,22 @@ def _make_nc_modify_fill_value(nc_path, var_id, fill_value):
     return tmp_path
 
 
-@pytest.fixture(scope="module", params=["units", "standard_name", "long_name"])
+@pytest.fixture(params=["units", "standard_name", "long_name"])
 def var_attr(request):
     attr = request.param
     return attr
 
 
-@pytest.fixture(
-    scope="module", params=["product", "source", "institution", "Conventions"]
-)
+@pytest.fixture(params=["product", "source", "institution", "Conventions"])
 def global_attr(request):
     attr = request.param
     return attr
 
 
 def _open(file_paths):
-    return xr.open_mfdataset(file_paths, use_cftime=True, combine="by_coords")
+    return xr.open_mfdataset(
+        file_paths, use_cftime=True, combine="by_coords", compat="equals"
+    )
 
 
 def test_agg_success_with_no_changes():
@@ -157,8 +157,8 @@ def test_agg_behaviour_diff_global_attrs_change_3(global_attr):
         )
 
 
-
 # both new_var_id and old_var_id are in ds.variables no matter which file is changed
+
 
 def test_agg_fails_diff_var_id_change_F1():
     new_var_id = "blah"
