@@ -1,4 +1,4 @@
 xarray>=0.15
 dask[complete]
 netcdf4
-git+https://github.com/roocs/clisops#egg=clisops
+git+https://github.com/roocs/clisops@v0.1.0#egg=clisops
