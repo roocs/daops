@@ -32,37 +32,37 @@ F1, F2, F3 = test_files
 
 # Functions to make modified NC files
 # need to make files temporary files
-def _make_nc_modify_var_attr(nc_path, var_id, attr, value):
+def _make_nc_modify_var_attr(nc_path, var_id, attr, value, path='tests/test_outputs/'):
     ds = _open(nc_path)
     ds[var_id].attrs[attr] = value
-    ds.to_netcdf("file.nc")
-    tmp_path = os.path.abspath("modify_var_attr.nc")
+    ds.to_netcdf(os.path.join(path, 'tas_modify_var_attr.nc'))
+    tmp_path = os.path.join(path, 'tas_modify_var_attr.nc')
     return tmp_path
 
 
-def _make_nc_modify_global_attr(nc_path, attr, value):
+def _make_nc_modify_global_attr(nc_path, attr, value, path='tests/test_outputs/'):
     ds = _open(nc_path)
     ds.attrs[attr] = value
     # ds.to_netcdf(path=tmp_path.mkdir("test_dir").join("modify_var_attr.nc"))
-    ds.to_netcdf("modify_global_attr.nc")
-    tmp_path = os.path.abspath("modify_global_attr.nc")
+    ds.to_netcdf(os.path.join(path, 'tas_modify_global_attr.nc'))
+    tmp_path = os.path.join(path, 'tas_modify_global_attr.nc')
     return tmp_path
 
 
-def _make_nc_modify_var_id(nc_path, old_var_id, new_var_id):
+def _make_nc_modify_var_id(nc_path, old_var_id, new_var_id, path='tests/test_outputs/'):
     ds = _open(nc_path)
     ds = ds.rename({old_var_id: new_var_id})
-    ds.to_netcdf("modify_var_id.nc")
-    tmp_path = os.path.abspath("modify_var_id.nc")
+    ds.to_netcdf(path=os.path.join(path, 'tas_modify_var_id.nc'))
+    tmp_path = os.path.join(path, 'tas_modify_var_id.nc')
     return tmp_path
 
 
-def _make_nc_modify_fill_value(nc_path, var_id, fill_value):
+def _make_nc_modify_fill_value(nc_path, var_id, fill_value, path='tests/test_outputs/'):
     ds = _open(nc_path)
     ds[var_id].encoding["_FillValue"] = fill_value
     ds.tas.encoding["missing_value"] = fill_value
-    ds.to_netcdf("modify_fill_value.nc")
-    tmp_path = os.path.abspath("modify_fill_value.nc")
+    ds.to_netcdf(path=os.path.join(path, 'tas_modify_fill_value.nc'))
+    tmp_path = os.path.join(path, 'tas_modify_fill_value.nc')
     return tmp_path
 
 
@@ -80,7 +80,7 @@ def global_attr(request):
 
 def _open(file_paths):
     return xr.open_mfdataset(
-        file_paths, use_cftime=True, combine="by_coords", compat="equals"
+        file_paths, use_cftime=True, combine="by_coords"
     )
 
 
