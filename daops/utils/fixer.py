@@ -1,7 +1,7 @@
 import json
 import os
 
-from .core import resolve_import
+from .misc import resolve_import
 
 
 class FuncChainer(object):

@@ -1,4 +1,4 @@
-from .coord_utils import *
+from .coord_utils import squeeze_dims
 
 
 # Demonstrator dummy function
