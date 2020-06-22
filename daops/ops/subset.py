@@ -1,4 +1,5 @@
-import clisops
+import clisops.ops
+
 from daops.processor import process
 from daops.utils import consolidate, normalise
 
@@ -28,8 +29,8 @@ def subset(data_refs, time=None, space=None, level=None,
     :return:
     """
     # Consolidate data inputs so they can be passed to Xarray
-    data_refs = consolidate.consolidate(data_refs, time=time, 
-                                 data_root_dir=data_root_dir)
+    data_refs = consolidate.consolidate(data_refs, time=time,
+                                        data_root_dir=data_root_dir)
     # Normalise (i.e. "fix") data inputs based on "character"
     norm_dsets = normalise.normalise(data_refs)
 
@@ -37,12 +38,12 @@ def subset(data_refs, time=None, space=None, level=None,
 
     for data_ref, norm_dset in norm_dsets.items():
 
-        # Process each input dataset (either in series or 
+        # Process each input dataset (either in series or
         # parallel)
         rs.add(
             data_ref,
             process(
-                clisops.general_subset, norm_dset, **{
+                clisops.ops.subset, norm_dset, **{
                     'time': time,
                     'space': space,
                     'level': level,
@@ -55,5 +56,3 @@ def subset(data_refs, time=None, space=None, level=None,
         )
 
     return rs
-
-
