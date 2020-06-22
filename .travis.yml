@@ -1,29 +1,104 @@
-# Config file for automatic testing at travis-ci.org
-
 language: python
-python:
-  - 3.7
-  - 3.6
-  - 3.5
 
+os: linux
 
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox-travis
+dist: xenial
 
-# Command to run tests, e.g. python setup.py test
-script: tox
+branches:
+  only:
+    - master
+#     - ^v[0-9]+\.[0-9]+[\.]?[a-c-]?[0-9]?[\w-]+\b
 
-# Assuming you have installed the travis-ci CLI tool, after you
-# create the Github repo and add it to Travis, run the
-# following command to finish PyPI deployment setup:
-# $ travis encrypt --add deploy.password
-deploy:
-  provider: pypi
-  distributions: sdist bdist_wheel
-  user: ellesmith88
-  password:
-    secure: PLEASE_REPLACE_ME
-  on:
-    tags: true
-    repo: ellesmith88/daops
-    python: 3.7
+jobs:
+  fast_finish: true
+  include:
+    # - env:
+    #     - TOXENV=docs
+    #     - READTHEDOCS=true
+    #   name: "Documentation"
+    #   python: 3.6
+    #   addons:
+    #     apt:
+    #       packages:
+    #         - pandoc
+    # - env: TOXENV=black
+    #   name: "Black and flake8 compliance"
+    #   python: 3.6
+    #   addons:
+    #     apt:
+    #       packages:
+    #         - libspatialindex-dev
+    - env: TOXENV=py38
+      name: "Python3.8 (Linux)"
+      python: 3.8
+      addons:
+        apt:
+          packages:
+            - libspatialindex-dev
+            - libnetcdf-dev
+            - libhdf5-dev
+    - env: TOXENV=py37
+      name: "Python3.7 (Linux)"
+      python: 3.7
+      addons:
+        apt:
+          packages:
+            - libspatialindex-dev
+            - libnetcdf-dev
+            - libhdf5-dev
+    - env: TOXENV=py36
+      name: "Python3.6 (Linux)"
+      python: 3.6
+      addons:
+        apt:
+          packages:
+            - libspatialindex-dev
+    - env: TOXENV=py38-anaconda
+      name: "Python3.8 (Linux + Anaconda)"
+      python: 3.8
+      before_install:
+        - printenv
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda install setuptools
+        - conda update -q conda
+        - conda create -n daops -c conda-forge python=$TRAVIS_PYTHON_VERSION
+        - source activate daops
+        - conda env update -f environment.yml
+        - conda install pytest coveralls pytest-cov
+      install:
+        - conda install pip
+        - pip install -e .
+      script:
+        - py.test
+  allow_failures:
+      - env: TOXENV=py38-anaconda
+
+before_install:
+    - printenv
+    - pip install --upgrade pip
+
+install:
+    - pip install -U tox-travis
+
+script: tox -e $TOXENV
+
+# before_deploy:
+#     - echo "$TRAVIS_TAG" "$TRAVIS_COMMIT"
+#
+# deploy:
+#   skip_existing: true
+#   provider: pypi
+#   distributions: sdist bdist_wheel
+#   username: <username>
+#   password:
+#     secure: <secret_password>
+#   on:
+#     tags: true
+#     all_branches: true
+#     condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+[\.]?[a-c-]?[0-9]?[\w-]+\b
+#     repo: Ouranosinc/daops
+#     python: 3.7
