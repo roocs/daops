@@ -53,6 +53,8 @@ jobs:
         apt:
           packages:
             - libspatialindex-dev
+            - libnetcdf-dev
+            - libhdf5-dev
     - env: TOXENV=py38-anaconda
       name: "Python3.8 (Linux + Anaconda)"
       python: 3.8
@@ -76,6 +78,7 @@ jobs:
         - py.test
   allow_failures:
       - env: TOXENV=py38-anaconda
+      - env: TOXENV=py36
 
 before_install:
     - printenv
