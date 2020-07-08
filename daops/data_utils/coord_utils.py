@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def squeeze_dims(da, *args, **kwargs):
     """
     :param da: Xarray DataArray
