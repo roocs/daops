@@ -41,6 +41,8 @@ def consolidate(data_refs, data_root_dir, **kwargs):
 
             print(f'[INFO] Kept {len(files_in_range)} files')
             consolidated = files_in_range[:]
+            if len(files_in_range) == 0:
+                raise Exception(f'No files found in given time range for {dref}')
 
         filtered_refs[dref] = consolidated
 

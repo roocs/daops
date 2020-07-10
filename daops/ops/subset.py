@@ -1,6 +1,8 @@
-import clisops
+
 from daops.processor import process
 from daops.utils import consolidate, normalise
+
+from clisops.ops.subset import subset as clisops_subset
 
 
 def subset(data_refs, time=None, space=None, level=None,
@@ -18,6 +20,7 @@ def subset(data_refs, time=None, space=None, level=None,
         filenamer: "facet_namer"
 
 
+    :param data_root_dir:
     :param data_refs:
     :param time:
     :param space:
@@ -42,7 +45,7 @@ def subset(data_refs, time=None, space=None, level=None,
         rs.add(
             data_ref,
             process(
-                clisops.general_subset, norm_dset, **{
+                clisops_subset, norm_dset, **{
                     'time': time,
                     'space': space,
                     'level': level,
