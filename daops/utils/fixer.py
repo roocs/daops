@@ -7,6 +7,7 @@ from pydoc import locate
 import hashlib
 
 
+
 class FuncChainer(object):
 
     def __init__(self, funcs):

@@ -3,7 +3,7 @@ import xarray as xr
 
 from daops.ops import subset
 
-from tests._common import CMIP5_ARCHIVE_BASE
+from tests._common import CMIP5_ARCHIVE_BASE, TESTS_OUTPUTS
 
 CMIP5_IDS = [
     'cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga',
@@ -25,7 +25,6 @@ def setup_module(module):
 
 # filename 'output.nc' comes from subset function in clisops repo
 def test_subset_zostoga_with_fix():
-
     result = subset(CMIP5_IDS[0],
                     time=('2085-01-01', '2120-12-30'),
                     output_dir='outputs',
@@ -44,6 +43,7 @@ def test_subset_t():
     assert result.file_paths == ['outputs/output.nc']
     ds = xr.open_dataset('outputs/output.nc')
     assert ds.time.shape == (433,)
+
 
 
 def test_subset_t_y_x():
@@ -88,5 +88,6 @@ def test_subset_with_fix_and_multiple_ids(zostoga_id):
     assert ds.time.shape == (252,) # all datasets have the same time shape
     assert 'lev' not in ds.dims # checking that lev has been removed by fix
     ds.close()
+
 
 

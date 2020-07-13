@@ -1,5 +1,4 @@
 import collections
-import importlib
 import xarray as xr
 
 from daops.utils import fixer
@@ -62,6 +61,7 @@ def open_dataset(ds_id, file_paths):
 
     return ds
 
+
 # Don't need - use pydoc locate
 # def resolve_import(import_path):
 #     """
@@ -83,3 +83,4 @@ def open_dataset(ds_id, file_paths):
 #         raise ImportError(f'Could not import function from path: {import_path}')
 #
 #     return func
+

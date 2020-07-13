@@ -6,8 +6,10 @@ channels:
 dependencies:
   - python=3.7
   - pip
+  # daops
   - xarray>=0.15
   - dask
   - netcdf4
+  - clisops>=0.2.0,<0.3
   # tests
   - pytest
