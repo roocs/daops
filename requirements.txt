@@ -2,3 +2,5 @@ xarray>=0.15
 dask[complete]
 netcdf4
 git+https://github.com/roocs/clisops#egg=clisops
+elasticsearch=7.8.0
+git+https://github.com/cedadev/ceda-elasticsearch-tools#ceda-elasticsearch-tools
