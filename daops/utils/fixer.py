@@ -2,10 +2,8 @@ import json
 import os
 
 from elasticsearch import Elasticsearch, exceptions
-from ceda_elasticsearch_tools.elasticsearch import CEDAElasticsearchClient
 from pydoc import locate
 import hashlib
-
 
 
 class FuncChainer(object):
@@ -24,7 +22,13 @@ class Fixer(object):
 
     def __init__(self, ds_id):
         self.ds_id = ds_id
-        self.es = CEDAElasticsearchClient()
+        self.es = Elasticsearch([f'es{i}.ceda.ac.uk' for i in range(9, 17)],
+                                use_ssl=True,
+                                ca_certs=os.path.abspath(
+                                    os.path.join(
+                                        os.path.dirname(__file__), '../root-ca.pem')
+                                ),
+                                port=9200)
         self._lookup_fix()
 
     def _convert_id(self, id):
