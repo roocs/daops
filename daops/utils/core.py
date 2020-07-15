@@ -53,10 +53,34 @@ def open_dataset(ds_id, file_paths):
     ds = xr.open_mfdataset(file_paths, preprocess=fix.pre_processor,
                            use_cftime=True, combine='by_coords')
 
-    if fix.post_processor:
-        for post_process in fix.post_processor:
-            func, args, kwargs = post_process
+    if fix.post_processors:
+        for post_process in fix.post_processors:
+            func, operands = post_process
             print(f'[INFO] Running post-processing function: {func.__name__}')
-            ds = func(ds, *args, **kwargs)
+            ds = func(ds, **operands)
 
     return ds
+
+
+# Don't need - use pydoc locate
+# def resolve_import(import_path):
+#     """
+#     Deconstructs path, imports module and returns callable.
+# 
+#     :param import path: module and function as 'x.y.func' (of any depth)
+#     :return: callable.
+#     """
+#     # Split last item off path
+#     parts = import_path.split('.')
+#     ipath = '.'.join(parts[:-1])
+#     func_name = parts[-1]
+#
+#     # Import module then send the args and kwargs to the function
+#     try:
+#         module = importlib.import_module(ipath)
+#         func = getattr(module, func_name)
+#     except Exception as exc:
+#         raise ImportError(f'Could not import function from path: {import_path}')
+#
+#     return func
+

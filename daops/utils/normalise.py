@@ -4,7 +4,7 @@ from daops.utils.core import open_dataset
 
 
 def normalise(data_refs):
-    print(f'[INFO] Working on data refs: {data_refs}')
+    print(f'[INFO] Working on datasets: {data_refs}')
     norm_dsets = collections.OrderedDict()
 
     for data_ref, file_paths in data_refs.items():
