@@ -5,23 +5,25 @@ import xarray as xr
 from daops.utils.core import _wrap_sequence
 
 
-def _consolidate_data_ref(dref, data_root_dir=None):
-    if dref[0] == '/':
-        return dref
+def _consolidate_data_ref(data_ref, project=None, base_dir=None):
 
-    if dref.find('cmip5') > -1 and data_root_dir is not None:
-        dref = data_root_dir.rstrip('/') + '/' + dref.replace('.', '/') + '/*.nc'
+    if data_ref[0] == '/':
+        return data_ref
 
-    return dref
+    if data_ref.find(project) > -1 and base_dir is not None:
+        data_ref = base_dir.rstrip('/') + '/' + data_ref.replace('.', '/') + '/*.nc'
+
+    return data_ref
 
 
-def consolidate(data_refs, data_root_dir, **kwargs):
-    data_refs = _wrap_sequence(data_refs)
+def consolidate(collection, project, base_dir, **kwargs):
+
+    # collection = _wrap_sequence(collection)
     filtered_refs = collections.OrderedDict()
 
-    for dref in data_refs:
-
-        consolidated = _consolidate_data_ref(dref, data_root_dir)
+    for data_ref in collection:
+        
+        consolidated = _consolidate_data_ref(data_ref, project, base_dir)
 
         if 'time' in kwargs:
             required_years = set(range(*[int(_.split('-')[0]) for _ in kwargs['time']]))
@@ -42,8 +44,8 @@ def consolidate(data_refs, data_root_dir, **kwargs):
             print(f'[INFO] Kept {len(files_in_range)} files')
             consolidated = files_in_range[:]
             if len(files_in_range) == 0:
-                raise Exception(f'No files found in given time range for {dref}')
+                raise Exception(f'No files found in given time range for {data_ref}')
 
-        filtered_refs[dref] = consolidated
+        filtered_refs[data_ref] = consolidated
 
     return filtered_refs

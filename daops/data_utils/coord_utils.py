@@ -28,7 +28,7 @@ def add_scalar_coord(ds, **operands):
 
     ds = ds.assign_coords({f'{coord}': np.array(value, dtype=dtype)})
 
-    for k, v in kwargs.get('attrs').items():
+    for k, v in operands.get('attrs').items():
         ds[coord].attrs[k] = v
 
     return ds

@@ -3,16 +3,16 @@ import collections
 from daops.utils.core import open_dataset
 
 
-def normalise(data_refs):
-    print(f'[INFO] Working on datasets: {data_refs}')
-    norm_dsets = collections.OrderedDict()
+def normalise(collection):
+    print(f'[INFO] Working on datasets: {collection}')
+    norm_collection = collections.OrderedDict()
 
-    for data_ref, file_paths in data_refs.items():
+    for data_ref, file_paths in collection.items():
 
-        xr_dset = open_dataset(data_ref, file_paths)
-        norm_dsets[data_ref] = xr_dset
+        ds = open_dataset(data_ref, file_paths)
+        norm_collection[data_ref] = ds
 
-    return norm_dsets
+    return norm_collection
 
 
 class ResultSet(object):

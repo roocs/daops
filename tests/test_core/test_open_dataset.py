@@ -1,5 +1,4 @@
 from daops.utils.core import open_dataset
-from daops import consolidate, normalise
 import xarray as xr
 
 fpath = 'tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/INM/inmcm4' \

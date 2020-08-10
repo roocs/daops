@@ -2,5 +2,4 @@ xarray>=0.15
 dask[complete]
 netcdf4
 elasticsearch>=7.8.0
-git+https://github.com/cedadev/ceda-elasticsearch-tools#ceda-elasticsearch-tools
 clisops>=0.2.0
