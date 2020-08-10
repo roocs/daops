@@ -2,6 +2,7 @@ from daops.processor import process
 from daops.utils import consolidate, normalise
 
 from clisops.ops.subset import subset as clisops_subset
+from roocs_utils import parameter
 
 
 def subset(data_refs, time=None, space=None, level=None,
