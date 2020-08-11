@@ -17,7 +17,6 @@ def _consolidate_data_ref(data_ref, project=None, base_dir=None):
 
 
 def consolidate(collection, project, base_dir, **kwargs):
-
     # collection = _wrap_sequence(collection)
     filtered_refs = collections.OrderedDict()
 
@@ -26,7 +25,7 @@ def consolidate(collection, project, base_dir, **kwargs):
         consolidated = _consolidate_data_ref(data_ref, project, base_dir)
 
         if 'time' in kwargs:
-            required_years = set(range(*[int(_.split('-')[0]) for _ in kwargs['time']]))
+            required_years = set(range(*[int(_.split('-')[0]) for _ in kwargs['time'].tuple]))
 
             file_paths = glob.glob(consolidated)
             print(f'[INFO] Testing {len(file_paths)} files in time range: ...')

@@ -24,12 +24,13 @@ zostoga_ids = ["cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zost
 
 # filename 'output.nc' comes from subset function in clisops repo 
 @pytest.mark.online
-@mock.patch('daops.ops.subset.get_project_base_dir', side_effect=get_tests_project_base_dir)
-def test_subset_zostoga_with_fix(mock_dirs):
+# @mock.patch('daops.ops.subset.get_project_base_dir', side_effect=get_tests_project_base_dir)
+def test_subset_zostoga_with_fix():
 
     result = subset(CMIP5_IDS[0],
                     project='cmip5',
                     time=('2085-01-01', '2120-12-30'),
+                    area=(-180.0, -90.0, 180.0, 90.0),
                     output_dir='outputs')
     assert result.file_paths == ['outputs/output.nc']
     ds = xr.open_dataset('outputs/output.nc')

@@ -29,12 +29,15 @@ def subset(collection, project=None, time=None, area=None, level=None, output_di
     :param filenamer:
     :return:
     """
-    collection, area, time, level = parameterise(collection, time, area, level)
+    collection, area, time, level = \
+        parameterise.parametrise_daops(collection=collection, time=time, area=area, level=level)
     
     base_dir = get_project_base_dir(project)
     # Consolidate data inputs so they can be passed to Xarray
+
     collection = consolidate.consolidate(collection.tuple, project=project, time=time,
                                          base_dir=base_dir)
+    
     # Normalise (i.e. "fix") data inputs based on "character"
     norm_collection = normalise.normalise(collection)
 
