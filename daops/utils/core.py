@@ -46,17 +46,18 @@ def open_dataset(ds_id, file_paths):
     fix = fixer.Fixer(ds_id)
     if fix.pre_processor:
         for pre_process in fix.pre_processors:
-            print(f'[INFO] Loading data with pre_processor: {pre_process.__name__}')
+            print(f"[INFO] Loading data with pre_processor: {pre_process.__name__}")
     else:
-        print(f'[INFO] Loading data')
+        print(f"[INFO] Loading data")
 
-    ds = xr.open_mfdataset(file_paths, preprocess=fix.pre_processor,
-                           use_cftime=True, combine='by_coords')
+    ds = xr.open_mfdataset(
+        file_paths, preprocess=fix.pre_processor, use_cftime=True, combine="by_coords"
+    )
 
     if fix.post_processors:
         for post_process in fix.post_processors:
             func, operands = post_process
-            print(f'[INFO] Running post-processing function: {func.__name__}')
+            print(f"[INFO] Running post-processing function: {func.__name__}")
             ds = func(ds, **operands)
 
     return ds
@@ -66,7 +67,7 @@ def open_dataset(ds_id, file_paths):
 # def resolve_import(import_path):
 #     """
 #     Deconstructs path, imports module and returns callable.
-# 
+#
 #     :param import path: module and function as 'x.y.func' (of any depth)
 #     :return: callable.
 #     """
@@ -83,4 +84,3 @@ def open_dataset(ds_id, file_paths):
 #         raise ImportError(f'Could not import function from path: {import_path}')
 #
 #     return func
-

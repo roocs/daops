@@ -10,9 +10,3 @@ __license__ = "BSD"
 __version__ = "0.2.0"
 
 from .utils import *
-# from .ops import (
-#     subset,
-# )
-# from .data_utils import (
-#     squeeze_dims
-# )

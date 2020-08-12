@@ -1,8 +1,8 @@
 import os
 import sys
 
-if 'ROOCS_CONFIG' in os.environ:
-    config_path = os.environ['ROOCS_CONFIG']
+if "ROOCS_CONFIG" in os.environ:
+    config_path = os.environ["ROOCS_CONFIG"]
     sys.path.insert(1, config_path)
     import config_local as config
 

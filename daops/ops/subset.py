@@ -6,7 +6,16 @@ from clisops.ops.subset import subset as clisops_subset
 from roocs_utils.parameter import parameterise
 
 
-def subset(collection, project=None, time=None, area=None, level=None, output_dir=None, chunk_rules=None, filenamer=None):
+def subset(
+    collection,
+    project=None,
+    time=None,
+    area=None,
+    level=None,
+    output_dir=None,
+    chunk_rules=None,
+    filenamer=None,
+):
     """
     Example:
         collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
@@ -29,15 +38,18 @@ def subset(collection, project=None, time=None, area=None, level=None, output_di
     :param filenamer:
     :return:
     """
-    collection, area, time, level = \
-        parameterise.parametrise_daops(collection=collection, time=time, area=area, level=level)
-    
+
+    collection, area, time, level = parameterise.parametrise_daops(
+        collection=collection, time=time, area=area, level=level
+    )
+
     base_dir = get_project_base_dir(project)
     # Consolidate data inputs so they can be passed to Xarray
 
-    collection = consolidate.consolidate(collection.tuple, project=project, time=time,
-                                         base_dir=base_dir)
-    
+    collection = consolidate.consolidate(
+        collection, project=project, time=time, base_dir=base_dir
+    )
+
     # Normalise (i.e. "fix") data inputs based on "character"
     norm_collection = normalise.normalise(collection)
 
@@ -50,17 +62,18 @@ def subset(collection, project=None, time=None, area=None, level=None, output_di
         rs.add(
             data_ref,
             process(
-                clisops_subset, norm_collection, **{
-
-                    'time': time,
-                    'area': area,
-                    'level': level,
-                    'output_type': 'netcdf',
-                    'output_dir': output_dir,
-                    'chunk_rules': chunk_rules,
-                    'filenamer': filenamer
+                clisops_subset,
+                norm_collection,
+                **{
+                    "time": time,
+                    "area": area,
+                    "level": level,
+                    "output_type": "netcdf",
+                    "output_dir": output_dir,
+                    "chunk_rules": chunk_rules,
+                    "filenamer": filenamer,
                 }
-            )
+            ),
         )
 
     return rs
