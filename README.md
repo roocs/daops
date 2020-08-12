@@ -3,7 +3,7 @@
 
 [![Pypi](https://img.shields.io/pypi/v/daops.svg)](https://pypi.python.org/pypi/daops)
 
-[![Travis](https://img.shields.io/travis/ellesmith88/daops.svg)](https://travis-ci.org/ellesmith88/daops)
+[![Travis](https://img.shields.io/travis/roocs/daops.svg)](https://travis-ci.org/roocs/daops)
 
 [![Documentation](https://readthedocs.org/projects/daops/badge/?version=latest)](https://daops.readthedocs.io/en/latest/?badge=latest)
 
