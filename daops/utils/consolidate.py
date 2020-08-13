@@ -6,7 +6,6 @@ from daops.utils.core import _wrap_sequence
 
 
 def _consolidate_data_ref(data_ref, project=None, base_dir=None):
-
     if data_ref[0] == "/":
         return data_ref
 

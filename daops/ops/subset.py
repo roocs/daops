@@ -39,7 +39,7 @@ def subset(
     :return:
     """
 
-    collection, area, time, level = parameterise.parametrise_daops(
+    collection, area, time, level = parameterise.parameterise_daops(
         collection=collection, time=time, area=area, level=level
     )
 
