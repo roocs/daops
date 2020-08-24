@@ -10,32 +10,32 @@ def _wrap_sequence(obj):
     return obj
 
 
-def is_dataref_characterised(data_ref):
+def is_dataref_characterised(col):
     return True
 
 
-def is_characterised(data_refs, require_all=False):
+def is_characterised(collection, require_all=False):
     """
     Takes in an individual data reference or a sequence of them.
-    Returns an ordered dictionary of data_refs with a boolean value
+    Returns an ordered dictionary of a collection of ids with a boolean value
     for each stating whether the dataset has been characterised.
 
     If `require_all` is True: return a single Boolean value.
 
-    :param data_refs: one or more data references
+    :param collection: one or more data references
     :param require_all: Boolean to require that all must be characterised
     :return: Ordered Dictionary OR Boolean (if `require_all` is True)
     """
-    data_refs = _wrap_sequence(data_refs)
+    collection = _wrap_sequence(collection)
     resp = collections.OrderedDict()
 
-    for dref in data_refs:
-        _is_char = is_dataref_characterised(dref)
+    for col in collection:
+        _is_char = is_dataref_characterised(col)
 
         if require_all and not _is_char:
             return False
 
-        resp[dref] = is_dataref_characterised(dref)
+        resp[col] = is_dataref_characterised(col)
 
     return resp
 

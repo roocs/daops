@@ -3,30 +3,34 @@ import glob
 import xarray as xr
 
 from daops.utils.core import _wrap_sequence
+from daops.options import get_project_base_dir
 
 
-def _consolidate_data_ref(data_ref, project=None, base_dir=None):
-    if data_ref[0] == "/":
-        return data_ref
+def _consolidate_col(col, project=None, base_dir=None):
+    if col[0] == "/":
+        return col
 
-    if data_ref.find(project) > -1 and base_dir is not None:
-        data_ref = base_dir.rstrip("/") + "/" + data_ref.replace(".", "/") + "/*.nc"
+    if col.find(project) > -1 and base_dir is not None:
+        col = base_dir.rstrip("/") + "/" + col.replace(".", "/") + "/*.nc"
 
-    return data_ref
+    return col
 
 
-def consolidate(collection, project, base_dir, **kwargs):
-    collection = _wrap_sequence(collection)
+def consolidate(collection, project, **kwargs):
+    collection = _wrap_sequence(collection.tuple)
 
     filtered_refs = collections.OrderedDict()
 
-    for data_ref in collection:
+    base_dir = get_project_base_dir(project)
 
-        consolidated = _consolidate_data_ref(data_ref, project, base_dir)
+    for col in collection:
+
+        consolidated = _consolidate_col(col, project, base_dir)
 
         if "time" in kwargs:
+            time = kwargs["time"].tuple
             # need int(_.split('-')[0] if passing in more than year from TimeParameter
-            required_years = set(range(*[int(_) for _ in kwargs["time"]]))
+            required_years = set(range(*[int(_) for _ in time]))
 
             file_paths = glob.glob(consolidated)
             print(f"[INFO] Testing {len(file_paths)} files in time range: ...")
@@ -44,8 +48,8 @@ def consolidate(collection, project, base_dir, **kwargs):
             print(f"[INFO] Kept {len(files_in_range)} files")
             consolidated = files_in_range[:]
             if len(files_in_range) == 0:
-                raise Exception(f"No files found in given time range for {data_ref}")
+                raise Exception(f"No files found in given time range for {col}")
 
-        filtered_refs[data_ref] = consolidated
+        filtered_refs[col] = consolidated
 
     return filtered_refs

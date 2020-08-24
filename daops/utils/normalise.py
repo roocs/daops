@@ -7,10 +7,10 @@ def normalise(collection):
     print(f"[INFO] Working on datasets: {collection}")
     norm_collection = collections.OrderedDict()
 
-    for data_ref, file_paths in collection.items():
+    for col, file_paths in collection.items():
 
-        ds = open_dataset(data_ref, file_paths)
-        norm_collection[data_ref] = ds
+        ds = open_dataset(col, file_paths)
+        norm_collection[col] = ds
 
     return norm_collection
 
@@ -21,6 +21,6 @@ class ResultSet(object):
         self.metadata = {"inputs": inputs, "process": "something", "version": 0.1}
         self.file_paths = []
 
-    def add(self, data_ref, result):
-        self._results[data_ref] = result
+    def add(self, col, result):
+        self._results[col] = result
         self.file_paths.append(result)

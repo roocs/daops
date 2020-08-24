@@ -1,6 +1,5 @@
 from daops.processor import process
 from daops.utils import consolidate, normalise
-from daops.options import get_project_base_dir
 
 from clisops.ops.subset import subset as clisops_subset
 from roocs_utils.parameter import parameterise
@@ -28,26 +27,29 @@ def subset(
         filenamer: "facet_namer"
 
 
-    :param collection:
+    :param collection: Collection parameter, sequence or string of comma separated drs ids
     :param project:
-    :param time:
-    :param area:
-    :param level:
+    :param time: Time period - Time parameter, sequence of two time values or string of two / separated time values
+    :param area: Area parameter, sequence or string of comma separated lat and lon bounds. Must contain 4 values.
+    :param level: Level range - Level parameter, sequence of two level values or string of two / separated level values
     :param output_dir:
     :param chunk_rules:
     :param filenamer:
     :return:
     """
 
-    collection, area, time, level = parameterise.parameterise_daops(
+    # collection, area, time, level = parameterise.parameterise_daops(
+    #     collection=collection, time=time, area=area, level=level
+    # )
+
+    parameters = parameterise.parameterise(
         collection=collection, time=time, area=area, level=level
     )
 
-    base_dir = get_project_base_dir(project)
     # Consolidate data inputs so they can be passed to Xarray
 
     collection = consolidate.consolidate(
-        collection, project=project, time=time, base_dir=base_dir
+        parameters.get('collection'), project=project, time=parameters.get('time')
     )
 
     # Normalise (i.e. "fix") data inputs based on "character"
@@ -55,19 +57,19 @@ def subset(
 
     rs = normalise.ResultSet(vars())
     # change name of data ref here
-    for data_ref, norm_collection in norm_collection.items():
+    for col, norm_collection in norm_collection.items():
 
         # Process each input dataset (either in series or
         # parallel)
         rs.add(
-            data_ref,
+            col,
             process(
                 clisops_subset,
                 norm_collection,
                 **{
-                    "time": time,
-                    "area": area,
-                    "level": level,
+                    "time": parameters.get('time'),
+                    "area": parameters.get('area'),
+                    "level": parameters.get('level'),
                     "output_type": "netcdf",
                     "output_dir": output_dir,
                     "chunk_rules": chunk_rules,
