@@ -70,7 +70,7 @@ jobs:
         - conda create -n daops -c conda-forge python=$TRAVIS_PYTHON_VERSION
         - source activate daops
         - conda env update -f environment.yml
-        - conda install pytest coveralls pytest-cov
+        - conda install pytest coveralls pytest-cov xarray
       install:
         - conda install pip
         - pip install -e .

@@ -7,7 +7,6 @@ from roocs_utils.parameter import parameterise
 
 def subset(
     collection,
-    project=None,
     time=None,
     area=None,
     level=None,
@@ -38,10 +37,6 @@ def subset(
     :return:
     """
 
-    # collection, area, time, level = parameterise.parameterise_daops(
-    #     collection=collection, time=time, area=area, level=level
-    # )
-
     parameters = parameterise.parameterise(
         collection=collection, time=time, area=area, level=level
     )
@@ -49,7 +44,7 @@ def subset(
     # Consolidate data inputs so they can be passed to Xarray
 
     collection = consolidate.consolidate(
-        parameters.get('collection'), project=project, time=parameters.get('time')
+        parameters.get('collection'), time=parameters.get('time')
     )
 
     # Normalise (i.e. "fix") data inputs based on "character"

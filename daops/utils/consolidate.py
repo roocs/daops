@@ -6,26 +6,27 @@ from daops.utils.core import _wrap_sequence
 from daops.options import get_project_base_dir
 
 
-def _consolidate_col(col, project=None, base_dir=None):
+def _consolidate_col(col):
+
     if col[0] == "/":
         return col
 
-    if col.find(project) > -1 and base_dir is not None:
+    project = col.split('.')[0]
+    base_dir = get_project_base_dir(project)
+
+    if base_dir is not None:
         col = base_dir.rstrip("/") + "/" + col.replace(".", "/") + "/*.nc"
 
     return col
 
 
-def consolidate(collection, project, **kwargs):
+def consolidate(collection, **kwargs):
     collection = _wrap_sequence(collection.tuple)
 
     filtered_refs = collections.OrderedDict()
 
-    base_dir = get_project_base_dir(project)
-
     for col in collection:
-
-        consolidated = _consolidate_col(col, project, base_dir)
+        consolidated = _consolidate_col(col)
 
         if "time" in kwargs:
             time = kwargs["time"].tuple
