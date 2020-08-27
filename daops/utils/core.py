@@ -10,32 +10,32 @@ def _wrap_sequence(obj):
     return obj
 
 
-def is_dataref_characterised(data_ref):
+def is_dataref_characterised(col):
     return True
 
 
-def is_characterised(data_refs, require_all=False):
+def is_characterised(collection, require_all=False):
     """
     Takes in an individual data reference or a sequence of them.
-    Returns an ordered dictionary of data_refs with a boolean value
+    Returns an ordered dictionary of a collection of ids with a boolean value
     for each stating whether the dataset has been characterised.
 
     If `require_all` is True: return a single Boolean value.
 
-    :param data_refs: one or more data references
+    :param collection: one or more data references
     :param require_all: Boolean to require that all must be characterised
     :return: Ordered Dictionary OR Boolean (if `require_all` is True)
     """
-    data_refs = _wrap_sequence(data_refs)
+    collection = _wrap_sequence(collection)
     resp = collections.OrderedDict()
 
-    for dref in data_refs:
-        _is_char = is_dataref_characterised(dref)
+    for col in collection:
+        _is_char = is_dataref_characterised(col)
 
         if require_all and not _is_char:
             return False
 
-        resp[dref] = is_dataref_characterised(dref)
+        resp[col] = is_dataref_characterised(col)
 
     return resp
 
@@ -46,17 +46,18 @@ def open_dataset(ds_id, file_paths):
     fix = fixer.Fixer(ds_id)
     if fix.pre_processor:
         for pre_process in fix.pre_processors:
-            print(f'[INFO] Loading data with pre_processor: {pre_process.__name__}')
+            print(f"[INFO] Loading data with pre_processor: {pre_process.__name__}")
     else:
-        print(f'[INFO] Loading data')
+        print(f"[INFO] Loading data")
 
-    ds = xr.open_mfdataset(file_paths, preprocess=fix.pre_processor,
-                           use_cftime=True, combine='by_coords')
+    ds = xr.open_mfdataset(
+        file_paths, preprocess=fix.pre_processor, use_cftime=True, combine="by_coords"
+    )
 
     if fix.post_processors:
         for post_process in fix.post_processors:
             func, operands = post_process
-            print(f'[INFO] Running post-processing function: {func.__name__}')
+            print(f"[INFO] Running post-processing function: {func.__name__}")
             ds = func(ds, **operands)
 
     return ds
@@ -66,7 +67,7 @@ def open_dataset(ds_id, file_paths):
 # def resolve_import(import_path):
 #     """
 #     Deconstructs path, imports module and returns callable.
-# 
+#
 #     :param import path: module and function as 'x.y.func' (of any depth)
 #     :return: callable.
 #     """
@@ -83,4 +84,3 @@ def open_dataset(ds_id, file_paths):
 #         raise ImportError(f'Could not import function from path: {import_path}')
 #
 #     return func
-

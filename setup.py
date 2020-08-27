@@ -30,7 +30,7 @@ requirements = [line.strip() for line in open("requirements.txt")]
 
 setup_requirements = ['pytest-runner', ]
 
-test_requirements = ['pytest', ]
+test_requirements = ['pytest', 'tox']
 
 
 setup(
@@ -70,7 +70,7 @@ setup(
     # This qualifier can be used to selectively exclude Python versions -
     # in this case early Python 2 and 3 releases
     python_requires='>=3.6.0',
-    install_requires=requirements,
+    install_requires=[requirements, 'roocs_utils @ git+https://github.com/roocs/roocs-utils.git'],
     long_description=_long_description,
     long_description_content_type='text/markdown',
     include_package_data=True,

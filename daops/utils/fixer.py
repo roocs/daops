@@ -7,7 +7,6 @@ import hashlib
 
 
 class FuncChainer(object):
-
     def __init__(self, funcs):
         self.funcs = funcs
 
@@ -19,16 +18,9 @@ class FuncChainer(object):
 
 
 class Fixer(object):
-
     def __init__(self, ds_id):
         self.ds_id = ds_id
-        self.es = Elasticsearch([f'es{i}.ceda.ac.uk' for i in range(9, 17)],
-                                use_ssl=True,
-                                ca_certs=os.path.abspath(
-                                    os.path.join(
-                                        os.path.dirname(__file__), '../root-ca.pem')
-                                ),
-                                port=9200)
+        self.es = Elasticsearch(["elasticsearch.ceda.ac.uk"], use_ssl=True, port=443)
         self._lookup_fix()
 
     def _convert_id(self, id):
@@ -58,7 +50,7 @@ class Fixer(object):
         self.post_processors = []
 
         try:
-            content = self.es.get(index='roocs-fix', id=id)
+            content = self.es.get(index="roocs-fix", id=id)
             self._gather_fixes(content)
         except exceptions.NotFoundError:
             pass

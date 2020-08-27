@@ -3,35 +3,42 @@ import glob
 import xarray as xr
 
 from daops.utils.core import _wrap_sequence
+from daops.options import get_project_base_dir
 
 
-def _consolidate_data_ref(dref, data_root_dir=None):
-    if dref[0] == '/':
-        return dref
+def _consolidate_col(col):
 
-    if dref.find('cmip5') > -1 and data_root_dir is not None:
-        dref = data_root_dir.rstrip('/') + '/' + dref.replace('.', '/') + '/*.nc'
+    if col[0] == "/":
+        return col
 
-    return dref
+    project = col.split('.')[0]
+    base_dir = get_project_base_dir(project)
+
+    if base_dir is not None:
+        col = base_dir.rstrip("/") + "/" + col.replace(".", "/") + "/*.nc"
+
+    return col
 
 
-def consolidate(data_refs, data_root_dir, **kwargs):
-    data_refs = _wrap_sequence(data_refs)
+def consolidate(collection, **kwargs):
+    collection = _wrap_sequence(collection.tuple)
+
     filtered_refs = collections.OrderedDict()
 
-    for dref in data_refs:
+    for col in collection:
+        consolidated = _consolidate_col(col)
 
-        consolidated = _consolidate_data_ref(dref, data_root_dir)
-
-        if 'time' in kwargs:
-            required_years = set(range(*[int(_.split('-')[0]) for _ in kwargs['time']]))
+        if "time" in kwargs:
+            time = kwargs["time"].tuple
+            # need int(_.split('-')[0] if passing in more than year from TimeParameter
+            required_years = set(range(*[int(_) for _ in time]))
 
             file_paths = glob.glob(consolidated)
-            print(f'[INFO] Testing {len(file_paths)} files in time range: ...')
+            print(f"[INFO] Testing {len(file_paths)} files in time range: ...")
             files_in_range = []
 
             for i, fpath in enumerate(file_paths):
-                print(f'[INFO] File {i}: {fpath}')
+                print(f"[INFO] File {i}: {fpath}")
                 ds = xr.open_dataset(fpath)
 
                 found_years = set([int(_) for _ in ds.time.dt.year])
@@ -39,11 +46,11 @@ def consolidate(data_refs, data_root_dir, **kwargs):
                 if required_years.intersection(found_years):
                     files_in_range.append(fpath)
 
-            print(f'[INFO] Kept {len(files_in_range)} files')
+            print(f"[INFO] Kept {len(files_in_range)} files")
             consolidated = files_in_range[:]
             if len(files_in_range) == 0:
-                raise Exception(f'No files found in given time range for {dref}')
+                raise Exception(f"No files found in given time range for {col}")
 
-        filtered_refs[dref] = consolidated
+        filtered_refs[col] = consolidated
 
     return filtered_refs

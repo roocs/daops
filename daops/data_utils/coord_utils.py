@@ -8,7 +8,7 @@ def squeeze_dims(ds, **operands):
     :param kwargs: dictionary of arguments
     :return: Xarray DataArray
     """
-    dims = operands.get('dims')
+    dims = operands.get("dims")
     for dim in dims:
         ds = ds.squeeze(dim)
 
@@ -22,13 +22,13 @@ def add_scalar_coord(ds, **operands):
     :param kwargs: dictionary of arguments
     :return: Xarray DataArray
     """
-    coord = operands.get('id')
-    value = operands.get('value')
-    dtype = operands.get('dtype')
+    coord = operands.get("id")
+    value = operands.get("value")
+    dtype = operands.get("dtype")
 
-    ds = ds.assign_coords({f'{coord}': np.array(value, dtype=dtype)})
+    ds = ds.assign_coords({f"{coord}": np.array(value, dtype=dtype)})
 
-    for k, v in kwargs.get('attrs').items():
+    for k, v in operands.get("attrs").items():
         ds[coord].attrs[k] = v
 
     return ds

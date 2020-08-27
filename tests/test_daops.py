@@ -8,6 +8,7 @@
 
 # create class to test each function - has different tests defined within it?
 
+
 def test_subset_data_ref():
     """ Tests daops api.subset function with only a data ref"""
     pass
@@ -111,6 +112,7 @@ def test_is_characterised_all_required_false_none():
         Check response when all required is False for none characterised."""
     pass
 
+
 # consolidate fixes data inputs so they can be passed to xarray
 def test_consolidate_data_ref_fpath():
     """ Tests daops utils._consolidate_data_ref with file path e.g.
@@ -194,7 +196,7 @@ def test_ResultSet_add():
     pass
 
 
-def test_dispatch(): # can test with different operations
+def test_dispatch():  # can test with different operations
     """ Tests daops processor.dispatch."""
     pass
 
