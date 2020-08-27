@@ -30,7 +30,7 @@ requirements = [line.strip() for line in open("requirements.txt")]
 
 setup_requirements = ['pytest-runner', ]
 
-test_requirements = ['pytest', ]
+test_requirements = ['pytest', 'tox']
 
 
 setup(
