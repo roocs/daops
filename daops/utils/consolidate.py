@@ -6,18 +6,18 @@ from daops.utils.core import _wrap_sequence
 from daops.options import get_project_base_dir
 
 
-def _consolidate_col(col):
+def _consolidate_dset(dset):
 
-    if col[0] == "/":
-        return col
+    if dset[0] == "/":
+        return dset
 
-    project = col.split('.')[0]
+    project = dset.split('.')[0]
     base_dir = get_project_base_dir(project)
 
     if base_dir is not None:
-        col = base_dir.rstrip("/") + "/" + col.replace(".", "/") + "/*.nc"
+        dset = base_dir.rstrip("/") + "/" + dset.replace(".", "/") + "/*.nc"
 
-    return col
+    return dset
 
 
 def consolidate(collection, **kwargs):
@@ -25,8 +25,8 @@ def consolidate(collection, **kwargs):
 
     filtered_refs = collections.OrderedDict()
 
-    for col in collection:
-        consolidated = _consolidate_col(col)
+    for dset in collection:
+        consolidated = _consolidate_dset(dset)
 
         if "time" in kwargs:
             time = kwargs["time"].tuple
@@ -49,8 +49,8 @@ def consolidate(collection, **kwargs):
             print(f"[INFO] Kept {len(files_in_range)} files")
             consolidated = files_in_range[:]
             if len(files_in_range) == 0:
-                raise Exception(f"No files found in given time range for {col}")
+                raise Exception(f"No files found in given time range for {dset}")
 
-        filtered_refs[col] = consolidated
+        filtered_refs[dset] = consolidated
 
     return filtered_refs

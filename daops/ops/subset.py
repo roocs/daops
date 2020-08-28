@@ -52,12 +52,12 @@ def subset(
 
     rs = normalise.ResultSet(vars())
     # change name of data ref here
-    for col, norm_collection in norm_collection.items():
+    for dset, norm_collection in norm_collection.items():
 
         # Process each input dataset (either in series or
         # parallel)
         rs.add(
-            col,
+            dset,
             process(
                 clisops_subset,
                 norm_collection,
