@@ -3,7 +3,7 @@ import glob
 import xarray as xr
 
 from daops.utils.core import _wrap_sequence
-from daops.options import get_project_base_dir
+from roocs_utils.project_utils import get_project_base_dir
 
 
 def _consolidate_col(col):
