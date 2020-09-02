@@ -13,4 +13,3 @@ from roocs_utils.config import get_config
 
 import daops
 CONFIG = get_config(daops)
-print(CONFIG)
