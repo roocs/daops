@@ -74,6 +74,7 @@ setup(
     long_description=_long_description,
     long_description_content_type='text/markdown',
     include_package_data=True,
+    package_data={'daops': ['etc/roocs.ini']},
     keywords='daops',
     name='daops',
     packages=find_packages(),

@@ -35,7 +35,7 @@ def test_subset_zostoga_with_fix():
         output_dir="outputs",
     )
     assert result.file_paths == ["outputs/output.nc"]
-    ds = xr.open_dataset("outputs/output.nc")
+    ds = xr.open_dataset("outputs/output.nc", use_cftime=True)
     assert ds.time.shape == (192,)
     assert "lev" not in ds.dims
 
@@ -48,7 +48,7 @@ def test_subset_t():
         output_dir="outputs",
     )
     assert result.file_paths == ["outputs/output.nc"]
-    ds = xr.open_dataset("outputs/output.nc")
+    ds = xr.open_dataset("outputs/output.nc", use_cftime=True)
     assert ds.time.shape == (433,)
 
 
@@ -85,7 +85,7 @@ def test_subset_collection_as_empty_string():
 def test_subset_t_y_x():
     ds = xr.open_mfdataset(
         f"tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/"
-        f"atmos/Amon/r1i1p1/latest/tas/*.nc"
+        f"atmos/Amon/r1i1p1/latest/tas/*.nc", use_cftime=True, combine='by_coords'
     )
     assert ds.tas.shape == (3530, 2, 2)
 
@@ -97,7 +97,7 @@ def test_subset_t_y_x():
     )
     assert result.file_paths == ["outputs/output.nc"]
 
-    ds_subset = xr.open_dataset("outputs/output.nc")
+    ds_subset = xr.open_dataset("outputs/output.nc", use_cftime=True)
     assert ds_subset.tas.shape == (433, 1, 1)
 
 
@@ -141,7 +141,7 @@ def test_subset_with_fix_and_multiple_ids(zostoga_id):
     )
     assert result.file_paths == ["outputs/output.nc"]
 
-    ds = xr.open_dataset("outputs/output.nc")
+    ds = xr.open_dataset("outputs/output.nc", use_cftime=True)
     assert ds.time.shape == (252,)  # all datasets have the same time shape
     assert "lev" not in ds.dims  # checking that lev has been removed by fix
     ds.close()
@@ -161,5 +161,5 @@ def test_parameter_classes_as_args():
         )
     assert result.file_paths == ["outputs/output.nc"]
 
-    ds_subset = xr.open_dataset("outputs/output.nc")
+    ds_subset = xr.open_dataset("outputs/output.nc", use_cftime=True)
     assert ds_subset.tas.shape == (433, 1, 1)
