@@ -5,10 +5,11 @@
 
 from setuptools import setup, find_packages
 
-__author__ = "Elle Smith"
+__author__ = """Elle Smith"""
 __contact__ = "eleanor.smith@stfc.ac.uk"
 __copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
 __license__ = "BSD"
+__version__ = "0.2.0"
 
 
 from setuptools import setup, find_packages
@@ -16,7 +17,6 @@ from setuptools import setup, find_packages
 # One strategy for storing the overall version is to put it in the top-level
 # package's __init__ but Nb. __init__.py files are not needed to declare
 # packages in Python 3
-from daops import __version__ as _package_version
 
 # Populate long description setting with content of README
 #
@@ -74,6 +74,7 @@ setup(
     long_description=_long_description,
     long_description_content_type='text/markdown',
     include_package_data=True,
+    package_data={'daops': ['etc/roocs.ini']},
     keywords='daops',
     name='daops',
     packages=find_packages(),
@@ -81,6 +82,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/ellesmith88/daops',
-    version=_package_version,
+    version=__version__,
     # zip_safe=False,
 )

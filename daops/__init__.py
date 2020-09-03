@@ -8,3 +8,8 @@ __contact__ = "eleanor.smith@stfc.ac.uk"
 __copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
 __license__ = "BSD"
 __version__ = "0.2.0"
+
+from roocs_utils.config import get_config
+
+import daops
+CONFIG = get_config(daops)
