@@ -10,7 +10,7 @@ def _wrap_sequence(obj):
     return obj
 
 
-def is_dataref_characterised(col):
+def is_dataref_characterised(dset):
     return True
 
 
@@ -29,13 +29,13 @@ def is_characterised(collection, require_all=False):
     collection = _wrap_sequence(collection)
     resp = collections.OrderedDict()
 
-    for col in collection:
-        _is_char = is_dataref_characterised(col)
+    for dset in collection:
+        _is_char = is_dataref_characterised(dset)
 
         if require_all and not _is_char:
             return False
 
-        resp[col] = is_dataref_characterised(col)
+        resp[dset] = is_dataref_characterised(dset)
 
     return resp
 

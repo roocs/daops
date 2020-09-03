@@ -1,23 +1,25 @@
 import collections
 import glob
+import os
 import xarray as xr
 
 from daops.utils.core import _wrap_sequence
-from roocs_utils.project_utils import get_project_base_dir
+from roocs_utils.project_utils import get_project_base_dir, get_project_name
 
 
-def _consolidate_col(col):
-
-    if col[0] == "/":
-        return col
-
-    project = col.split('.')[0]
-    base_dir = get_project_base_dir(project)
-
-    if base_dir is not None:
-        col = base_dir.rstrip("/") + "/" + col.replace(".", "/") + "/*.nc"
-
-    return col
+def _consolidate_dset(dset):
+    if dset.startswith('https'):
+        raise Exception('This format is not supported yet')
+    elif os.path.isfile(dset) or dset.endswith('.nc'):
+        return dset
+    elif os.path.isdir(dset):
+        return os.path.join(dset, '*.nc')
+    elif dset.count('.') > 6:
+        project = get_project_name(dset)
+        base_dir = get_project_base_dir(project)
+        return base_dir.rstrip("/") + "/" + dset.replace(".", "/") + "/*.nc"
+    else:
+        raise Exception(f'The format of {dset} is not known.')
 
 
 def consolidate(collection, **kwargs):
@@ -25,8 +27,8 @@ def consolidate(collection, **kwargs):
 
     filtered_refs = collections.OrderedDict()
 
-    for col in collection:
-        consolidated = _consolidate_col(col)
+    for dset in collection:
+        consolidated = _consolidate_dset(dset)
 
         if "time" in kwargs:
             time = kwargs["time"].tuple
@@ -49,8 +51,8 @@ def consolidate(collection, **kwargs):
             print(f"[INFO] Kept {len(files_in_range)} files")
             consolidated = files_in_range[:]
             if len(files_in_range) == 0:
-                raise Exception(f"No files found in given time range for {col}")
+                raise Exception(f"No files found in given time range for {dset}")
 
-        filtered_refs[col] = consolidated
+        filtered_refs[dset] = consolidated
 
     return filtered_refs
