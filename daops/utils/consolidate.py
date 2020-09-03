@@ -4,7 +4,6 @@ import os
 import xarray as xr
 
 from daops.utils.core import _wrap_sequence
-from daops.options import get_project_base_dir
 from roocs_utils.project_utils import get_project_base_dir, get_project_name
 
 
@@ -16,7 +15,7 @@ def _consolidate_dset(dset):
     elif os.path.isdir(dset):
         return os.path.join(dset, '*.nc')
     elif dset.count('.') > 6:
-        project = get_project_name
+        project = get_project_name(dset)
         base_dir = get_project_base_dir(project)
         return base_dir.rstrip("/") + "/" + dset.replace(".", "/") + "/*.nc"
     else:
