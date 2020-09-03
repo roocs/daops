@@ -1,15 +1,16 @@
 import os
 import sys
 
-from roocs_utils import config
 
-project_base_dirs = config.project_base_dirs
 
-if "ROOCS_CONFIG" in os.environ:
-    config_path = os.environ["ROOCS_CONFIG"]
-    sys.path.insert(1, config_path)
-    import config_local as config
-    project_base_dirs.update(config.project_base_dirs)
+project_base_dirs = {
+    'cmip5': '/badc/cmip5/data',
+    'cmip6': '/badc/cmip6/data',
+    'cordex': '/badc/cordex/data',
+    'c3s-cmip5': '/group_workspaces/jasmin2/cp4cds1/vol1/data/',
+    'c3s-cmip6': 'NOT DEFINED YET',
+    'c3s-cordex': '/group_workspaces/jasmin2/cp4cds1/vol1/data/'
+}
 
 
 def get_project_base_dir(project):

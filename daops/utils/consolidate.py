@@ -1,23 +1,26 @@
 import collections
 import glob
+import os
 import xarray as xr
 
 from daops.utils.core import _wrap_sequence
 from daops.options import get_project_base_dir
+from roocs_utils.project_utils import get_project_base_dir, get_project_name
 
 
 def _consolidate_dset(dset):
-
-    if dset[0] == "/":
+    if dset.startswith('https'):
+        raise Exception('This format is not supported yet')
+    elif os.path.isfile(dset) or dset.endswith('.nc'):
         return dset
-
-    project = dset.split('.')[0]
-    base_dir = get_project_base_dir(project)
-
-    if base_dir is not None:
-        dset = base_dir.rstrip("/") + "/" + dset.replace(".", "/") + "/*.nc"
-
-    return dset
+    elif os.path.isdir(dset):
+        return os.path.join(dset, '*.nc')
+    elif dset.count('.') > 6:
+        project = get_project_name
+        base_dir = get_project_base_dir(project)
+        return base_dir.rstrip("/") + "/" + dset.replace(".", "/") + "/*.nc"
+    else:
+        raise Exception(f'The format of {dset} is not known.')
 
 
 def consolidate(collection, **kwargs):
