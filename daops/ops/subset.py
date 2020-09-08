@@ -11,8 +11,9 @@ def subset(
     area=None,
     level=None,
     output_dir=None,
-    chunk_rules=None,
-    filenamer=None,
+    output_type="netcdf",
+    split_method="time:auto",
+    file_namer="standard",
 ):
     """
     Example:
@@ -32,8 +33,8 @@ def subset(
     :param area: Area parameter, sequence or string of comma separated lat and lon bounds. Must contain 4 values.
     :param level: Level range - Level parameter, sequence of two level values or string of two / separated level values
     :param output_dir:
-    :param chunk_rules:
-    :param filenamer:
+    :param split_method:
+    :param file_namer:
     :return:
     """
 
@@ -65,10 +66,10 @@ def subset(
                     "time": parameters.get('time'),
                     "area": parameters.get('area'),
                     "level": parameters.get('level'),
-                    "output_type": "netcdf",
+                    "output_type": output_type,
                     "output_dir": output_dir,
-                    "chunk_rules": chunk_rules,
-                    "filenamer": filenamer,
+                    "split_method": split_method,
+                    "file_namer": file_namer,
                 }
             ),
         )
