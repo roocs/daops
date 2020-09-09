@@ -3,9 +3,13 @@ import os
 
 from daops.utils.core import open_dataset
 
+import logging
+
+LOGGER = logging.getLogger(__file__)
+
 
 def normalise(collection):
-    print(f"[INFO] Working on datasets: {collection}")
+    LOGGER.info(f"Working on datasets: {collection}")
     norm_collection = collections.OrderedDict()
 
     for dset, file_paths in collection.items():
