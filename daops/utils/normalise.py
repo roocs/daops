@@ -23,7 +23,7 @@ class ResultSet(object):
         self.file_paths = []
 
     def add(self, dset, result):
-        print(result)
+        # print(result)
 
         self._results[dset] = result
 
