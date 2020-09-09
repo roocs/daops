@@ -1,4 +1,5 @@
 import collections
+import os
 
 from daops.utils.core import open_dataset
 
@@ -22,5 +23,10 @@ class ResultSet(object):
         self.file_paths = []
 
     def add(self, dset, result):
+        print(result)
+
         self._results[dset] = result
-        self.file_paths.append(result)
+
+        for item in result:
+            if isinstance(item, str) and os.path.isfile(item):
+                self.file_paths.append(item)
