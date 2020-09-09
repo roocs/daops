@@ -10,8 +10,11 @@ dependencies:
   - xarray>=0.15
   - dask
   - netcdf4
-  clisops>=0.2.0,<0.3
+  - rtree>=0.9
+  - udunits2>=2.2
+  # - clisops>=0.2.0,<0.3
   # tests
   - pytest
   - pip:
     - -e git+https://github.com/roocs/roocs-utils.git@master#egg=roocs_utils
+    - -e git+https://github.com/roocs/clisops.git@master#egg=clisops

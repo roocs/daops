@@ -1,10 +1,15 @@
 import collections
+import os
 
 from daops.utils.core import open_dataset
 
+import logging
+
+LOGGER = logging.getLogger(__file__)
+
 
 def normalise(collection):
-    print(f"[INFO] Working on datasets: {collection}")
+    LOGGER.info(f"Working on datasets: {collection}")
     norm_collection = collections.OrderedDict()
 
     for dset, file_paths in collection.items():
@@ -22,5 +27,10 @@ class ResultSet(object):
         self.file_paths = []
 
     def add(self, dset, result):
+        # print(result)
+
         self._results[dset] = result
-        self.file_paths.append(result)
+
+        for item in result:
+            if isinstance(item, str) and os.path.isfile(item):
+                self.file_paths.append(item)

@@ -10,6 +10,7 @@ __license__ = "BSD"
 __version__ = "0.2.0"
 
 from roocs_utils.config import get_config
-
+# init logging?
 import daops
+
 CONFIG = get_config(daops)

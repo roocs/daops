@@ -3,6 +3,10 @@ import xarray as xr
 
 from daops.utils import fixer
 
+import logging
+
+LOGGER = logging.getLogger(__file__)
+
 
 def _wrap_sequence(obj):
     if isinstance(obj, str):
@@ -46,9 +50,9 @@ def open_dataset(ds_id, file_paths):
     fix = fixer.Fixer(ds_id)
     if fix.pre_processor:
         for pre_process in fix.pre_processors:
-            print(f"[INFO] Loading data with pre_processor: {pre_process.__name__}")
+            LOGGER.info(f"Loading data with pre_processor: {pre_process.__name__}")
     else:
-        print(f"[INFO] Loading data")
+        LOGGER.info(f"Loading data")
 
     ds = xr.open_mfdataset(
         file_paths, preprocess=fix.pre_processor, use_cftime=True, combine="by_coords"
@@ -57,7 +61,7 @@ def open_dataset(ds_id, file_paths):
     if fix.post_processors:
         for post_process in fix.post_processors:
             func, operands = post_process
-            print(f"[INFO] Running post-processing function: {func.__name__}")
+            LOGGER.info(f"Running post-processing function: {func.__name__}")
             ds = func(ds, **operands)
 
     return ds

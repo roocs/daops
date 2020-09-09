@@ -1,5 +1,10 @@
+import logging
+
+LOGGER = logging.getLogger(__file__)
+
+
 def dispatch(operation, dset, **kwargs):
-    print(f"NOW SENDING TO PARALLEL DISPATCH MODE...")
+    LOGGER.info(f"NOW SENDING TO PARALLEL DISPATCH MODE...")
     return process(operation, dset, mode="serial", **kwargs)
 
 
@@ -8,7 +13,7 @@ def process(operation, dset, mode="serial", **kwargs):
     op_name = operation.__name__
 
     if mode == "serial":
-        print(f"Running {op_name} [{mode}]: on Dataset with args: {kwargs}")
+        LOGGER.info(f"Running {op_name} [{mode}]: on Dataset with args: {kwargs}")
 
         result = operation(dset, **kwargs)
     #        try:
