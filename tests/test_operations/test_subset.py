@@ -9,6 +9,7 @@ from roocs_utils.parameter import (
     area_parameter,
     time_parameter,
 )
+from daops import CONFIG
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -176,3 +177,66 @@ def test_parameter_classes_as_args(tmpdir):
 
     ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
     assert ds_subset.tas.shape == (433, 1, 1)
+
+
+@pytest.mark.online
+def test_time_is_none(tmpdir):
+
+    result = subset(
+        CMIP5_IDS[1],
+        time=None,
+        area=("0", "-10", "120", "40"),
+        output_dir=tmpdir,
+        file_namer="simple"
+    )
+    _check_output_nc(result)
+
+    ds = xr.open_mfdataset(os.path.join(
+        CONFIG["project:cmip5"]["base_dir"], "cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc"),
+        use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+
+    assert ds_subset.time.values.min().strftime("%Y-%m-%d") == ds.time.values.min().strftime("%Y-%m-%d")
+    assert ds_subset.time.values.max().strftime("%Y-%m-%d") == ds.time.values.max().strftime("%Y-%m-%d")
+    
+    
+@pytest.mark.online
+def test_end_time_is_none(tmpdir):
+
+    result = subset(
+        CMIP5_IDS[2],
+        time="1940-10-14/",
+        area=("0", "-10", "120", "40"),
+        output_dir=tmpdir,
+        file_namer="simple"
+    )
+    _check_output_nc(result)
+
+    ds = xr.open_mfdataset(os.path.join(
+        CONFIG["project:cmip5"]["base_dir"], "cmip5/output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc"),
+        use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+
+    assert ds_subset.time.values.min().strftime("%Y-%m-%d") == '1940-10-16'
+    assert ds_subset.time.values.max().strftime("%Y-%m-%d") == ds.time.values.max().strftime("%Y-%m-%d")
+
+
+@pytest.mark.online
+def test_start_time_is_none(tmpdir):
+
+    result = subset(
+        CMIP5_IDS[1],
+        time="/2120-12-16",
+        area=("0", "-10", "120", "40"),
+        output_dir=tmpdir,
+        file_namer="simple"
+    )
+    _check_output_nc(result)
+
+    ds = xr.open_mfdataset(os.path.join(
+        CONFIG["project:cmip5"]["base_dir"], "cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc"),
+        use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+
+    assert ds_subset.time.values.min().strftime("%Y-%m-%d") == ds.time.values.min().strftime("%Y-%m-%d")
+    assert ds_subset.time.values.max().strftime("%Y-%m-%d") == "2120-12-16"
