@@ -35,13 +35,20 @@ def consolidate(collection, **kwargs):
         consolidated = _consolidate_dset(dset)
 
         if "time" in kwargs:
-            time = kwargs["time"].tuple
-            # need int(_.split('-')[0]) if passing in more than year from TimeParameter
-            required_years = set(range(*[int(_.split('-')[0]) for _ in time]))
+            time = kwargs["time"].asdict()
 
             file_paths = glob.glob(consolidated)
             LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
             files_in_range = []
+
+            ds = xr.open_mfdataset(file_paths)
+
+            if time['start_time'] is None:
+                time['start_time'] = ds.time.values.min().strftime("%Y")
+            if time['end_time'] is None:
+                time['end_time'] = ds.time.values.max().strftime("%Y")
+
+            required_years = set(range(*[int(_.split('-')[0]) for _ in list(time.values())]))
 
             for i, fpath in enumerate(file_paths):
                 LOGGER.info(f"File {i}: {fpath}")
