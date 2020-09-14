@@ -10,7 +10,11 @@ __license__ = "BSD"
 __version__ = "0.2.0"
 
 from roocs_utils.config import get_config
-from clisops import logging
-import daops
 
+import daops
 CONFIG = get_config(daops)
+
+from clisops import logging
+
+
+
