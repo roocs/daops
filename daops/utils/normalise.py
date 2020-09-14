@@ -3,7 +3,7 @@ import os
 
 from daops.utils.core import open_dataset
 
-import logging
+from daops import logging
 
 LOGGER = logging.getLogger(__file__)
 

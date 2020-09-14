@@ -1,4 +1,4 @@
-import logging
+from daops import logging
 
 LOGGER = logging.getLogger(__file__)
 

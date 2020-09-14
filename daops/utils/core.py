@@ -3,7 +3,7 @@ import xarray as xr
 
 from daops.utils import fixer
 
-import logging
+from daops import logging
 
 LOGGER = logging.getLogger(__file__)
 
