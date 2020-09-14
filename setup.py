@@ -84,7 +84,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/ellesmith88/daops',
+    url='https://github.com/roocs/daops',
     version=__version__,
     # zip_safe=False,
 )
