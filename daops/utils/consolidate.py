@@ -6,7 +6,7 @@ import xarray as xr
 from daops.utils.core import _wrap_sequence
 from roocs_utils.project_utils import get_project_base_dir, get_project_name
 
-import logging
+from daops import logging
 
 LOGGER = logging.getLogger(__file__)
 
