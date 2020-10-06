@@ -30,7 +30,7 @@ zostoga_ids = [
 def _check_output_nc(result, fname="output_001.nc"):
     assert fname in [os.path.basename(_) for _ in result.file_paths]
 
-# filename 'output.nc' comes from subset function in clisops repo
+
 @pytest.mark.online
 def test_subset_zostoga_with_fix(tmpdir):
 
