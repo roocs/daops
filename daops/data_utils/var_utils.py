@@ -1,17 +1,15 @@
 from roocs_utils.xarray_utils import xarray_utils as xu
 
 
-def fix_metadata(ds, **operands):
-    """
-    :param ds: Xarray DataSet
-    :param operands: sequence of arguments
-    :return: Xarray DataArray
-    """
-    var_id = xu.get_main_variable(ds)
+def reverse_2d_vars(ds, **operands):
+    var_ids = operands.get("var_ids")
 
-    fixes = operands.get("fixes")
-    for fix in fixes:
-        attr, value = fix.split(',')
-        ds[var_id].attrs[attr] = value
+    for var_id in var_ids:
+
+        attrs = ds[var_id].attrs
+        dims = ds[var_id].dims
+
+        ds = ds.assign({f"{var_id}": (dims, ds[var_id].values[::-1, ::-1])})
+        ds[var_id].attrs = attrs
 
     return ds

@@ -47,6 +47,26 @@ def test_subset_zostoga_with_fix(tmpdir):
 
 
 @pytest.mark.online
+def test_subset_with_several_fixes(tmpdir):
+    ds = xr.open_mfdataset("tests/mini-esgf-data/test_data/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2"
+                           "/amip/r3i1p1f1/Amon/cl/gn/v20190319/*.nc",
+                           use_cftime=True,
+                           combine="by_coords")
+
+    result = subset(
+        "CMIP6.CMIP.NCAR.CESM2.amip.r3i1p1f1.Amon.cl.gn.v20190319",
+        output_dir=tmpdir,
+        file_namer="simple"
+    )
+    _check_output_nc(result)
+    fixed_ds = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    assert fixed_ds.lev.standard_name == "atmosphere_hybrid_sigma_pressure_coordinate"
+    assert fixed_ds.lev.formula_terms == "p0: p0 a: a b: b ps: ps"
+    assert fixed_ds.lev.values[0] == ds.lev.values[-1]
+    assert fixed_ds.b_bnds[0][0] == ds.b_bnds[-1][-1]
+
+
+@pytest.mark.online
 def test_subset_t(tmpdir):
     result = subset(
         CMIP5_IDS[1],

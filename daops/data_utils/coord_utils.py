@@ -30,3 +30,14 @@ def add_scalar_coord(ds, **operands):
         ds[coord].attrs[k] = v
 
     return ds
+
+
+def reverse_coords(ds, **operands):
+    coords = operands.get("coords")
+
+    for coord in coords:
+        attrs = ds[coord].attrs
+        ds = ds.assign_coords({f"{coord}": ds[coord].values[::-1]})
+        ds[coord].attrs = attrs
+
+    return ds
