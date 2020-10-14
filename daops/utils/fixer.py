@@ -29,8 +29,6 @@ class Fixer(object):
         return m.hexdigest()
 
     def _gather_fixes(self, content):
-        # if content["hits"]["hits"][-1]["_source"]["fixes"]:
-        #     for fix in content["hits"]["hits"][-1]["_source"]["fixes"]:
         if content["_source"]["fixes"]:
             for fix in content["_source"]["fixes"]:
 
@@ -54,14 +52,7 @@ class Fixer(object):
         try:
             # commented out version work around for the use of multiple indices on one alias
             content = self.es.get(index="roocs-fix", id=id)
-            # query_body = {
-            #   "query": {
-            #     "terms": {
-            #       "_id": [f"{id}"]
-            #     }
-            #   }
-            # }
-            # content = self.es.search(index="roocs-test", body=query_body)
+
             self._gather_fixes(content)
         except exceptions.NotFoundError:
             pass
