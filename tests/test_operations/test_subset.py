@@ -17,6 +17,10 @@ CMIP5_IDS = [
     "cmip5.output1.MOHC.HadGEM2-ES.historical.mon.land.Lmon.r1i1p1.latest.rh",
 ]
 
+CMIP6_IDS = [
+    "CMIP6.CMIP.NOAA-GFDL.GFDL-ESM4.historical.r1i1p1f1.Amon.o3.gr1.v20190726"
+]
+
 zostoga_ids = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
     "cmip5.output1.MPI-M.MPI-ESM-LR.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -133,6 +137,32 @@ def test_subset_t_y_x(tmpdir):
 
 
 @pytest.mark.online
+def test_subset_t_z_y_x(tmpdir):
+    ds = xr.open_mfdataset(
+        "tests/mini-esgf-data/test_data/badc/cmip6/data/CMIP6/CMIP/NOAA-GFDL/"
+        "GFDL-ESM4/historical/r1i1p1f1/Amon/o3/gr1/v20190726/"
+        "o3_Amon_GFDL-ESM4_historical_r1i1p1f1_gr1_185001-194912.nc", use_cftime=True, combine='by_coords'
+    )
+    assert ds.o3.shape == (1200, 19, 2, 3)
+    assert list(ds.o3.coords['plev'].values) == [100000.,  92500.,  85000.,  70000.,  
+                    60000.,  50000.,  40000., 30000.,  25000.,  20000.,  15000.,  10000.,   
+                    7000.,   5000., 3000.,   2000.,   1000.,    500.,    100.]
+
+    result = subset(
+        CMIP6_IDS[0],
+        time=("1890-01-16", "1901-12-16"),
+        area=(0, -10, 120, 40),
+        level=(10000, 850.0),
+        output_dir=tmpdir,
+        file_namer="simple"
+    )
+    _check_output_nc(result)
+
+    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    assert ds_subset.o3.shape == (143, 6, 1, 1)
+
+
+@pytest.mark.online
 def test_subset_t_with_invalid_date(tmpdir):
     with pytest.raises(Exception) as exc:
         subset(
@@ -175,7 +205,7 @@ def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir):
     _check_output_nc(result)
 
     ds = xr.open_dataset(result.file_paths[0], use_cftime=True)
-    assert ds.time.shape == (251,) or (252,)
+    assert ds.time.shape in [(251,), (252,)]
     assert "lev" not in ds.dims  # checking that lev has been removed by fix
     ds.close()
 
