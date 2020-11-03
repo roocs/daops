@@ -1,9 +1,9 @@
 import collections
+
 import xarray as xr
 
-from daops.utils import fixer
-
 from daops import logging
+from daops.utils import fixer
 
 LOGGER = logging.getLogger(__file__)
 

@@ -12,14 +12,14 @@ These tests use 3 NetCDF files (reduced sized), referenced by variables:
  - F3
 
 """
-
 import itertools
-import xarray as xr
 import os
+import pathlib
+import tempfile
+
 import numpy as np
 import pytest
-import tempfile
-import pathlib
+import xarray as xr
 
 from .._common import TESTS_OUTPUTS
 

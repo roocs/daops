@@ -1,9 +1,10 @@
-from daops import utils
 from pydoc import locate
-import pytest
 
-from daops.utils.fixer import FuncChainer
+import pytest
 import xarray as xr
+
+from daops import utils
+from daops.utils.fixer import FuncChainer
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",

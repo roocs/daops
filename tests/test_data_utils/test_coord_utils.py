@@ -1,6 +1,6 @@
-from daops.data_utils.coord_utils import add_scalar_coord
-
 import xarray as xr
+
+from daops.data_utils.coord_utils import add_scalar_coord
 
 
 def test_add_scalar_coord():
