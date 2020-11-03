@@ -1,8 +1,9 @@
-from daops.processor import process
-from daops.utils import consolidate, normalise
-
 from clisops.ops.subset import subset as clisops_subset
 from roocs_utils.parameter import parameterise
+
+from daops.processor import process
+from daops.utils import consolidate
+from daops.utils import normalise
 
 
 def subset(
@@ -38,14 +39,12 @@ def subset(
     :return:
     """
 
-    parameters = parameterise.parameterise(
-        collection=collection, time=time, area=area, level=level
-    )
+    parameters = parameterise(collection=collection, time=time, area=area, level=level)
 
     # Consolidate data inputs so they can be passed to Xarray
 
     collection = consolidate.consolidate(
-        parameters.get('collection'), time=parameters.get('time')
+        parameters.get("collection"), time=parameters.get("time")
     )
 
     # Normalise (i.e. "fix") data inputs based on "character"
@@ -63,14 +62,14 @@ def subset(
                 clisops_subset,
                 norm_collection,
                 **{
-                    "time": parameters.get('time'),
-                    "area": parameters.get('area'),
-                    "level": parameters.get('level'),
+                    "time": parameters.get("time"),
+                    "area": parameters.get("area"),
+                    "level": parameters.get("level"),
                     "output_type": output_type,
                     "output_dir": output_dir,
                     "split_method": split_method,
                     "file_namer": file_namer,
-                }
+                },
             ),
         )
 

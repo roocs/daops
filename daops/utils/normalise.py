@@ -1,9 +1,8 @@
 import collections
 import os
 
-from daops.utils.core import open_dataset
-
 from daops import logging
+from daops.utils.core import open_dataset
 
 LOGGER = logging.getLogger(__file__)
 

@@ -1,9 +1,10 @@
+import hashlib
 import json
 import os
-
-from elasticsearch import Elasticsearch, exceptions
 from pydoc import locate
-import hashlib
+
+from elasticsearch import Elasticsearch
+from elasticsearch import exceptions
 
 
 class FuncChainer(object):

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """Console script for daops."""
 
 __author__ = """Elle Smith"""
@@ -13,12 +12,11 @@ import sys
 def main():
     """Console script for daops."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('_', nargs='*')
+    parser.add_argument("_", nargs="*")
     args = parser.parse_args()
 
     print("Arguments: " + str(args._))
-    print("Replace this message by putting your code into "
-          "daops.cli.main")
+    print("Replace this message by putting your code into " "daops.cli.main")
     return 0
 
 
