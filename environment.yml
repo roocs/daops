@@ -16,5 +16,5 @@ dependencies:
   # tests
   - pytest
   - pip:
-    - -e git+https://github.com/roocs/roocs-utils.git@master#egg=roocs_utils
+    - roocs-utils>=0.1.4
     - -e git+https://github.com/roocs/clisops.git@master#egg=clisops

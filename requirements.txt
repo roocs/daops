@@ -4,3 +4,4 @@ dask[complete]
 netcdf4
 cfunits>=3.2.7
 elasticsearch>=7.8.0
+roocs-utils>=0.1.4
