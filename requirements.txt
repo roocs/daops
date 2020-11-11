@@ -2,6 +2,6 @@ numpy>=1.16
 xarray>=0.15
 dask[complete]
 netcdf4
-cfunits>=3.2.7
 elasticsearch>=7.8.0
 roocs-utils>=0.1.4
+clisops>=0.3.0

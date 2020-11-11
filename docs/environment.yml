@@ -1,9 +1,13 @@
 # conda env create -f environment.yml
-name: daops
+name: daops-docs
 channels:
   - conda-forge
   - defaults
 dependencies:
+  - sphinx
+  - nbsphinx
+  - ipython
+  - pandoc
   - pip
   - numpy>=1.16
   - xarray>=0.15

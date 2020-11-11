@@ -19,9 +19,7 @@ from setuptools import setup, find_packages
 #
 # Use markdown format read me file as GitHub will render it automatically
 # on package page
-with open("README.md") as readme_file:
-    _long_description = readme_file.read()
-
+_long_description = open(os.path.join(here, "README.rst")).read()
 
 requirements = [line.strip() for line in open("requirements.txt")]
 
@@ -66,13 +64,9 @@ setup(
     # This qualifier can be used to selectively exclude Python versions -
     # in this case early Python 2 and 3 releases
     python_requires=">=3.6.0",
-    install_requires=[
-        requirements,
-        "roocs_utils @ git+https://github.com/roocs/roocs-utils.git",
-        "clisops @ git+https://github.com/roocs/clisops.git",
-    ],
+    install_requires=[requirements],
     long_description=_long_description,
-    long_description_content_type="text/markdown",
+    long_description_content_type="text/x-rst",
     include_package_data=True,
     package_data={"daops": ["etc/roocs.ini"]},
     keywords="daops",
