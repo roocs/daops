@@ -18,7 +18,7 @@ def subset(
 ):
     """
     Subset input dataset according to parameters.
-    Can be subsetted by level, are and time.
+    Can be subsetted by level, area and time.
 
     Example:
         collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
@@ -39,6 +39,8 @@ def subset(
     :param output_type: {"netcdf", "nc", "zarr", "xarray"}
     :param split_method: {"time:auto"}
     :param file_namer: {"standard", "simple"}
+
+    :return: List of outputs in the selected type - a list of xarray datasets or file paths.
     """
 
     parameters = parameterise(collection=collection, time=time, area=area, level=level)
