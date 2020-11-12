@@ -2,49 +2,76 @@
 API
 ===
 
-Core subset functionality
-=========================
-
-.. automodule:: clisops.core.subset
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 Subset operation
 ================
 
-.. automodule:: clisops.ops.subset
+.. automodule:: daops.ops.subset
    :noindex:
    :members:
    :undoc-members:
    :show-inheritance:
 
 
-Common functions
+Utilities
+=========
+
+.. automodule:: daops.utils.consolidate
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.utils.core
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.utils.fixer
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.utils.normalise
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Data Utilities
 ================
 
-.. automodule:: clisops.utils.common
+.. automodule:: daops.data_utils.array_utils
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.data_utils.attr_utils
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.data_utils.coord_utils
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.data_utils.var_utils
    :noindex:
    :members:
    :undoc-members:
    :show-inheritance:
 
 
-Output Utilities
-================
+Processor
+=========
 
-.. automodule:: clisops.utils.output_utils
-   :noindex:
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-File Namers
-===========
-
-.. automodule:: clisops.utils.file_namers
+.. automodule:: daops.processor
    :noindex:
    :members:
    :undoc-members:

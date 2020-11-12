@@ -8,7 +8,7 @@ __copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
 __license__ = "BSD"
 __version__ = "0.2.0"
 
-
+import os
 from setuptools import setup, find_packages
 
 # One strategy for storing the overall version is to put it in the top-level
