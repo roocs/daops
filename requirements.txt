@@ -1,5 +1,6 @@
 numpy>=1.16
 xarray>=0.15
+rtree<=0.9.1
 dask[complete]
 netcdf4
 elasticsearch>=7.8.0

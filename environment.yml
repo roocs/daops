@@ -10,6 +10,5 @@ dependencies:
   - dask
   - netcdf4
   - rtree>=0.9
-  - udunits2>=2.2
   - clisops>=0.3.0
   - elasticsearch>=7.9.1

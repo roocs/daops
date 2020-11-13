@@ -5,7 +5,6 @@ Credits
 Development Lead
 ----------------
 
-
 * Ag Stephens ag.stephens@stfc.ac.uk
 
 Co-Developers
