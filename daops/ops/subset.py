@@ -31,16 +31,16 @@ def subset(
         file_namer: "facet_namer"
 
 
-    :param collection: Collection parameter, sequence or string of comma separated drs ids
-    :param time: Time period - Time parameter, sequence of two time values or string of two / separated time values
-    :param area: Area parameter, sequence or string of comma separated lat and lon bounds. Must contain 4 values.
-    :param level: Level range - Level parameter, sequence of two level values or string of two / separated level values
+    :param collection: Collection of datasets to process, sequence or string of comma separated dataset identifiers.
+    :param time: Time period - Time range to subset over, sequence of two time values or string of two / separated time values
+    :param area: Area to subset over, sequence or string of comma separated lat and lon bounds. Must contain 4 values.
+    :param level: Level range - Level values to subset over, sequence of two level values or string of two / separated level values
     :param output_dir: str or path like object describing output directory for output files.
     :param output_type: {"netcdf", "nc", "zarr", "xarray"}
     :param split_method: {"time:auto"}
     :param file_namer: {"standard", "simple"}
 
-    :return: List of outputs in the selected type - a list of xarray datasets or file paths.
+    :return: List of outputs in the selected type: a list of xarray Datasets or file paths.
     """
 
     parameters = parameterise(collection=collection, time=time, area=area, level=level)

@@ -13,6 +13,13 @@ LOGGER = logging.getLogger(__file__)
 
 
 def _consolidate_dset(dset):
+    """
+    Constructs the file path for the input dataset depending on the type of dataset that is passed in.
+
+    :param dset: Dataset to process. Formats currently accepted are file paths, paths to directories containing netCDF
+                 files or dataset identifiers (ds ids).
+    :return: The file path for the input dataset.
+    """
     if dset.startswith("https"):
         raise Exception("This format is not supported yet")
     elif os.path.isfile(dset) or dset.endswith(".nc"):
@@ -28,10 +35,20 @@ def _consolidate_dset(dset):
 
 
 def consolidate(collection, **kwargs):
+    """
+    Finds the file paths relating to each input dataset. If a time range has been supplied then only the files
+    relating to this time range are recorded.
+
+    :param collection: (roocs_utils.CollectionParameter) The collection of datasets to process.
+    :param kwargs: Arguments of the operation taking place e.g. subset, average, or re-grid.
+    :return: An ordered dictionary of each dataset from the collection argument and the file paths
+             relating to it.
+    """
     collection = _wrap_sequence(collection.tuple)
 
     filtered_refs = collections.OrderedDict()
 
+    # currently dset needs to be a ds id in order to work with Fixer class, normalise and core.open_dataset
     for dset in collection:
         consolidated = _consolidate_dset(dset)
 
