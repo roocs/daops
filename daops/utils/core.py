@@ -54,7 +54,7 @@ def open_dataset(ds_id, file_paths):
     :param ds_id: Dataset identifier in the form of a drs id
                   e.g. cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga
     :param file_paths: (list) The file paths corresponding to the ds id.
-    :return:
+    :return: xarray Dataset with fixes applied to the data.
     """
 
     fix = fixer.Fixer(ds_id)
