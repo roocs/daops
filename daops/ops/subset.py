@@ -21,14 +21,14 @@ def subset(
     Can be subsetted by level, area and time.
 
     Example:
-        collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
-        time: ("1999-01-01T00:00:00", "2100-12-30T00:00:00")
-        area: (-5.,49.,10.,65)
-        level: (1000.,)
-        output_type: "netcdf"
-        output_dir: "/cache/wps/procs/req0111"
-        split_method: "time:decade"
-        file_namer: "facet_namer"
+    | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
+    | time: ("1999-01-01T00:00:00", "2100-12-30T00:00:00")
+    | area: (-5.,49.,10.,65)
+    | level: (1000.,)
+    | output_type: "netcdf"
+    | output_dir: "/cache/wps/procs/req0111"
+    | split_method: "time:decade"
+    | file_namer: "facet_namer"
 
 
     :param collection: Collection of datasets to process, sequence or string of comma separated dataset identifiers.
