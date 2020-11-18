@@ -5,6 +5,10 @@ from daops.processor import process
 from daops.utils import consolidate
 from daops.utils import normalise
 
+__all__ = [
+    "subset",
+]
+
 
 def subset(
     collection,
@@ -46,6 +50,7 @@ def subset(
     | output_dir: "/cache/wps/procs/req0111"
     | split_method: "time:decade"
     | file_namer: "facet_namer"
+
     """
 
     parameters = parameterise(collection=collection, time=time, area=area, level=level)

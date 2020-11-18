@@ -3,10 +3,9 @@ API
 ===
 
 Subset operation
-================
+=================
 
 .. automodule:: daops.ops.subset
-   :noindex:
    :members:
    :undoc-members:
    :show-inheritance:
