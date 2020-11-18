@@ -41,12 +41,12 @@ def convert_to_ds_id(dset):
         raise Exception("This format is not supported yet")
     elif os.path.isfile(dset) or dset.endswith(".nc"):
         dset = dset.split("/")
-        i = max(loc for loc, val in enumerate(dset) if val in projects)
+        i = max(loc for loc, val in enumerate(dset) if val.lower() in projects)
         ds_id = ".".join(dset[i:-1])
         return ds_id
     elif os.path.isdir(dset):
         dset = dset.split("/")
-        i = max(loc for loc, val in enumerate(dset) if val in projects)
+        i = max(loc for loc, val in enumerate(dset) if val.lower() in projects)
         ds_id = ".".join(dset[i:])
         return ds_id
     else:

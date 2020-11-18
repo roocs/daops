@@ -14,12 +14,12 @@ Breaking Changes
 * ``filenamer`` parameter of ``daops.ops.subset.subset`` renamed to ``file_namer``.
 * ``output_type`` parameter option added to ``daops.ops.subset.subset``.
 * ``data_root_dir`` parameter in no longer needed ``daops.ops.subset.subset``.
-* parameters of ``daops.utils.consolidate.consolidate`` changed to collection and ``data_root_dir`` no longer required.
-* Functions that take the ``data_refs`` parameter have been changed to use ``collection`` parameter instead.
+* ``data_root_dir`` no longer a parameter of ``daops.utils.consolidate.consolidate``.
+
 
 New Features
 ^^^^^^^^^^^^
-* Added notebooks with example usage.
+* Added notebook with example usage.
 * Config file now exists at ``daops.etc.roocs.ini``. This can be overwritten by setting the environment variable
   ``ROOCS_CONFIG`` to the file path of a config file.
 * ``split_method`` implemented to split output files by if they exceed the memory limit provided in
@@ -35,6 +35,8 @@ Other Changes
 * Updated documentation.
 * Removed udunits as a requirement.
 * rtee and libspatialindex remove as requirements, making it easier to install through pip.
+* Functions that take the ``data_refs`` parameter have been changed to use ``collection`` parameter instead.
+* Functions that take the ``data_ref`` parameter have been changed to use ``dset`` parameter instead.
 
 v0.2.0 (2020-06-22)
 ------------------

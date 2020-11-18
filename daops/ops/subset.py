@@ -20,7 +20,8 @@ def subset(
     Subset input dataset according to parameters.
     Can be subsetted by level, area and time.
 
-    Example:
+    Examples
+    --------
     | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
     | time: ("1999-01-01T00:00:00", "2100-12-30T00:00:00")
     | area: (-5.,49.,10.,65)
