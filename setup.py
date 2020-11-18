@@ -30,6 +30,16 @@ setup_requirements = [
 
 test_requirements = ["pytest", "tox"]
 
+docs_requirements = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "nbsphinx",
+    "pandoc",
+    "ipython",
+    "ipykernel",
+    "jupyter_client",
+    "matplotlib",
+]
 
 setup(
     author=__author__,
@@ -81,5 +91,6 @@ setup(
     tests_require=test_requirements,
     url="https://github.com/roocs/daops",
     version=__version__,
+    extras_require={"docs": docs_requirements},
     # zip_safe=False,
 )
