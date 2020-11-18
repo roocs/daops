@@ -36,6 +36,12 @@ def _consolidate_dset(dset):
 
 
 def convert_to_ds_id(dset):
+    """
+    Converts the input dataset to a drs id form to use with the elasticsearch index.
+
+    :param dset: Dataset to process. Formats currently accepted are file paths and paths to directories.
+    :return: The ds id for the input dataset.
+    """
     projects = [_.split(":")[1] for _ in CONFIG.keys() if _.startswith("project:")]
     if dset.startswith("https"):
         raise Exception("This format is not supported yet")
