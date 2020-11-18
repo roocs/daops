@@ -8,7 +8,7 @@ from elasticsearch import exceptions
 
 
 class FuncChainer(object):
-    """ Chains functions together to aloow them to be executed in one call."""
+    """ Chains functions together to allow them to be executed in one call."""
 
     def __init__(self, funcs):
         self.funcs = funcs

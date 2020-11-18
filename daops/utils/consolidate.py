@@ -3,6 +3,7 @@ import glob
 import os
 
 import xarray as xr
+from roocs_utils.project_utils import convert_to_ds_id
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
 
@@ -48,9 +49,12 @@ def consolidate(collection, **kwargs):
 
     filtered_refs = collections.OrderedDict()
 
-    # currently dset needs to be a ds id in order to work with Fixer class, normalise and core.open_dataset
     for dset in collection:
         consolidated = _consolidate_dset(dset)
+
+        # convert dset to ds_id to work with elasticsearch index
+        if not dset.count(".") > 6:
+            dset = convert_to_ds_id(dset)
 
         if "time" in kwargs:
             time = kwargs["time"].asdict()
