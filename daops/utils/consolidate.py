@@ -6,6 +6,7 @@ import xarray as xr
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
 
+from daops import CONFIG
 from daops import logging
 from daops.utils.core import _wrap_sequence
 
@@ -34,16 +35,18 @@ def _consolidate_dset(dset):
         raise Exception(f"The format of {dset} is not known.")
 
 
-def covert_to_ds_id(dset):
+def convert_to_ds_id(dset):
     projects = [_.split(":")[1] for _ in CONFIG.keys() if _.startswith("project:")]
     if dset.startswith("https"):
         raise Exception("This format is not supported yet")
     elif os.path.isfile(dset) or dset.endswith(".nc"):
-        i = max(loc for loc, val in enumerate(path) if val in projects)
+        dset = dset.split("/")
+        i = max(loc for loc, val in enumerate(dset) if val in projects)
         ds_id = ".".join(dset[i:-1])
         return ds_id
     elif os.path.isdir(dset):
-        i = max(loc for loc, val in enumerate(path) if val in projects)
+        dset = dset.split("/")
+        i = max(loc for loc, val in enumerate(dset) if val in projects)
         ds_id = ".".join(dset[i:])
         return ds_id
     else:
