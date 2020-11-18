@@ -8,8 +8,14 @@ Updating doc strings and documentation.
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
-* ``chunk_rules`` parameter of ``clisops.ops.subset`` renamed to ``split_method``.
-* ``filenamer`` parameter of ``clisops.ops.subset`` renamed to ``file_namer``.
+* ``data_refs`` parameter of ``daops.ops.subset.subset`` renamed to ``collection``.
+* ``space`` parameter of ``daops.ops.subset.subset`` renamed to ``area``.
+* ``chunk_rules`` parameter of ``daops.ops.subset.subset`` renamed to ``split_method``.
+* ``filenamer`` parameter of ``daops.ops.subset.subset`` renamed to ``file_namer``.
+* ``output_type`` parameter option added to ``daops.ops.subset.subset``.
+* ``data_root_dir`` parameter in no longer needed ``daops.ops.subset.subset``.
+* parameters of ``daops.utils.consolidate.consolidate`` changed to collection and ``data_root_dir`` no longer required.
+* Functions that take the ``data_refs`` parameter have been changed to use ``collection`` parameter instead.
 
 New Features
 ^^^^^^^^^^^^
@@ -19,8 +25,10 @@ New Features
 * ``split_method`` implemented to split output files by if they exceed the memory limit provided in
   ``clisops.etc.roocs.ini`` named ``file_size_limit``.
   Currently only the ``time:auto`` exists which splits evenly on time ranges.
-* ``file_namer`` implemented in ``clisops.ops.subset``. This has ``simple`` and ``standard`` options.
+* ``file_namer`` implemented in subset operation. This has ``simple`` and ``standard`` options.
   ``simple`` numbers output files whereas ``standard`` names them according to the input dataset.
+* Directories, file paths and dataset ids can now be used as inputs to the subset operation.
+* Fixer class now looks up fixes on our elasticsearch index.
 
 Other Changes
 ^^^^^^^^^^^^^
