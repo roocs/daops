@@ -1,5 +1,5 @@
 Welcome to daops's documentation!
-======================================
+===================================
 
 .. toctree::
    :maxdepth: 2
@@ -8,7 +8,8 @@ Welcome to daops's documentation!
    readme
    installation
    usage
-   modules
+   api
+   notebooks/index
    contributing
    authors
    history

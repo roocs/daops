@@ -1,0 +1,77 @@
+===
+API
+===
+
+Subset operation
+=================
+
+.. automodule:: daops.ops.subset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Utilities
+=========
+
+.. automodule:: daops.utils.consolidate
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.utils.core
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.utils.fixer
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.utils.normalise
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Data Utilities
+================
+
+.. automodule:: daops.data_utils.array_utils
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.data_utils.attr_utils
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.data_utils.coord_utils
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: daops.data_utils.var_utils
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Processor
+=========
+
+.. automodule:: daops.processor
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:

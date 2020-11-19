@@ -8,6 +8,8 @@ from elasticsearch import exceptions
 
 
 class FuncChainer(object):
+    """ Chains functions together to allow them to be executed in one call."""
+
     def __init__(self, funcs):
         self.funcs = funcs
 
@@ -19,17 +21,26 @@ class FuncChainer(object):
 
 
 class Fixer(object):
+    """
+    Fixer class to look up fixes to apply to input dataset from the elastic search index.
+    Gathers fixes into pre and post processors.
+    Pre-process fixes are chained together to allow them to be executed with one call.
+    """
+
     def __init__(self, ds_id):
         self.ds_id = ds_id
         self.es = Elasticsearch(["elasticsearch.ceda.ac.uk"], use_ssl=True, port=443)
         self._lookup_fix()
 
-    def _convert_id(self, id):
+    @staticmethod
+    def _convert_id(_id):
+        """ Converts the dataset id to an md5 checksum used to retrieve the fixes for the dataset."""
         m = hashlib.md5()
-        m.update(id.encode("utf-8"))
+        m.update(_id.encode("utf-8"))
         return m.hexdigest()
 
     def _gather_fixes(self, content):
+        """ Gathers pre and post processing fixes together"""
         if content["_source"]["fixes"]:
             for fix in content["_source"]["fixes"]:
 
@@ -44,6 +55,7 @@ class Fixer(object):
             self.pre_processor = FuncChainer(self.pre_processors)
 
     def _lookup_fix(self):
+        """ Looks up fixes on the elasticsearch index."""
         id = self._convert_id(self.ds_id)
 
         self.pre_processor = None

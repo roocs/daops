@@ -20,7 +20,7 @@ def is_dataref_characterised(dset):
 
 def is_characterised(collection, require_all=False):
     """
-    Takes in an individual data reference or a sequence of them.
+    Takes in a collection (an individual data reference or a sequence of them).
     Returns an ordered dictionary of a collection of ids with a boolean value
     for each stating whether the dataset has been characterised.
 
@@ -45,7 +45,17 @@ def is_characterised(collection, require_all=False):
 
 
 def open_dataset(ds_id, file_paths):
-    # Wrap xarray open with required args
+    """
+    Opens an xarray Dataset and applies fixes if required.
+    Fixes are applied to the data either before or after the dataset is opened.
+    Whether a fix is a 'pre-processor' or 'post-processor' is defined in the
+    fix itself.
+
+    :param ds_id: Dataset identifier in the form of a drs id
+                  e.g. cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga
+    :param file_paths: (list) The file paths corresponding to the ds id.
+    :return: xarray Dataset with fixes applied to the data.
+    """
 
     fix = fixer.Fixer(ds_id)
     if fix.pre_processor:
@@ -65,26 +75,3 @@ def open_dataset(ds_id, file_paths):
             ds = func(ds, **operands)
 
     return ds
-
-
-# Don't need - use pydoc locate
-# def resolve_import(import_path):
-#     """
-#     Deconstructs path, imports module and returns callable.
-#
-#     :param import path: module and function as 'x.y.func' (of any depth)
-#     :return: callable.
-#     """
-#     # Split last item off path
-#     parts = import_path.split('.')
-#     ipath = '.'.join(parts[:-1])
-#     func_name = parts[-1]
-#
-#     # Import module then send the args and kwargs to the function
-#     try:
-#         module = importlib.import_module(ipath)
-#         func = getattr(module, func_name)
-#     except Exception as exc:
-#         raise ImportError(f'Could not import function from path: {import_path}')
-#
-#     return func

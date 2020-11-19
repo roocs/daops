@@ -5,6 +5,10 @@ from daops.processor import process
 from daops.utils import consolidate
 from daops.utils import normalise
 
+__all__ = [
+    "subset",
+]
+
 
 def subset(
     collection,
@@ -17,26 +21,36 @@ def subset(
     file_namer="standard",
 ):
     """
-    Example:
-        collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
-        time: ("1999-01-01T00:00:00", "2100-12-30T00:00:00")
-        area: (-5.,49.,10.,65)
-        level: (1000.,)
-        output_type: "netcdf"
-        output_dir: "/cache/wps/procs/req0111"
-        chunk_rules: "time:decade"
-        filenamer: "facet_namer"
+    Subset input dataset according to parameters.
+    Can be subsetted by level, area and time.
+
+    Parameters
+    ----------
+    collection: Collection of datasets to process, sequence or string of comma separated dataset identifiers.
+    time: Time period - Time range to subset over, sequence of two time values or string of two / separated time values
+    area: Area to subset over, sequence or string of comma separated lat and lon bounds. Must contain 4 values.
+    level: Level range - Level values to subset over, sequence of two level values or string of two / separated level values
+    output_dir: str or path like object describing output directory for output files.
+    output_type: {"netcdf", "nc", "zarr", "xarray"}
+    split_method: {"time:auto"}
+    file_namer: {"standard", "simple"}
+
+    Returns
+    -------
+    List of outputs in the selected type: a list of xarray Datasets or file paths.
 
 
-    :param collection: Collection parameter, sequence or string of comma separated drs ids
-    :param project:
-    :param time: Time period - Time parameter, sequence of two time values or string of two / separated time values
-    :param area: Area parameter, sequence or string of comma separated lat and lon bounds. Must contain 4 values.
-    :param level: Level range - Level parameter, sequence of two level values or string of two / separated level values
-    :param output_dir:
-    :param split_method:
-    :param file_namer:
-    :return:
+    Examples
+    --------
+    | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
+    | time: ("1999-01-01T00:00:00", "2100-12-30T00:00:00")
+    | area: (-5.,49.,10.,65)
+    | level: (1000.,)
+    | output_type: "netcdf"
+    | output_dir: "/cache/wps/procs/req0111"
+    | split_method: "time:decade"
+    | file_namer: "facet_namer"
+
     """
 
     parameters = parameterise(collection=collection, time=time, area=area, level=level)

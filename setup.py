@@ -8,7 +8,7 @@ __copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
 __license__ = "BSD"
 __version__ = "0.2.0"
 
-
+import os
 from setuptools import setup, find_packages
 
 # One strategy for storing the overall version is to put it in the top-level
@@ -19,9 +19,8 @@ from setuptools import setup, find_packages
 #
 # Use markdown format read me file as GitHub will render it automatically
 # on package page
-with open("README.md") as readme_file:
-    _long_description = readme_file.read()
-
+here = os.path.abspath(os.path.dirname(__file__))
+_long_description = open(os.path.join(here, "README.rst")).read()
 
 requirements = [line.strip() for line in open("requirements.txt")]
 
@@ -31,6 +30,16 @@ setup_requirements = [
 
 test_requirements = ["pytest", "tox"]
 
+docs_requirements = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "nbsphinx",
+    "pandoc",
+    "ipython",
+    "ipykernel",
+    "jupyter_client",
+    "matplotlib",
+]
 
 setup(
     author=__author__,
@@ -66,13 +75,9 @@ setup(
     # This qualifier can be used to selectively exclude Python versions -
     # in this case early Python 2 and 3 releases
     python_requires=">=3.6.0",
-    install_requires=[
-        requirements,
-        "roocs_utils @ git+https://github.com/roocs/roocs-utils.git",
-        "clisops @ git+https://github.com/roocs/clisops.git",
-    ],
+    install_requires=[requirements],
     long_description=_long_description,
-    long_description_content_type="text/markdown",
+    long_description_content_type="text/x-rst",
     include_package_data=True,
     package_data={"daops": ["etc/roocs.ini"]},
     keywords="daops",
@@ -83,5 +88,6 @@ setup(
     tests_require=test_requirements,
     url="https://github.com/roocs/daops",
     version=__version__,
+    extras_require={"docs": docs_requirements},
     # zip_safe=False,
 )
