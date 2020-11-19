@@ -8,7 +8,7 @@ Updating doc strings and documentation.
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
-* ``clisops`` v0.4.0 and ``roocs-utils`` v0.1.4 used.
+* ``clisops``>=0.3.0 and ``roocs-utils``>=0.1.4 used.
 * ``data_refs`` parameter of ``daops.ops.subset.subset`` renamed to ``collection``.
 * ``space`` parameter of ``daops.ops.subset.subset`` renamed to ``area``.
 * ``chunk_rules`` parameter of ``daops.ops.subset.subset`` renamed to ``split_method``.

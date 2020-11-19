@@ -84,7 +84,6 @@ jobs:
         - py.test
   allow_failures:
       - env: TOXENV=py38-anaconda
-      - env: TOXENV=py36
 
 before_install:
     - printenv
