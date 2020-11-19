@@ -1,13 +1,14 @@
 Version History
 ===============
 
-v0.3.0 (2020-11-16)
+v0.3.0 (2020-11-19)
 ------------------
 
 Updating doc strings and documentation.
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
+* ``clisops`` v0.4.0 and ``roocs-utils`` v0.1.4 used.
 * ``data_refs`` parameter of ``daops.ops.subset.subset`` renamed to ``collection``.
 * ``space`` parameter of ``daops.ops.subset.subset`` renamed to ``area``.
 * ``chunk_rules`` parameter of ``daops.ops.subset.subset`` renamed to ``split_method``.
@@ -33,8 +34,6 @@ New Features
 Other Changes
 ^^^^^^^^^^^^^
 * Updated documentation.
-* Removed udunits as a requirement.
-* rtee and libspatialindex remove as requirements, making it easier to install through pip.
 * Functions that take the ``data_refs`` parameter have been changed to use ``collection`` parameter instead.
 * Functions that take the ``data_ref`` parameter have been changed to use ``dset`` parameter instead.
 
