@@ -22,6 +22,7 @@ jobs:
           packages:
             - pandoc
             - libspatialindex-dev
+            - libudunits2-dev
     - env: TOXENV=black
       name: "Black and flake8 compliance"
       python: 3.6
@@ -29,6 +30,7 @@ jobs:
         apt:
           packages:
             - libspatialindex-dev
+            - libudunits2-dev
     - env: TOXENV=py38
       name: "Python3.8 (Linux)"
       python: 3.8
@@ -36,6 +38,7 @@ jobs:
         apt:
           packages:
             - libspatialindex-dev
+            - libudunits2-dev
 #            - libnetcdf-dev
 #            - libhdf5-dev
     - env: TOXENV=py37
@@ -45,6 +48,7 @@ jobs:
         apt:
           packages:
             - libspatialindex-dev
+            - libudunits2-dev
 #            - libnetcdf-dev
 #            - libhdf5-dev
     - env: TOXENV=py36
@@ -54,6 +58,7 @@ jobs:
         apt:
           packages:
             - libspatialindex-dev
+            - libudunits2-dev
 #            - libnetcdf-dev
 #            - libhdf5-dev
     - env: TOXENV=py38-anaconda
@@ -104,5 +109,5 @@ script: tox -e $TOXENV
 #     tags: true
 #     all_branches: true
 #     condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+[\.]?[a-c-]?[0-9]?[\w-]+\b
-#     repo: Ouranosinc/daops
+#     repo: roocs/daops
 #     python: 3.7

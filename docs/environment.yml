@@ -13,9 +13,7 @@ dependencies:
   - xarray>=0.15
   - dask
   - netcdf4
-  - clisops>=0.3.0
+  - clisops>=0.4.0
   - elasticsearch>=7.9.1
   - udunits2>=2.2
-  - rtree>=0.9
-  - pip:
-      - roocs_utils>=0.1.4
+  - roocs_utils>=0.1.4

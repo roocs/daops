@@ -7,6 +7,9 @@ Installation
 
 Stable release
 --------------
+.. Warning::
+    daops requires `libspatialindex-dev` and `libudunits2-dev` to be installed prior to installation by pip.
+
 To install daops, run this command in your terminal:
 
 .. code-block:: console
