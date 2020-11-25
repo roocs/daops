@@ -1,10 +1,10 @@
-import hashlib
 import json
 import os
 from pydoc import locate
 
-from elasticsearch import Elasticsearch
 from elasticsearch import exceptions
+
+from .base_lookup import Lookup
 
 
 class FuncChainer(object):
@@ -20,24 +20,16 @@ class FuncChainer(object):
         return result
 
 
-class Fixer(object):
+class Fixer(Lookup):
     """
     Fixer class to look up fixes to apply to input dataset from the elastic search index.
     Gathers fixes into pre and post processors.
     Pre-process fixes are chained together to allow them to be executed with one call.
     """
 
-    def __init__(self, ds_id):
-        self.ds_id = ds_id
-        self.es = Elasticsearch(["elasticsearch.ceda.ac.uk"], use_ssl=True, port=443)
+    def __init__(self, dset):
+        Lookup.__init__(self, dset)
         self._lookup_fix()
-
-    @staticmethod
-    def _convert_id(_id):
-        """ Converts the dataset id to an md5 checksum used to retrieve the fixes for the dataset."""
-        m = hashlib.md5()
-        m.update(_id.encode("utf-8"))
-        return m.hexdigest()
 
     def _gather_fixes(self, content):
         """ Gathers pre and post processing fixes together"""
@@ -56,7 +48,7 @@ class Fixer(object):
 
     def _lookup_fix(self):
         """ Looks up fixes on the elasticsearch index."""
-        id = self._convert_id(self.ds_id)
+        id = self._convert_id(self.dset)
 
         self.pre_processor = None
         self.pre_processors = []

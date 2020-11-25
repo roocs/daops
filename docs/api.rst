@@ -26,6 +26,12 @@ Utilities
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: daops.utils.base_lookup
+   :noindex:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. automodule:: daops.utils.fixer
    :noindex:
    :members:
