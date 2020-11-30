@@ -5,6 +5,7 @@ from pydoc import locate
 from elasticsearch import exceptions
 
 from .base_lookup import Lookup
+from daops import CONFIG
 
 
 class FuncChainer(object):
@@ -55,7 +56,7 @@ class Fixer(Lookup):
         self.post_processors = []
 
         try:
-            content = self.es.get(index="roocs-fix", id=id)
+            content = self.es.get(index=CONFIG["elasticsearch"]["fix_store"], id=id)
             self._gather_fixes(content)
         except exceptions.NotFoundError:
             pass

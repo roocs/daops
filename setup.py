@@ -75,7 +75,10 @@ setup(
     # This qualifier can be used to selectively exclude Python versions -
     # in this case early Python 2 and 3 releases
     python_requires=">=3.6.0",
-    install_requires=[requirements],
+    install_requires=[
+        requirements,
+        "roocs-utils @ git+https://github.com/roocs/roocs-utils.git@elasticsearch_to_config",
+    ],
     long_description=_long_description,
     long_description_content_type="text/x-rst",
     include_package_data=True,

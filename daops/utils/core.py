@@ -4,6 +4,7 @@ import xarray as xr
 from elasticsearch import exceptions
 
 from .base_lookup import Lookup
+from daops import CONFIG
 from daops import logging
 from daops.utils import fixer
 
@@ -29,7 +30,7 @@ class Characterised(Lookup):
         id = self._convert_id(self.dset)
 
         try:
-            self.es.get(index="roocs-char", id=id)
+            self.es.get(index=CONFIG["elasticsearch"]["character_store"], id=id)
             return True
         except exceptions.NotFoundError:
             return False

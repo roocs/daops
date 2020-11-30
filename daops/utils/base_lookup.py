@@ -13,7 +13,11 @@ class Lookup(object):
 
     def __init__(self, dset):
         self.dset = dset
-        self.es = Elasticsearch(["elasticsearch.ceda.ac.uk"], use_ssl=True, port=443)
+        self.es = Elasticsearch(
+            [CONFIG["daops:elasticsearch"]["endpoint"]],
+            use_ssl=True,
+            port=CONFIG["daops:elasticsearch"]["port"],
+        )
 
     def convert_to_ds_id(self):
         """ Converts the input dataset to a drs id form to use with the elasticsearch index. """
