@@ -77,7 +77,7 @@ setup(
     python_requires=">=3.6.0",
     install_requires=[
         requirements,
-        "roocs-utils @ git+https://github.com/roocs/roocs-utils.git@elasticsearch_to_config",
+        "roocs-utils @ git+https://github.com/roocs/roocs-utils.git",
     ],
     long_description=_long_description,
     long_description_content_type="text/x-rst",
