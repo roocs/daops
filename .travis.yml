@@ -21,46 +21,18 @@ jobs:
         apt:
           packages:
             - pandoc
-            - libspatialindex-dev
-            - libudunits2-dev
     - env: TOXENV=black
       name: "Black and flake8 compliance"
       python: 3.6
-      addons:
-        apt:
-          packages:
-            - libspatialindex-dev
-            - libudunits2-dev
     - env: TOXENV=py38
       name: "Python3.8 (Linux)"
       python: 3.8
-      addons:
-        apt:
-          packages:
-            - libspatialindex-dev
-            - libudunits2-dev
-#            - libnetcdf-dev
-#            - libhdf5-dev
     - env: TOXENV=py37
       name: "Python3.7 (Linux)"
       python: 3.7
-      addons:
-        apt:
-          packages:
-            - libspatialindex-dev
-            - libudunits2-dev
-#            - libnetcdf-dev
-#            - libhdf5-dev
     - env: TOXENV=py36
       name: "Python3.6 (Linux)"
       python: 3.6
-      addons:
-        apt:
-          packages:
-            - libspatialindex-dev
-            - libudunits2-dev
-#            - libnetcdf-dev
-#            - libhdf5-dev
     - env: TOXENV=py38-anaconda
       name: "Python3.8 (Linux + Anaconda)"
       python: 3.8

@@ -15,5 +15,4 @@ dependencies:
   - netcdf4
   - clisops>=0.3.0
   - elasticsearch>=7.9.1
-  - udunits2>=2.2
   - roocs-utils>=0.1.4
