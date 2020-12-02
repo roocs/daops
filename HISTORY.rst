@@ -1,6 +1,16 @@
 Version History
 ===============
 
+Unreleased
+----------
+
+New Features
+^^^^^^^^^^^^
+* ``daops.utils.core.is_characterised`` implemented - datasets are looked up in the character store.
+* ``apply_fixes`` option now added to daops.ops.subset.subset, daops.utils.normalise.normalise`` and
+``daops.utils.core.open_dataset``. The default in all cases is to apply fixes (True).
+
+
 v0.3.0 (2020-11-19)
 ------------------
 

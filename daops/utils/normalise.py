@@ -7,11 +7,12 @@ from daops.utils.core import open_dataset
 LOGGER = logging.getLogger(__file__)
 
 
-def normalise(collection):
+def normalise(collection, apply_fixes=True):
     """
     Takes file paths and opens and fixes the dataset they make up.
 
     :param collection: Ordered dictionary of ds ids and their related file paths.
+    :param apply_fixes: Boolean. If True fixes will be applied to datasets if needed. Default is True.
     :return: An ordered dictionary of ds ids and their fixed xarray Dataset.
     """
 
@@ -20,7 +21,7 @@ def normalise(collection):
 
     for dset, file_paths in collection.items():
 
-        ds = open_dataset(dset, file_paths)
+        ds = open_dataset(dset, file_paths, apply_fixes)
         norm_collection[dset] = ds
 
     return norm_collection

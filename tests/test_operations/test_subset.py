@@ -33,7 +33,6 @@ def _check_output_nc(result, fname="output_001.nc"):
     assert fname in [os.path.basename(_) for _ in result.file_paths]
 
 
-# filename 'output.nc' comes from subset function in clisops repo
 @pytest.mark.online
 def test_subset_zostoga_with_fix(tmpdir):
 
@@ -47,6 +46,23 @@ def test_subset_zostoga_with_fix(tmpdir):
     ds = xr.open_dataset(result.file_paths[0], use_cftime=True)
     assert ds.time.shape == (192,)
     assert "lev" not in ds.dims
+
+
+def test_subset_zostoga_with_apply_fixes_false(tmpdir):
+
+    result = subset(
+        CMIP5_IDS[0],
+        time=("2085-01-16", "2120-12-16"),
+        output_dir=tmpdir,
+        file_namer="simple",
+        apply_fixes=False,
+    )
+    _check_output_nc(result)
+    ds = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    assert ds.time.shape == (192,)
+
+    # lev should still be in ds.dims because fix hasn't been applied
+    assert "lev" in ds.dims
 
 
 @pytest.mark.online

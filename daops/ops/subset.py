@@ -19,6 +19,7 @@ def subset(
     output_type="netcdf",
     split_method="time:auto",
     file_namer="standard",
+    apply_fixes=True,
 ):
     """
     Subset input dataset according to parameters.
@@ -34,6 +35,7 @@ def subset(
     output_type: {"netcdf", "nc", "zarr", "xarray"}
     split_method: {"time:auto"}
     file_namer: {"standard", "simple"}
+    apply_fixes: Boolean. If True fixes will be applied to datasets if needed. Default is True.
 
     Returns
     -------
@@ -50,6 +52,7 @@ def subset(
     | output_dir: "/cache/wps/procs/req0111"
     | split_method: "time:decade"
     | file_namer: "facet_namer"
+    | apply_fixes: True
 
     """
 
@@ -62,7 +65,7 @@ def subset(
     )
 
     # Normalise (i.e. "fix") data inputs based on "character"
-    norm_collection = normalise.normalise(collection)
+    norm_collection = normalise.normalise(collection, apply_fixes)
 
     rs = normalise.ResultSet(vars())
     # change name of data ref here

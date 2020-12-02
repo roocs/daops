@@ -1,5 +1,4 @@
 from daops.utils.consolidate import _consolidate_dset
-from daops.utils.consolidate import convert_to_ds_id
 from tests._common import TESTS_HOME
 
 
@@ -22,11 +21,3 @@ def test_consolidate_dset():
     )
     consolidated = _consolidate_dset(dset)
     assert consolidated == dset + "*.nc"
-
-
-def test_convert_to_ds_id():
-    fpath = "/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc"
-    ds_id = convert_to_ds_id(fpath)
-    assert (
-        ds_id == "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas"
-    )

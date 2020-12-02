@@ -6,7 +6,6 @@ import xarray as xr
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
 
-from daops import CONFIG
 from daops import logging
 from daops.utils.core import _wrap_sequence
 
@@ -35,30 +34,6 @@ def _consolidate_dset(dset):
         raise Exception(f"The format of {dset} is not known.")
 
 
-def convert_to_ds_id(dset):
-    """
-    Converts the input dataset to a drs id form to use with the elasticsearch index.
-
-    :param dset: Dataset to process. Formats currently accepted are file paths and paths to directories.
-    :return: The ds id for the input dataset.
-    """
-    projects = [_.split(":")[1] for _ in CONFIG.keys() if _.startswith("project:")]
-    if dset.startswith("https"):
-        raise Exception("This format is not supported yet")
-    elif os.path.isfile(dset) or dset.endswith(".nc"):
-        dset = dset.split("/")
-        i = max(loc for loc, val in enumerate(dset) if val.lower() in projects)
-        ds_id = ".".join(dset[i:-1])
-        return ds_id
-    elif os.path.isdir(dset):
-        dset = dset.split("/")
-        i = max(loc for loc, val in enumerate(dset) if val.lower() in projects)
-        ds_id = ".".join(dset[i:])
-        return ds_id
-    else:
-        raise Exception(f"The format of {dset} is not known.")
-
-
 def consolidate(collection, **kwargs):
     """
     Finds the file paths relating to each input dataset. If a time range has been supplied then only the files
@@ -75,10 +50,6 @@ def consolidate(collection, **kwargs):
 
     for dset in collection:
         consolidated = _consolidate_dset(dset)
-
-        # convert dset to ds_id to work with elasticsearch index
-        if not dset.count(".") > 6:
-            dset = convert_to_ds_id(dset)
 
         if "time" in kwargs:
             time = kwargs["time"].asdict()
