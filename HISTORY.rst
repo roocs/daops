@@ -4,6 +4,11 @@ Version History
 Unreleased
 ----------
 
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* In ``daops.utils.normalise`` ResultSet().file_paths has been changed to file_uris to allow file_paths and urls to
+be collected.
+
 New Features
 ^^^^^^^^^^^^
 * ``daops.utils.core.is_characterised`` implemented - datasets are looked up in the character store.

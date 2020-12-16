@@ -30,7 +30,7 @@ zostoga_ids = [
 
 
 def _check_output_nc(result, fname="output_001.nc"):
-    assert fname in [os.path.basename(_) for _ in result.file_paths]
+    assert fname in [os.path.basename(_) for _ in result.file_uris]
 
 
 @pytest.mark.online
@@ -43,7 +43,7 @@ def test_subset_zostoga_with_fix(tmpdir):
         file_namer="simple",
     )
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds.time.shape == (192,)
     assert "lev" not in ds.dims
 
@@ -58,7 +58,7 @@ def test_subset_zostoga_with_apply_fixes_false(tmpdir):
         apply_fixes=False,
     )
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds.time.shape == (192,)
 
     # lev should still be in ds.dims because fix hasn't been applied
@@ -74,7 +74,7 @@ def test_subset_t(tmpdir):
         file_namer="simple",
     )
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds.time.shape == (433,)
 
 
@@ -127,7 +127,7 @@ def test_subset_t_y_x(tmpdir):
     )
     _check_output_nc(result)
 
-    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds_subset.tas.shape == (433, 1, 1)
 
 
@@ -173,7 +173,7 @@ def test_subset_t_z_y_x(tmpdir):
     )
     _check_output_nc(result)
 
-    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds_subset.o3.shape == (143, 6, 1, 1)
 
 
@@ -219,7 +219,7 @@ def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir):
     )
     _check_output_nc(result)
 
-    ds = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds.time.shape in [(251,), (252,)]
     assert "lev" not in ds.dims  # checking that lev has been removed by fix
     ds.close()
@@ -236,7 +236,7 @@ def test_parameter_classes_as_args(tmpdir):
     )
     _check_output_nc(result)
 
-    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds_subset.tas.shape == (433, 1, 1)
 
 
@@ -259,7 +259,7 @@ def test_time_is_none(tmpdir):
         ),
         use_cftime=True,
     )
-    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
 
     assert ds_subset.time.values.min().strftime(
         "%Y-%m-%d"
@@ -288,7 +288,7 @@ def test_end_time_is_none(tmpdir):
         ),
         use_cftime=True,
     )
-    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
 
     assert ds_subset.time.values.min().strftime("%Y-%m-%d") == "1940-10-16"
     assert ds_subset.time.values.max().strftime(
@@ -315,7 +315,7 @@ def test_start_time_is_none(tmpdir):
         ),
         use_cftime=True,
     )
-    ds_subset = xr.open_dataset(result.file_paths[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
 
     assert ds_subset.time.values.min().strftime(
         "%Y-%m-%d"
