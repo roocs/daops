@@ -33,7 +33,7 @@ class ResultSet(object):
     def __init__(self, inputs=None):
         self._results = collections.OrderedDict()
         self.metadata = {"inputs": inputs, "process": "something", "version": 0.1}
-        self.file_paths = []
+        self.file_uris = []
 
     def add(self, dset, result):
         """
@@ -45,5 +45,7 @@ class ResultSet(object):
         self._results[dset] = result
 
         for item in result:
-            if isinstance(item, str) and os.path.isfile(item):
-                self.file_paths.append(item)
+            if isinstance(item, str) and (
+                os.path.isfile(item) or item.startswith("https")
+            ):
+                self.file_uris.append(item)
