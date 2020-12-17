@@ -54,7 +54,7 @@ def consolidate(collection, **kwargs):
         if "time" in kwargs:
             time = kwargs["time"].asdict()
 
-            file_paths = glob.glob(consolidated)
+            file_paths = sorted(glob.glob(consolidated))
             LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
             files_in_range = []
 
