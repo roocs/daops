@@ -250,12 +250,13 @@ def test_time_is_none(tmpdir):
         output_dir=tmpdir,
         file_namer="simple",
     )
+
     _check_output_nc(result)
 
     ds = xr.open_mfdataset(
         os.path.join(
             CONFIG["project:cmip5"]["base_dir"],
-            "cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
+            "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
         use_cftime=True,
     )
@@ -284,7 +285,7 @@ def test_end_time_is_none(tmpdir):
     ds = xr.open_mfdataset(
         os.path.join(
             CONFIG["project:cmip5"]["base_dir"],
-            "cmip5/output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc",
+            "output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc",
         ),
         use_cftime=True,
     )
@@ -311,7 +312,7 @@ def test_start_time_is_none(tmpdir):
     ds = xr.open_mfdataset(
         os.path.join(
             CONFIG["project:cmip5"]["base_dir"],
-            "cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
+            "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
         use_cftime=True,
     )

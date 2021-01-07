@@ -5,6 +5,7 @@ import os
 import xarray as xr
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
+from roocs_utils.project_utils import MapDataset
 
 from daops import logging
 from daops.utils.core import _wrap_sequence
@@ -27,9 +28,8 @@ def _consolidate_dset(dset):
     elif os.path.isdir(dset):
         return os.path.join(dset, "*.nc")
     elif dset.count(".") > 6:
-        project = get_project_name(dset)
-        base_dir = get_project_base_dir(project)
-        return base_dir.rstrip("/") + "/" + dset.replace(".", "/") + "/*.nc"
+        dset = MapDataset(dset).data_path
+        return os.path.join(dset, "*.nc")
     else:
         raise Exception(f"The format of {dset} is not known.")
 
@@ -44,6 +44,7 @@ def consolidate(collection, **kwargs):
     :return: An ordered dictionary of each dataset from the collection argument and the file paths
              relating to it.
     """
+
     collection = _wrap_sequence(collection.tuple)
 
     filtered_refs = collections.OrderedDict()
