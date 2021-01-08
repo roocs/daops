@@ -3,9 +3,9 @@ import glob
 import os
 
 import xarray as xr
+from roocs_utils.project_utils import DatasetMapper
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
-from roocs_utils.project_utils import MapDataset
 
 from daops import logging
 from daops.utils.core import _wrap_sequence
@@ -23,15 +23,22 @@ def _consolidate_dset(dset):
     """
     if dset.startswith("https"):
         raise Exception("This format is not supported yet")
-    elif os.path.isfile(dset) or dset.endswith(".nc"):
-        return dset
-    elif os.path.isdir(dset):
-        return os.path.join(dset, "*.nc")
-    elif dset.count(".") > 6:
-        dset = MapDataset(dset).data_path
-        return os.path.join(dset, "*.nc")
     else:
-        raise Exception(f"The format of {dset} is not known.")
+        data_path = DatasetMapper(dset).data_path
+        if not data_path:
+            raise Exception(
+                f"The format of {dset} is not known and could not be parsed."
+            )
+        return os.path.join(data_path, "*.nc")
+    # elif os.path.isfile(dset) or dset.endswith(".nc"):
+    #     return dset
+    # elif os.path.isdir(dset):
+    #     return os.path.join(dset, "*.nc")
+    # elif dset.count(".") > 6:
+    #     dset = MapDataset(dset).data_path
+    #     return os.path.join(dset, "*.nc")
+    # else:
+    #     raise Exception(f"The format of {dset} is not known.")
 
 
 def consolidate(collection, **kwargs):
