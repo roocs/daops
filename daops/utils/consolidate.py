@@ -6,39 +6,12 @@ import xarray as xr
 from roocs_utils.project_utils import DatasetMapper
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
+from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
 from daops import logging
 from daops.utils.core import _wrap_sequence
 
 LOGGER = logging.getLogger(__file__)
-
-
-def _consolidate_dset(dset):
-    """
-    Constructs the file path for the input dataset depending on the type of dataset that is passed in.
-
-    :param dset: Dataset to process. Formats currently accepted are file paths, paths to directories containing netCDF
-                 files or dataset identifiers (ds ids).
-    :return: The file path for the input dataset.
-    """
-    if dset.startswith("https"):
-        raise Exception("This format is not supported yet")
-    else:
-        data_path = DatasetMapper(dset).data_path
-        if not data_path:
-            raise Exception(
-                f"The format of {dset} is not known and could not be parsed."
-            )
-        return os.path.join(data_path, "*.nc")
-    # elif os.path.isfile(dset) or dset.endswith(".nc"):
-    #     return dset
-    # elif os.path.isdir(dset):
-    #     return os.path.join(dset, "*.nc")
-    # elif dset.count(".") > 6:
-    #     dset = MapDataset(dset).data_path
-    #     return os.path.join(dset, "*.nc")
-    # else:
-    #     raise Exception(f"The format of {dset} is not known.")
 
 
 def consolidate(collection, **kwargs):
@@ -57,16 +30,20 @@ def consolidate(collection, **kwargs):
     filtered_refs = collections.OrderedDict()
 
     for dset in collection:
-        consolidated = _consolidate_dset(dset)
+        consolidated = DatasetMapper(dset).files
+
+        if not consolidated:
+            # assumes unknown file
+            consolidated = sorted(glob.glob(dset))
 
         if "time" in kwargs:
             time = kwargs["time"].asdict()
 
-            file_paths = sorted(glob.glob(consolidated))
+            file_paths = consolidated
             LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
             files_in_range = []
 
-            ds = xr.open_mfdataset(file_paths, use_cftime=True)
+            ds = open_xr_dataset(dset)
 
             if time["start_time"] is None:
                 time["start_time"] = ds.time.values.min().strftime("%Y")
@@ -82,7 +59,8 @@ def consolidate(collection, **kwargs):
             for i, fpath in enumerate(file_paths):
 
                 LOGGER.info(f"File {i}: {fpath}")
-                ds = xr.open_dataset(fpath)
+
+                ds = open_xr_dataset(fpath)
 
                 found_years = {int(_) for _ in ds.time.dt.year}
 
