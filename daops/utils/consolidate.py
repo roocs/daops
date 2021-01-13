@@ -3,7 +3,7 @@ import glob
 import os
 
 import xarray as xr
-from roocs_utils.project_utils import DatasetMapper
+from roocs_utils.project_utils import dset_to_filepaths
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
@@ -30,11 +30,7 @@ def consolidate(collection, **kwargs):
     filtered_refs = collections.OrderedDict()
 
     for dset in collection:
-        consolidated = DatasetMapper(dset).files
-
-        if not consolidated:
-            # assumes unknown file
-            consolidated = sorted(glob.glob(dset))
+        consolidated = dset_to_filepaths(dset, force=True)
 
         if "time" in kwargs:
             time = kwargs["time"].asdict()
