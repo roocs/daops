@@ -32,7 +32,7 @@ def consolidate(collection, **kwargs):
     for dset in collection:
         consolidated = dset_to_filepaths(dset, force=True)
 
-        if "time" in kwargs:
+        try:
             time = kwargs["time"].asdict()
 
             file_paths = consolidated
@@ -68,6 +68,10 @@ def consolidate(collection, **kwargs):
             if len(files_in_range) == 0:
                 raise Exception(f"No files found in given time range for {dset}")
 
-        filtered_refs[dset] = consolidated
+        except AttributeError:
+            pass
+
+        finally:
+            filtered_refs[dset] = consolidated
 
     return filtered_refs
