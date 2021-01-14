@@ -324,7 +324,6 @@ def test_start_time_is_none(tmpdir):
     assert ds_subset.time.values.max().strftime("%Y-%m-%d") == "2120-12-16"
 
 
-@pytest.mark.skipif(os.path.isdir("/badc") is False, reason="data not available")
 def test_time_invariant_subset_standard_name(tmpdir):
     dset = "CMIP6.ScenarioMIP.IPSL.IPSL-CM6A-LR.ssp119.r1i1p1f1.fx.mrsofc.gr.v20190410"
 
