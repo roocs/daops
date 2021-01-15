@@ -68,6 +68,7 @@ def consolidate(collection, **kwargs):
             if len(files_in_range) == 0:
                 raise Exception(f"No files found in given time range for {dset}")
 
+        # catch where "time" attribute cannot be accessed in ds
         except AttributeError:
             pass
 
