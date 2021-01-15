@@ -78,6 +78,7 @@ setup(
     install_requires=[
         requirements,
         "roocs-utils @ git+https://github.com/roocs/roocs-utils.git@c3s_mapper",
+        "clisops @ git+https://github.com/roocs/clisops.git@c3s_mapping",
     ],
     long_description=_long_description,
     long_description_content_type="text/x-rst",
