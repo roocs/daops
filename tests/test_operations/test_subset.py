@@ -322,3 +322,17 @@ def test_start_time_is_none(tmpdir):
         "%Y-%m-%d"
     ) == ds.time.values.min().strftime("%Y-%m-%d")
     assert ds_subset.time.values.max().strftime("%Y-%m-%d") == "2120-12-16"
+
+
+def test_time_invariant_subset_standard_name(tmpdir):
+    dset = "CMIP6.ScenarioMIP.IPSL.IPSL-CM6A-LR.ssp119.r1i1p1f1.fx.mrsofc.gr.v20190410"
+
+    result = subset(
+        dset,
+        area=(5.0, 10.0, 20.0, 65.0),
+        output_dir=tmpdir,
+        output_type="nc",
+        file_namer="standard",
+    )
+
+    assert "mrsofc_fx_IPSL-CM6A-LR_ssp119_r1i1p1f1_gr.nc" in result.file_uris[0]
