@@ -24,7 +24,6 @@ def consolidate(collection, **kwargs):
     :return: An ordered dictionary of each dataset from the collection argument and the file paths
              relating to it.
     """
-
     collection = _wrap_sequence(collection.tuple)
 
     filtered_refs = collections.OrderedDict()
@@ -32,47 +31,47 @@ def consolidate(collection, **kwargs):
     for dset in collection:
         consolidated = dset_to_filepaths(dset, force=True)
 
-        try:
-            time = kwargs["time"].asdict()
+        if "time" in kwargs:
+            try:
+                time = kwargs["time"].asdict()
 
-            file_paths = consolidated
-            LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
-            files_in_range = []
+                file_paths = consolidated
+                LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
+                files_in_range = []
 
-            ds = open_xr_dataset(dset)
+                ds = open_xr_dataset(dset)
 
-            if time["start_time"] is None:
-                time["start_time"] = ds.time.values.min().strftime("%Y")
-            if time["end_time"] is None:
-                time["end_time"] = ds.time.values.max().strftime("%Y")
+                if time["start_time"] is None:
+                    time["start_time"] = ds.time.values.min().strftime("%Y")
+                if time["end_time"] is None:
+                    time["end_time"] = ds.time.values.max().strftime("%Y")
 
-            times = [
-                int(time["start_time"].split("-")[0]),
-                int(time["end_time"].split("-")[0]) + 1,
-            ]
-            required_years = set(range(*[_ for _ in times]))
+                times = [
+                    int(time["start_time"].split("-")[0]),
+                    int(time["end_time"].split("-")[0]) + 1,
+                ]
+                required_years = set(range(*[_ for _ in times]))
 
-            for i, fpath in enumerate(file_paths):
+                for i, fpath in enumerate(file_paths):
 
-                LOGGER.info(f"File {i}: {fpath}")
+                    LOGGER.info(f"File {i}: {fpath}")
 
-                ds = open_xr_dataset(fpath)
+                    ds = open_xr_dataset(fpath)
 
-                found_years = {int(_) for _ in ds.time.dt.year}
+                    found_years = {int(_) for _ in ds.time.dt.year}
 
-                if required_years.intersection(found_years):
-                    files_in_range.append(fpath)
+                    if required_years.intersection(found_years):
+                        files_in_range.append(fpath)
 
-            LOGGER.info(f"Kept {len(files_in_range)} files")
-            consolidated = files_in_range[:]
-            if len(files_in_range) == 0:
-                raise Exception(f"No files found in given time range for {dset}")
+                LOGGER.info(f"Kept {len(files_in_range)} files")
+                consolidated = files_in_range[:]
+                if len(files_in_range) == 0:
+                    raise Exception(f"No files found in given time range for {dset}")
 
-        # catch where "time" attribute cannot be accessed in ds
-        except AttributeError:
-            pass
+            # catch where "time" attribute cannot be accessed in ds
+            except AttributeError:
+                pass
 
-        finally:
-            filtered_refs[dset] = consolidated
+        filtered_refs[dset] = consolidated
 
     return filtered_refs
