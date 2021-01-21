@@ -78,6 +78,7 @@ setup(
     install_requires=[
         requirements,
         "roocs-utils @ git+https://github.com/roocs/roocs-utils.git",
+        "clisops @ git+https://github.com/roocs/clisops.git",
     ],
     long_description=_long_description,
     long_description_content_type="text/x-rst",

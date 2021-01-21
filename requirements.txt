@@ -3,5 +3,5 @@ xarray>=0.15
 dask[complete]
 netcdf4
 elasticsearch>=7.8.0
-clisops>=0.4.0
-# roocs-utils>=0.1.4
+# clisops>=0.4.0
+# roocs-utils>=0.1.5
