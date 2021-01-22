@@ -2,8 +2,10 @@ from collections import OrderedDict
 
 from daops.utils.normalise import ResultSet
 
+from tests._common import MINI_ESGF_MASTER_DIR
 
-def test_file_uris_url():
+
+def test_file_uris_url(load_esgf_test_data):
     result = ResultSet()
 
     original_file_urls = OrderedDict(
@@ -29,7 +31,7 @@ def test_file_uris_url():
     ]
 
 
-def test_file_uris_files():
+def test_file_uris_files(load_esgf_test_data):
     result = ResultSet()
 
     file_path = OrderedDict(
@@ -37,7 +39,7 @@ def test_file_uris_files():
             (
                 "CMIP6.CMIP.IPSL.IPSL-CM6A-LR.historical.r1i1p1f1.Amon.rlds.gr.v20180803",
                 [
-                    "tests/mini-esgf-data/test_data/badc/cmip6/data/CMIP6/CMIP/IPSL"
+                    f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip6/data/CMIP6/CMIP/IPSL"
                     "/IPSL-CM6A-LR/historical/r1i1p1f1/Amon/rlds/gr/v20180803"
                     "/rlds_Amon_IPSL-CM6A-LR_historical_r1i1p1f1_gr_185001-201412.nc"
                 ],
@@ -48,6 +50,6 @@ def test_file_uris_files():
     for ds_id, file in file_path.items():
         result.add(ds_id, file)
     assert result.file_uris == [
-        "tests/mini-esgf-data/test_data/badc/cmip6/data/CMIP6/CMIP/IPSL/IPSL-CM6A-LR/historical"
+        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip6/data/CMIP6/CMIP/IPSL/IPSL-CM6A-LR/historical"
         "/r1i1p1f1/Amon/rlds/gr/v20180803/rlds_Amon_IPSL-CM6A-LR_historical_r1i1p1f1_gr_185001-201412.nc"
     ]
