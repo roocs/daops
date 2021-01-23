@@ -114,11 +114,14 @@ def test_subset_collection_as_empty_string(tmpdir):
 @pytest.mark.online
 def test_subset_t_y_x(tmpdir, load_esgf_test_data):
 
-    fpath = (f"{MINI_ESGF_MASTER_DIR}/"
-             "test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/"
-             "atmos/Amon/r1i1p1/latest/tas/*.nc")
+    fpath = (
+        f"{MINI_ESGF_MASTER_DIR}/"
+        "test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/"
+        "atmos/Amon/r1i1p1/latest/tas/*.nc"
+    )
 
-    ds = xr.open_mfdataset(fpath,
+    ds = xr.open_mfdataset(
+        fpath,
         use_cftime=True,
         combine="by_coords",
     )
@@ -140,12 +143,15 @@ def test_subset_t_y_x(tmpdir, load_esgf_test_data):
 @pytest.mark.online
 def test_subset_t_z_y_x(tmpdir, load_esgf_test_data):
 
-    fpath = (f"{MINI_ESGF_MASTER_DIR}/"
-              "test_data/badc/cmip6/data/CMIP6/CMIP/NOAA-GFDL/"
-              "GFDL-ESM4/historical/r1i1p1f1/Amon/o3/gr1/v20190726/"
-              "o3_Amon_GFDL-ESM4_historical_r1i1p1f1_gr1_185001-194912.nc")
+    fpath = (
+        f"{MINI_ESGF_MASTER_DIR}/"
+        "test_data/badc/cmip6/data/CMIP6/CMIP/NOAA-GFDL/"
+        "GFDL-ESM4/historical/r1i1p1f1/Amon/o3/gr1/v20190726/"
+        "o3_Amon_GFDL-ESM4_historical_r1i1p1f1_gr1_185001-194912.nc"
+    )
 
-    ds = xr.open_mfdataset(fpath,
+    ds = xr.open_mfdataset(
+        fpath,
         use_cftime=True,
         combine="by_coords",
     )

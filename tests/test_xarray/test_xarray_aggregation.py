@@ -23,11 +23,15 @@ import xarray as xr
 
 from .._common import TESTS_OUTPUTS, MINI_ESGF_MASTER_DIR
 
-file_base = (f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/"
-              "HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1")
+file_base = (
+    f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/"
+    "HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1"
+)
 
-test_files = [file_base + end for end in ("_200512-203011.nc", "_203012-205511.nc",
-    "_205512-208011.nc")]
+test_files = [
+    file_base + end
+    for end in ("_200512-203011.nc", "_203012-205511.nc", "_205512-208011.nc")
+]
 
 F1, F2, F3 = test_files
 
