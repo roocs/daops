@@ -25,19 +25,6 @@ class Lookup(object):
         """ Converts the input dataset to a drs id form to use with the elasticsearch index. """
         try:
             return derive_ds_id(self.dset)
-        # projects = [_.split(":")[1] for _ in CONFIG.keys() if _.startswith("project:")]
-        # if self.dset.startswith("https"):
-        #     raise Exception("This format is not supported yet")
-        # elif os.path.isfile(self.dset) or self.dset.endswith(".nc"):
-        #     dset = self.dset.split("/")
-        #     i = max(loc for loc, val in enumerate(dset) if val.lower() in projects)
-        #     ds_id = ".".join(dset[i:-1])
-        #     return ds_id
-        # elif os.path.isdir(self.dset):
-        #     dset = self.dset.split("/")
-        #     i = max(loc for loc, val in enumerate(dset) if val.lower() in projects)
-        #     ds_id = ".".join(dset[i:])
-        #     return ds_id
         except InvalidProject:
             raise Exception(
                 f"The format of {self.dset} is not known and it could not be converted to a ds id."
