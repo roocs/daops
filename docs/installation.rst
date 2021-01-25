@@ -36,12 +36,6 @@ You can either clone the public repository:
 
     $ git clone git://github.com/roocs/daops
 
-Get the submodules with test data:
-
-.. code-block:: console
-
-   $ git submodule update --init
-
 Create Conda environment named `daops`:
 
 .. code-block:: console
