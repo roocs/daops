@@ -7,6 +7,7 @@ from roocs_utils.exceptions import MissingParameterValue
 from roocs_utils.parameter import area_parameter
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import time_parameter
+from roocs_utils.utils.file_utils import FileMapper
 
 from daops import CONFIG
 from daops.ops.subset import subset
@@ -354,12 +355,15 @@ def test_time_invariant_subset_standard_name(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_with_glob_pattern(tmpdir, load_esgf_test_data):
-    dset = (
+def test_subset_with_file_mapper(tmpdir, load_esgf_test_data):
+    file_paths = [
         f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES"
-        f"/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/{{tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc;"
-        f"tas_Amon_HadGEM2-ES_rcp85_r1i1p1_203012-205511.nc}}"
-    )
+        f"/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc",
+        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES"
+        f"/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_203012-205511.nc",
+    ]
+
+    dset = FileMapper(file_paths)
 
     result = subset(
         dset,

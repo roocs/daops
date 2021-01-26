@@ -35,8 +35,7 @@ class Lookup(object):
         Converts the dataset id to an md5 checksum used to retrieve the fixes for the dataset. Converts to drs id
         format first if necessary.
         """
-        if _id.count(".") < 6:
-            _id = self.convert_to_ds_id()
+        _id = self.convert_to_ds_id()
 
         m = hashlib.md5()
         m.update(_id.encode("utf-8"))
