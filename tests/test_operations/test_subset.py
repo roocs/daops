@@ -7,10 +7,10 @@ from roocs_utils.exceptions import MissingParameterValue
 from roocs_utils.parameter import area_parameter
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import time_parameter
+from roocs_utils.utils.file_utils import FileMapper
 
 from daops import CONFIG
 from daops.ops.subset import subset
-
 from tests._common import MINI_ESGF_MASTER_DIR
 
 CMIP5_IDS = [
@@ -339,6 +339,7 @@ def test_start_time_is_none(tmpdir, load_esgf_test_data):
     assert ds_subset.time.values.max().strftime("%Y-%m-%d") == "2120-12-16"
 
 
+@pytest.mark.online
 def test_time_invariant_subset_standard_name(tmpdir, load_esgf_test_data):
     dset = "CMIP6.ScenarioMIP.IPSL.IPSL-CM6A-LR.ssp119.r1i1p1f1.fx.mrsofc.gr.v20190410"
 
@@ -351,3 +352,25 @@ def test_time_invariant_subset_standard_name(tmpdir, load_esgf_test_data):
     )
 
     assert "mrsofc_fx_IPSL-CM6A-LR_ssp119_r1i1p1f1_gr.nc" in result.file_uris[0]
+
+
+@pytest.mark.online
+def test_subset_with_file_mapper(tmpdir, load_esgf_test_data):
+    file_paths = [
+        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES"
+        f"/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc",
+        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES"
+        f"/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_203012-205511.nc",
+    ]
+
+    dset = FileMapper(file_paths)
+
+    result = subset(
+        dset,
+        time=("2008-01-16", "2028-12-16"),
+        output_dir=tmpdir,
+        output_type="nc",
+        file_namer="standard",
+    )
+
+    assert "tas_mon_HadGEM2-ES_rcp85_r1i1p1_20080116-20281216.nc" in result.file_uris[0]
