@@ -6,6 +6,8 @@ import xarray as xr
 from daops import utils
 from daops.utils.fixer import FuncChainer
 
+from tests._common import MINI_ESGF_MASTER_DIR
+
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
     "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas",
@@ -17,14 +19,14 @@ CMIP5_IDS = [
 def setup_module(module):
     utils.fixer.Fixer.FIX_DIR = "tests/test_fixes"
     module.CMIP5_FPATHS = [
-        "tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/INM/inmcm4/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc",
-        "tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
-        "tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc",
+        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/INM/inmcm4/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc",
+        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
+        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc",
     ]
 
 
 @pytest.mark.skip(reason="Look up of fixes has changed")
-def test_pre_and_post_process_fix():
+def test_pre_and_post_process_fix(load_esgf_test_data):
     ds_test = xr.open_mfdataset(CMIP5_FPATHS[1])
     ds_test["tas"].data = ds_test["tas"].data * 2
     ds_test["tas"].data = ds_test["tas"].data + 100
@@ -33,7 +35,7 @@ def test_pre_and_post_process_fix():
 
 
 @pytest.mark.skip(reason="Look up of fixes has changed")
-def test_post_process_fix_only():
+def test_post_process_fix_only(load_esgf_test_data):
     ds_test = xr.open_mfdataset(CMIP5_FPATHS[0])
     ds_test["zostoga"].attrs["units"] = "s"
     ds_test["zostoga"].attrs["long_name"] = "silly"
@@ -43,7 +45,7 @@ def test_post_process_fix_only():
 
 
 @pytest.mark.skip(reason="Look up of fixes has changed")
-def test_pre_process_fix_only():
+def test_pre_process_fix_only(load_esgf_test_data):
     ds = xr.open_mfdataset(CMIP5_FPATHS[2])
     ds_test = ds.rename({"lat": "silly_lat"})
     ds_code = utils.core.open_dataset(CMIP5_IDS[2], CMIP5_FPATHS[2])

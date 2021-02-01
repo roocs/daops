@@ -15,6 +15,11 @@ New Features
 * ``apply_fixes`` option now added to ``daops.ops.subset.subset``, ``daops.utils.normalise.normalise``
 and ``daops.utils.core.open_dataset``. The default in all cases is to apply fixes (True).
 
+Other Changes
+^^^^^^^^^^^^^
+* Changes to allow datasets without a time dimension to be processed.
+* Use of ``DatasetMapper`` functions in ``daops.consolidate`` and ``daops.core`` to ensure all datasets are mapped to
+ids/file paths correctly.
 
 v0.3.0 (2020-11-19)
 ------------------
