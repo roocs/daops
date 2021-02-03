@@ -59,7 +59,6 @@ def subset(
     parameters = parameterise(collection=collection, time=time, area=area, level=level)
 
     # Consolidate data inputs so they can be passed to Xarray
-
     collection = consolidate.consolidate(
         parameters.get("collection"), time=parameters.get("time")
     )

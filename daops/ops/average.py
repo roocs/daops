@@ -1,6 +1,6 @@
 import xarray as xr
 from clisops.ops.average import average_over_dims as clisops_average_over_dims
-from roocs_utils.parameter import collection_parameter
+from roocs_utils.parameter import parameterise
 
 from daops.processor import process
 from daops.utils import consolidate
@@ -55,13 +55,10 @@ def average_over_dims(
 
     """
 
-    # if collection is a dataset/dataarray it doesn't need to be parameterised
-    if type(collection) not in (xr.core.dataarray.DataArray, xr.core.dataset.Dataset):
-        collection = collection_parameter.CollectionParameter(collection)
+    parameters = parameterise(collection=collection)
 
     # Consolidate data inputs so they can be passed to Xarray
-
-    collection = consolidate.consolidate(collection)
+    collection = consolidate.consolidate(parameters.get("collection"))
 
     # Normalise (i.e. "fix") data inputs based on "character"
     norm_collection = normalise.normalise(collection, apply_fixes)
