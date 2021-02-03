@@ -27,4 +27,4 @@ def test_average_time(tmpdir):
     )
     _check_output_nc(result)
     ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
-    print(ds)
+    assert "time" not in ds
