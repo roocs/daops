@@ -1,19 +1,28 @@
 Version History
 ===============
 
-v0.4.0 (2020-12-16)
+v0.4.0 (2021-02-23)
 ------------------
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
 * In ``daops.utils.normalise`` ``ResultSet().file_paths`` has been changed to ``file_uris`` to allow file paths and
 URLs to be collected.
+* ``clisops``>=0.6.1 and ``roocs-utils``>=0.2.1 used.
+* New dev dependency: GitPython==3.1.12
+* ``consolidate_dset`` has been removed in ``daops.utils.consolidate`` as ``dset_to_filepaths`` from ``roocs_utils.project_utils`` is now used to find the file paths.
 
 New Features
 ^^^^^^^^^^^^
 * ``daops.utils.core.is_characterised`` implemented - datasets are looked up in the character store.
 * ``apply_fixes`` option now added to ``daops.ops.subset.subset``, ``daops.utils.normalise.normalise``
 and ``daops.utils.core.open_dataset``. The default in all cases is to apply fixes (True).
+
+Other Changes
+^^^^^^^^^^^^^
+* Swapped from travis CI to GitHub actions
+* Test data no longer a submodule - the data is retrieved from GitHub when the tests are run.
+* ``open_xr_dataset`` from roocs_utils.xarray_utils.xarray_utils is now used when opening datasets instead of xarray's ``open_mfdataset`` to ensure all dataset inputs are handled correctly.
 
 
 v0.3.0 (2020-11-19)
