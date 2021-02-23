@@ -1,25 +1,28 @@
 Version History
 ===============
 
-Unreleased
-----------
+v0.4.0 (2021-02-23)
+------------------
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
-* In ``daops.utils.normalise`` ``ResultSet().file_paths`` has been changed to ``file_uris`` to allow file paths and
-URLs to be collected.
+* In ``daops.utils.normalise`` ``ResultSet().file_paths`` has been changed to ``file_uris`` to allow file paths and URLs to be collected.
+* ``clisops``>=0.6.1 and ``roocs-utils``>=0.2.1 used.
+* New dev dependency: GitPython==3.1.12
+* ``consolidate_dset`` has been removed in ``daops.utils.consolidate`` as ``dset_to_filepaths`` from ``roocs_utils.project_utils`` is now used to find the file paths.
 
 New Features
 ^^^^^^^^^^^^
 * ``daops.utils.core.is_characterised`` implemented - datasets are looked up in the character store.
-* ``apply_fixes`` option now added to ``daops.ops.subset.subset``, ``daops.utils.normalise.normalise``
-and ``daops.utils.core.open_dataset``. The default in all cases is to apply fixes (True).
+* ``apply_fixes`` option now added to ``daops.ops.subset.subset``, ``daops.utils.normalise.normalise`` and ``daops.utils.core.open_dataset``. The default in all cases is to apply fixes (True).
 
 Other Changes
 ^^^^^^^^^^^^^
 * Changes to allow datasets without a time dimension to be processed.
-* Use of ``DatasetMapper`` functions in ``daops.consolidate`` and ``daops.core`` to ensure all datasets are mapped to
-ids/file paths correctly.
+* Swapped from travis CI to GitHub actions
+* Test data no longer a submodule - the data is retrieved from GitHub when the tests are run.
+* Use of ``DatasetMapper`` functions in ``daops.consolidate`` and ``daops.core`` to ensure all datasets are mapped to ids/file paths correctly.
+
 
 v0.3.0 (2020-11-19)
 ------------------
