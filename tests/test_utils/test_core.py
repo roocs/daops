@@ -4,14 +4,16 @@ import xarray as xr
 from daops.utils.core import Characterised
 from daops.utils.core import open_dataset
 
+from tests._common import MINI_ESGF_MASTER_DIR
+
 fpath = (
-    "tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/INM/inmcm4"
+    f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/INM/inmcm4"
     "/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc"
 )
 ds_id = "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga"
 
 
-def test_open_dataset_with_fix():
+def test_open_dataset_with_fix(load_esgf_test_data):
     unfixed_ds = xr.open_mfdataset(fpath, use_cftime=True, combine="by_coords")
     fixed_ds = open_dataset(ds_id, fpath)
     assert unfixed_ds.dims != fixed_ds.dims
@@ -19,7 +21,7 @@ def test_open_dataset_with_fix():
     assert "lev" not in fixed_ds.dims
 
 
-def test_open_dataset_without_fix():
+def test_open_dataset_without_fix(load_esgf_test_data):
     ds = xr.open_mfdataset(fpath, use_cftime=True, combine="by_coords")
     not_fixed_ds = open_dataset(ds_id, fpath, apply_fixes=False)
     assert ds.dims == not_fixed_ds.dims

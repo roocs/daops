@@ -2,6 +2,7 @@ import collections
 
 import xarray as xr
 from elasticsearch import exceptions
+from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
 from .base_lookup import Lookup
 from daops import CONFIG
@@ -97,6 +98,6 @@ def open_dataset(ds_id, file_paths, apply_fixes=True):
                 ds = func(ds, **operands)
 
     else:
-        ds = xr.open_mfdataset(file_paths, use_cftime=True, combine="by_coords")
+        ds = open_xr_dataset(file_paths)
 
     return ds

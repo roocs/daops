@@ -21,12 +21,16 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from .._common import TESTS_OUTPUTS
+from .._common import TESTS_OUTPUTS, MINI_ESGF_MASTER_DIR
+
+file_base = (
+    f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/"
+    "HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1"
+)
 
 test_files = [
-    "tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc",
-    "tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_203012-205511.nc",
-    "tests/mini-esgf-data/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_205512-208011.nc",
+    file_base + end
+    for end in ("_200512-203011.nc", "_203012-205511.nc", "_205512-208011.nc")
 ]
 
 F1, F2, F3 = test_files
@@ -84,13 +88,13 @@ def _open(file_paths):
     return xr.open_mfdataset(file_paths, use_cftime=True, combine="by_coords")
 
 
-def test_agg_success_with_no_changes():
+def test_agg_success_with_no_changes(load_esgf_test_data):
     ds = _open([F1, F2, F3])
     assert "tas" in ds.variables
     ds.close()
 
 
-def test_agg_fails_diff_var_attrs_change_F2(var_attr):
+def test_agg_fails_diff_var_attrs_change_F2(var_attr, load_esgf_test_data):
     V = "rubbish"
     file_paths = F1, _make_nc_modify_var_attr(F2, "tas", var_attr, V), F3
     ds = _open(file_paths)
@@ -98,7 +102,7 @@ def test_agg_fails_diff_var_attrs_change_F2(var_attr):
     ds.close()
 
 
-def test_agg_fails_diff_var_attrs_change_F1(var_attr):
+def test_agg_fails_diff_var_attrs_change_F1(var_attr, load_esgf_test_data):
     V = "rubbish"
     file_paths = _make_nc_modify_var_attr(F1, "tas", var_attr, V), F2, F3
     ds = _open(file_paths)
@@ -125,7 +129,7 @@ def test_agg_fails_diff_var_attrs_change_F1(var_attr):
 #         )
 
 
-def test_agg_behaviour_diff_global_attrs_change_F2(global_attr):
+def test_agg_behaviour_diff_global_attrs_change_F2(global_attr, load_esgf_test_data):
     V = "other"
     file_paths = F1, _make_nc_modify_global_attr(F2, global_attr, V), F3
     ds = _open(file_paths)
@@ -133,7 +137,7 @@ def test_agg_behaviour_diff_global_attrs_change_F2(global_attr):
     ds.close()
 
 
-def test_agg_behaviour_diff_global_attrs_change_F1(global_attr):
+def test_agg_behaviour_diff_global_attrs_change_F1(global_attr, load_esgf_test_data):
     V = "other"
     file_paths = _make_nc_modify_global_attr(F1, global_attr, V), F2, F3
     ds = _open(file_paths)
@@ -162,7 +166,7 @@ def test_agg_behaviour_diff_global_attrs_change_F1(global_attr):
 # both new_var_id and old_var_id are in ds.variables no matter which file is changed
 
 
-def test_agg_fails_diff_var_id_change_F1():
+def test_agg_fails_diff_var_id_change_F1(load_esgf_test_data):
     new_var_id = "blah"
     old_var_id = "tas"
     file_paths = _make_nc_modify_var_id(F1, old_var_id, new_var_id), F2, F3
@@ -171,7 +175,7 @@ def test_agg_fails_diff_var_id_change_F1():
     ds.close()
 
 
-def test_agg_fails_diff_var_id_change_F2():
+def test_agg_fails_diff_var_id_change_F2(load_esgf_test_data):
     new_var_id = "blah"
     old_var_id = "tas"
     file_paths = F1, _make_nc_modify_var_id(F2, old_var_id, new_var_id), F3
@@ -180,7 +184,7 @@ def test_agg_fails_diff_var_id_change_F2():
     ds.close()
 
 
-def test_agg_fails_diff_fill_value_change_F2():
+def test_agg_fails_diff_fill_value_change_F2(load_esgf_test_data):
     var_id = "tas"
     fill_value = np.float32(-1e20)
     file_paths = F1, _make_nc_modify_fill_value(F2, var_id, fill_value=fill_value), F3
@@ -189,7 +193,7 @@ def test_agg_fails_diff_fill_value_change_F2():
     ds.close()
 
 
-def test_agg_fails_diff_fill_value_change_F1():
+def test_agg_fails_diff_fill_value_change_F1(load_esgf_test_data):
     var_id = "tas"
     fill_value = np.float32(-1e20)
     file_paths = _make_nc_modify_fill_value(F1, var_id, fill_value=fill_value), F2, F3
@@ -198,7 +202,7 @@ def test_agg_fails_diff_fill_value_change_F1():
     ds.close()
 
 
-def test_agg_affected_by_order():
+def test_agg_affected_by_order(load_esgf_test_data):
     # Apply a breaking change to different files in the sequence and
     # assert that the same exception is raised regardless of which
     # file is modified

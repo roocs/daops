@@ -9,9 +9,9 @@ daops - data-aware operations
 
 
 
-.. image:: https://img.shields.io/travis/roocs/daops.svg
-   :target: https://travis-ci.org/roocs/daops
-   :alt: Travis
+.. image:: https://github.com/roocs/daops/workflows/build/badge.svg
+    :target: https://github.com/roocs/daops/actions
+    :alt: Build Status
 
 
 
