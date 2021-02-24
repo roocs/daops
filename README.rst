@@ -23,7 +23,7 @@ daops - data-aware operations
 The ``daops`` library (pronounced "day-ops") provides a python interface to a
 set of operations suitable for working with climate simulation outputs. It is
 typically used with ESGF data sets that are described in NetCDF files. ``daops``
-is unique in that it accesses a store of *fixes* defined for data sets that are
+is unique in that it accesses a store of *fixes* defined for datasets that are
 irregular when compared with others in their *population*.
 
 When a ``daops`` operation, such as ``subset``\ , is requested, the library will look

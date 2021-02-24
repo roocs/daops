@@ -6,7 +6,7 @@ __author__ = """Elle Smith"""
 __contact__ = "eleanor.smith@stfc.ac.uk"
 __copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
 __license__ = "BSD"
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 import os
 from setuptools import setup, find_packages
@@ -70,7 +70,7 @@ setup(
         "Topic :: System :: Systems Administration :: Authentication/Directory",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    description="A short description goes here",
+    description="daops - data-aware operations",
     license=__license__,
     # This qualifier can be used to selectively exclude Python versions -
     # in this case early Python 2 and 3 releases
