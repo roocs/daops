@@ -3,13 +3,27 @@ from clisops.ops.average import average_over_dims as clisops_average_over_dims
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import dimension_parameter
 
-from daops.processor import calculate
-from daops.utils import consolidate
-from daops.utils import normalise
+from daops.ops.base import Operation
 
 __all__ = [
     "average_over_dims",
 ]
+
+
+class Average(Operation):
+    def _resolve_params(self, collection, **params):
+        """
+        Resolve the operation-specific input parameters to `self.params` and parameterise
+        collection parameter and set to self.collection.
+        """
+        dims = dimension_parameter.DimensionParameter(params.get("dims"))
+        collection = collection_parameter.CollectionParameter(collection)
+
+        self.collection = collection
+        self.params = {
+            "dims": dims,
+            "ignore_undetected_dims": params.get("ignore_undetected_dims"),
+        }
 
 
 def average_over_dims(
@@ -50,43 +64,12 @@ def average_over_dims(
     | ignore_undetected_dims: (-5.,49.,10.,65)
     | output_type: "netcdf"
     | output_dir: "/cache/wps/procs/req0111"
-    | split_method: "time:decade"
-    | file_namer: "facet_namer"
+    | split_method: "time:auto"
+    | file_namer: "standard"
     | apply_fixes: True
 
     """
 
-    dims = dimension_parameter.DimensionParameter(dims)
-    collection = collection_parameter.CollectionParameter(collection)
+    result_set = Average(**locals()).calculate(clisops_average_over_dims)
 
-    # Consolidate data inputs so they can be passed to Xarray
-    collection = consolidate.consolidate(collection)
-
-    rs = calculate(clisops_average_over_dims, **locals())
-
-    # # Normalise (i.e. "fix") data inputs based on "character"
-    # norm_collection = normalise.normalise(collection, apply_fixes)
-    #
-    # rs = normalise.ResultSet(vars())
-    # # change name of data ref here
-    # for dset, norm_collection in norm_collection.items():
-    #
-    #     # Process each input dataset (either in series or
-    #     # parallel)
-    #     rs.add(
-    #         dset,
-    #         process(
-    #             clisops_average_over_dims,
-    #             norm_collection,
-    #             **{
-    #                 "dims": dims,
-    #                 "ignore_undetected_dims": ignore_undetected_dims,
-    #                 "output_type": output_type,
-    #                 "output_dir": output_dir,
-    #                 "split_method": split_method,
-    #                 "file_namer": file_namer,
-    #             },
-    #         ),
-    #     )
-
-    return rs
+    return result_set

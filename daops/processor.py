@@ -1,6 +1,4 @@
 from daops import logging
-from daops.utils import normalise
-
 
 LOGGER = logging.getLogger(__file__)
 
@@ -27,28 +25,3 @@ def process(operation, dset, mode="serial", **kwargs):
         result = dispatch(operation, dset, **kwargs)
 
     return result
-
-
-def calculate(operation, **kwargs):
-
-    collection = kwargs.pop("collection")
-    apply_fixes = kwargs.pop("apply_fixes")
-
-    # Normalise (i.e. "fix") data inputs based on "character"
-    norm_collection = normalise.normalise(collection, apply_fixes)
-
-    rs = normalise.ResultSet(vars())
-    # change name of data ref here
-    for dset, norm_collection in norm_collection.items():
-        # Process each input dataset (either in series or
-        # parallel)
-        rs.add(
-            dset,
-            process(
-                operation,
-                norm_collection,
-                **kwargs,
-            ),
-        )
-
-    return rs
