@@ -27,9 +27,9 @@ python:
       extra_requirements:
         - docs
 
-
-conda:
-  environment: docs/environment.yml
+#
+#conda:
+#  environment: docs/environment.yml
 
 build:
   image: stable

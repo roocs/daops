@@ -3,6 +3,7 @@ Version History
 
 v0.5.0 (unreleased)
 ------------------
+
 New Features
 ^^^^^^^^^^^^
 * ``average_over_dims`` added in ``daops.ops.average``.
