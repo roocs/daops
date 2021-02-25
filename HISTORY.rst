@@ -1,6 +1,17 @@
 Version History
 ===============
 
+v0.5.0 (unreleased)
+------------------
+New Features
+^^^^^^^^^^^^
+* ``average_over_dims`` added in ``daops.ops.average``.
+
+Other Changes
+^^^^^^^^^^^^^
+* Refactoring of daops.ops.subset to use a base ``Operation`` class in ``daops.ops.base``
+
+
 v0.4.0 (2021-02-23)
 ------------------
 
