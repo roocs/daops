@@ -37,9 +37,8 @@ class Operation(object):
     def _resolve_params(self, collection, **params):
         """
         Resolve the operation-specific input parameters to `self.params` and parameterise
-        collection parameter and set to self.collection.
+        collection parameter and set to `self.collection`.
         """
-        # should this be not implemeted?
         self.collection = collection_parameter.CollectionParameter(collection)
         self.params = params
 

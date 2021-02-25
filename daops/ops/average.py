@@ -13,8 +13,8 @@ __all__ = [
 class Average(Operation):
     def _resolve_params(self, collection, **params):
         """
-        Resolve the operation-specific input parameters to `self.params` and parameterise
-        collection parameter and set to self.collection.
+        Resolve the input parameters to `self.params` and parameterise
+        collection parameter and set to `self.collection`.
         """
         dims = dimension_parameter.DimensionParameter(params.get("dims"))
         collection = collection_parameter.CollectionParameter(collection)

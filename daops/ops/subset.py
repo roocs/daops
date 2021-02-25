@@ -11,7 +11,7 @@ __all__ = [
 class Subset(Operation):
     def _resolve_params(self, collection, **params):
         """
-        Resolve the operation-specific input parameters to `self.params` and parameterise
+        Resolve the subset parameters to `self.params` and parameterise
         collection parameter and set to self.collection.
         """
         parameters = parameterise(
