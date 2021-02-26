@@ -1,7 +1,7 @@
 Version History
 ===============
 
-v0.5.0 (unreleased)
+v0.5.0 (2021-02-26)
 ------------------
 
 New Features
