@@ -24,6 +24,9 @@ class Subset(Operation):
         self.collection = parameters.pop("collection")
         self.params = parameters
 
+    def get_operation_callable(self):
+        return clisops_subset
+
 
 def subset(
     collection,
@@ -71,6 +74,6 @@ def subset(
 
     """
 
-    result_set = Subset(**locals()).calculate(clisops_subset)
+    result_set = Subset(**locals()).calculate()
 
     return result_set

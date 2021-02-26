@@ -1,4 +1,3 @@
-import xarray as xr
 from clisops.ops.average import average_over_dims as clisops_average_over_dims
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import dimension_parameter
@@ -24,6 +23,9 @@ class Average(Operation):
             "dims": dims,
             "ignore_undetected_dims": params.get("ignore_undetected_dims"),
         }
+
+    def get_operation_callable(self):
+        return clisops_average_over_dims
 
 
 def average_over_dims(
@@ -70,6 +72,6 @@ def average_over_dims(
 
     """
 
-    result_set = Average(**locals()).calculate(clisops_average_over_dims)
+    result_set = Average(**locals()).calculate()
 
     return result_set

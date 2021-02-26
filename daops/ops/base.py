@@ -5,7 +5,7 @@ from daops.utils import consolidate
 from daops.utils import normalise
 
 
-class Operation(object):
+class Operation:
     """
     Base class for all Operations.
     """
@@ -57,7 +57,10 @@ class Operation(object):
         else:
             self.collection = consolidate.consolidate(self.collection)
 
-    def calculate(self, operation):
+    def get_operation_callable(self):
+        raise NotImplementedError
+
+    def calculate(self):
         """
         The `calculate()` method processes the input and calculates the result using clisops.
         It then returns the result as a daops.normalise.ResultSet object
@@ -75,13 +78,14 @@ class Operation(object):
         norm_collection = normalise.normalise(self.collection, self._apply_fixes)
 
         rs = normalise.ResultSet(vars())
+
         # change name of data ref here
         for dset, norm_collection in norm_collection.items():
             # Process each input dataset (either in series or
             # parallel)
             rs.add(
                 dset,
-                process(operation, norm_collection, **self.params),
+                process(self.get_operation_callable(), norm_collection, **self.params),
             )
 
         return rs
