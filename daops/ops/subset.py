@@ -1,13 +1,31 @@
 from clisops.ops.subset import subset as clisops_subset
 from roocs_utils.parameter import parameterise
 
-from daops.processor import process
-from daops.utils import consolidate
-from daops.utils import normalise
+from daops.ops.base import Operation
 
 __all__ = [
     "subset",
 ]
+
+
+class Subset(Operation):
+    def _resolve_params(self, collection, **params):
+        """
+        Resolve the subset parameters to `self.params` and parameterise
+        collection parameter and set to self.collection.
+        """
+        parameters = parameterise(
+            collection=collection,
+            time=params.get("time"),
+            area=params.get("area"),
+            level=params.get("level"),
+        )
+
+        self.collection = parameters.pop("collection")
+        self.params = parameters
+
+    def get_operation_callable(self):
+        return clisops_subset
 
 
 def subset(
@@ -50,44 +68,12 @@ def subset(
     | level: (1000.,)
     | output_type: "netcdf"
     | output_dir: "/cache/wps/procs/req0111"
-    | split_method: "time:decade"
-    | file_namer: "facet_namer"
+    | split_method: "time:auto"
+    | file_namer: "standard"
     | apply_fixes: True
 
     """
 
-    parameters = parameterise(collection=collection, time=time, area=area, level=level)
+    result_set = Subset(**locals()).calculate()
 
-    # Consolidate data inputs so they can be passed to Xarray
-
-    collection = consolidate.consolidate(
-        parameters.get("collection"), time=parameters.get("time")
-    )
-
-    # Normalise (i.e. "fix") data inputs based on "character"
-    norm_collection = normalise.normalise(collection, apply_fixes)
-
-    rs = normalise.ResultSet(vars())
-    # change name of data ref here
-    for dset, norm_collection in norm_collection.items():
-
-        # Process each input dataset (either in series or
-        # parallel)
-        rs.add(
-            dset,
-            process(
-                clisops_subset,
-                norm_collection,
-                **{
-                    "time": parameters.get("time"),
-                    "area": parameters.get("area"),
-                    "level": parameters.get("level"),
-                    "output_type": output_type,
-                    "output_dir": output_dir,
-                    "split_method": split_method,
-                    "file_namer": file_namer,
-                },
-            ),
-        )
-
-    return rs
+    return result_set
