@@ -11,6 +11,15 @@ Subset operation
    :show-inheritance:
 
 
+Average operation
+=================
+
+.. automodule:: daops.ops.average
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 Utilities
 =========
 
