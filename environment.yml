@@ -15,3 +15,7 @@ dependencies:
 # - pip:
 #     - roocs-utils @ git+https://github.com/roocs/roocs-utils.git@master#egg=roocs-utils
 #     - clisops @ git+https://github.com/roocs/clisops.git@master#egg=clisops
+# catalog
+  - intake
+  - pandas
+  - aiohttp

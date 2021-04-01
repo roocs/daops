@@ -3,12 +3,14 @@ import glob
 import os
 
 import xarray as xr
+from roocs_utils.project_utils import derive_ds_id
 from roocs_utils.project_utils import dset_to_filepaths
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
 from daops import logging
+from daops.catalog import get_catalog
 from daops.utils.core import _wrap_sequence
 
 LOGGER = logging.getLogger(__file__)
@@ -25,15 +27,22 @@ def consolidate(collection, **kwargs):
              relating to it.
     """
     collection = _wrap_sequence(collection.tuple)
+    project = get_project_name(collection[0])
+    catalog = get_catalog(project)
 
     filtered_refs = collections.OrderedDict()
 
     for dset in collection:
-        consolidated = dset_to_filepaths(dset, force=True)
+        ds_id = derive_ds_id(dset)
+
+        if not catalog:
+            consolidated = dset_to_filepaths(dset, force=True)
 
         if "time" in kwargs:
             try:
                 time = kwargs["time"].asdict()
+
+                result = catalog.search(collection=ds_id, time=time)
 
                 file_paths = consolidated
                 LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
