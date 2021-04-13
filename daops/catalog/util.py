@@ -7,10 +7,8 @@ MAX_DATETIME = datetime.datetime(datetime.MAXYEAR, 12, 30).isoformat()
 
 
 def parse_time(time):
-    # TODO: refactor code ... maybe we need this only in the catalog.
-    if time:
-        start, end = time_parameter.TimeParameter(time).tuple
-    else:
-        start = MIN_DATETIME
-        end = MAX_DATETIME
+    # TODO: refactor code ... maybe we need this only in the catalog. allow dicts in time parameter?
+    if isinstance(time, dict):
+        time = (time["start_time"], time["end_time"])
+    start, end = time_parameter.TimeParameter(time).tuple
     return start, end

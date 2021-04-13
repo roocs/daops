@@ -60,6 +60,12 @@ class DBCatalog(Catalog):
         """
         self.update()
         start, end = parse_time(time)
+
+        if not start:
+            start = MIN_DATETIME
+        if not end:
+            end = MAX_DATETIME
+
         session = get_session()
         try:
             if len(collection) > 1:
@@ -67,12 +73,14 @@ class DBCatalog(Catalog):
                     f"SELECT * FROM {self.table_name} WHERE ds_id IN {tuple(collection)} "
                     f"and end_time>='{start}' and start_time<='{end}'"
                 )
+
             else:
                 query_ = (
                     f"SELECT * FROM {self.table_name} WHERE ds_id='{collection[0]}' "
                     f"and end_time>='{start}' and start_time<='{end}'"
                 )
             result = session.execute(query_).fetchall()
+
         except Exception:
             result = []
         finally:

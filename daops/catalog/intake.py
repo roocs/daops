@@ -12,7 +12,9 @@ from daops import CONFIG
 class IntakeCatalog(Catalog):
     def __init__(self, project, url=None):
         super(IntakeCatalog, self).__init__(project)
-        self.url = url or CONFIG.get("catalog", {}).get("intake_catalog_url")
+        self.url = url or CONFIG.get(f"project:{self.project}", {}).get(
+            "intake_catalog_url"
+        )
         self._cat = None
         self._store = {}
         # intake_config["cache_dir"] = "/tmp/inventory_cache"
@@ -31,8 +33,14 @@ class IntakeCatalog(Catalog):
     def _query(self, collection, time=None):
         df = self.load()
         start, end = parse_time(time)
+
+        if not start:
+            start = MIN_DATETIME
+        if not end:
+            end = MAX_DATETIME
         # workaround for NaN values when no time axis (fx datasets)
         sdf = df.fillna({"start_time": MIN_DATETIME, "end_time": MAX_DATETIME})
+
         # search
         result = sdf.loc[
             (sdf.ds_id.isin(collection))
