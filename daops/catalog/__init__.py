@@ -6,7 +6,7 @@ from daops import CONFIG
 
 
 def get_catalog(project):
-    if CONFIG[f"project:{project}"].get("use_inventory"):
+    if CONFIG[f"project:{project}"].get("use_catalog"):
         try:
             catalog = DBCatalog(project)
             return catalog
