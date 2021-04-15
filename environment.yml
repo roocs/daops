@@ -11,9 +11,9 @@ dependencies:
   - netcdf4
   - clisops>=0.6.1
   - elasticsearch>=7.9.1
-  - roocs-utils>=0.2.1
-# - pip:
-#     - roocs-utils @ git+https://github.com/roocs/roocs-utils.git@master#egg=roocs-utils
+  #- roocs-utils>=0.2.1
+  - pip:
+    - roocs-utils @ git+https://github.com/roocs/roocs-utils.git@master#egg=roocs-utils
 #     - clisops @ git+https://github.com/roocs/clisops.git@master#egg=clisops
 # catalog
   - intake

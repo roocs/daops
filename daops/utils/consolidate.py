@@ -3,6 +3,7 @@ import glob
 import os
 
 import xarray as xr
+from roocs_utils.exceptions import InvalidCollection
 from roocs_utils.project_utils import derive_ds_id
 from roocs_utils.project_utils import dset_to_filepaths
 from roocs_utils.project_utils import get_project_base_dir
@@ -96,7 +97,13 @@ def consolidate(collection, **kwargs):
             result = catalog.search(collection=ds_id, time=time)
 
             if len(result) == 0:
-                raise Exception(f"No files found in given time range for {dset}")
+                result = catalog.search(collection=ds_id, time=None)
+                if len(result) > 0:
+                    raise Exception(f"No files found in given time range for {dset}")
+                else:
+                    raise InvalidCollection(
+                        f"{dset} is not in the list of availbale data."
+                    )
 
             LOGGER.info(f"Found {len(result)} files")
 
