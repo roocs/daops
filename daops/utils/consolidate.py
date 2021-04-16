@@ -102,7 +102,7 @@ def consolidate(collection, **kwargs):
                     raise Exception(f"No files found in given time range for {dset}")
                 else:
                     raise InvalidCollection(
-                        f"{dset} is not in the list of availbale data."
+                        f"{dset} is not in the list of available data."
                     )
 
             LOGGER.info(f"Found {len(result)} files")
