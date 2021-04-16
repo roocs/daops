@@ -11,4 +11,10 @@ def parse_time(time):
     if isinstance(time, dict):
         time = (time["start_time"], time["end_time"])
     start, end = time_parameter.TimeParameter(time).tuple
+
+    if not start:
+        start = MIN_DATETIME
+    if not end:
+        end = MAX_DATETIME
+
     return start, end

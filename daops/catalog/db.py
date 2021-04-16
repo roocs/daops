@@ -61,11 +61,6 @@ class DBCatalog(Catalog):
         self.update()
         start, end = parse_time(time)
 
-        if not start:
-            start = MIN_DATETIME
-        if not end:
-            end = MAX_DATETIME
-
         session = get_session()
         try:
             if len(collection) > 1:

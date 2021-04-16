@@ -34,10 +34,6 @@ class IntakeCatalog(Catalog):
         df = self.load()
         start, end = parse_time(time)
 
-        if not start:
-            start = MIN_DATETIME
-        if not end:
-            end = MAX_DATETIME
         # workaround for NaN values when no time axis (fx datasets)
         sdf = df.fillna({"start_time": MIN_DATETIME, "end_time": MAX_DATETIME})
 
