@@ -37,6 +37,10 @@ class IntakeCatalog(Catalog):
         # workaround for NaN values when no time axis (fx datasets)
         sdf = df.fillna({"start_time": MIN_DATETIME, "end_time": MAX_DATETIME})
 
+        # needed when catalog created from catalog_maker instead of above
+        # sdf = df.replace({"start_time": {"undefined": MIN_DATETIME}})
+        # sdf = df.replace({"end_time": {"undefined": MAX_DATETIME}})
+
         # search
         result = sdf.loc[
             (sdf.ds_id.isin(collection))
