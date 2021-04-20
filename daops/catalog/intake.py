@@ -12,9 +12,7 @@ from daops import CONFIG
 class IntakeCatalog(Catalog):
     def __init__(self, project, url=None):
         super(IntakeCatalog, self).__init__(project)
-        self.url = url or CONFIG.get(f"project:{self.project}", {}).get(
-            "intake_catalog_url"
-        )
+        self.url = url or CONFIG.get("intake", None).get("intake_catalog_url", None)
         self._cat = None
         self._store = {}
         # intake_config["cache_dir"] = "/tmp/inventory_cache"

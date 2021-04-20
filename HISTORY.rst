@@ -11,7 +11,7 @@ Breaking Changes
 New Features
 ^^^^^^^^^^^^
 * Intake catalog search functionality added. In use in ``utils.consolidate``: if the catalog is used for the project, then consolidate will find the files within the time range specified using the intake catalog, rather than opening xarray datasets.
-* ``intake_catalog_url`` for all projects has been added to ``etc/roocs.ini``
+* ``intake_catalog_url`` has been added to ``etc/roocs.ini``
 
 v0.5.0 (2021-02-26)
 ------------------
