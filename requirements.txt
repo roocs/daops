@@ -8,8 +8,5 @@ clisops @ git+https://github.com/roocs/clisops.git
 # roocs-utils>=0.2.1
 roocs-utils @ git+https://github.com/roocs/roocs-utils.git@master#egg=roocs-utils
 # catalog
-pywps>=4.4.2,<4.5
 intake
 fsspec<0.9
-pandas
-aiohttp

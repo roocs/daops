@@ -5,7 +5,7 @@ Version History
 ------------
 Breaking Changes
 ^^^^^^^^^^^^^^^^
-* pywps>=4.4.2,<4.5, intake, fsspec<0.9, pandas and aiohttp are new dependencies in order to use the intake catalog search functionality.
+* intake amd fsspec<0.9 are new dependencies in order to use the intake catalog search functionality.
 
 
 New Features
