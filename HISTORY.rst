@@ -5,7 +5,7 @@ Version History
 ------------
 Breaking Changes
 ^^^^^^^^^^^^^^^^
-* intake amd fsspec<0.9 are new dependencies in order to use the intake catalog search functionality.
+* intake, fsspec<0.9 and aiohttp are new dependencies in order to use the intake catalog search functionality.
 
 
 New Features

@@ -10,3 +10,4 @@ roocs-utils @ git+https://github.com/roocs/roocs-utils.git@master#egg=roocs-util
 # catalog
 intake
 fsspec<0.9
+aiohttp
