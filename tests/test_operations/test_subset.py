@@ -345,7 +345,7 @@ def test_time_invariant_subset_standard_name(tmpdir, load_esgf_test_data):
 
     result = subset(
         dset,
-        area=(5.0, 10.0, 20.0, 65.0),
+        area=(5.0, 10.0, 300.0, 80.0),
         output_dir=tmpdir,
         output_type="nc",
         file_namer="standard",
