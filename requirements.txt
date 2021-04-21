@@ -3,8 +3,8 @@ xarray>=0.15
 dask[complete]
 netcdf4
 elasticsearch>=7.8.0
-clisops>=0.6.1
-# clisops @ git+https://github.com/roocs/clisops.git
+# clisops>=0.6.1
+clisops @ git+https://github.com/roocs/clisops.git
 # roocs-utils>=0.2.1
 roocs-utils @ git+https://github.com/roocs/roocs-utils.git@master#egg=roocs-utils
 # catalog
