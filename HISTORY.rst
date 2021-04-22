@@ -1,6 +1,18 @@
 Version History
 ===============
 
+(unreleased)
+------------
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* intake, fsspec<0.9 and aiohttp are new dependencies in order to use the intake catalog search functionality.
+
+
+New Features
+^^^^^^^^^^^^
+* Intake catalog search functionality added. In use in ``utils.consolidate``: if the catalog is used for the project, then consolidate will find the files within the time range specified using the intake catalog, rather than opening xarray datasets.
+* ``intake_catalog_url`` has been added to ``etc/roocs.ini``
+
 v0.5.0 (2021-02-26)
 ------------------
 
