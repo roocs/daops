@@ -9,9 +9,9 @@ dependencies:
   - xarray>=0.15
   - dask
   - netcdf4
-  - clisops>=0.6.1
+  - clisops>=0.6.4
   - elasticsearch>=7.9.1
-  - roocs-utils>=0.2.1
+  - roocs-utils>=0.4.0
   # catalog
   - intake
   - fsspec<0.9
