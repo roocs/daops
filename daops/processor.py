@@ -9,7 +9,7 @@ def dispatch(operation, dset, **kwargs):
 
 
 def process(operation, dset, mode="serial", **kwargs):
-    """ Runs the processing operation on the dataset in the correct mode (in series or parallel)."""
+    """Runs the processing operation on the dataset in the correct mode (in series or parallel)."""
 
     op_name = operation.__name__
 

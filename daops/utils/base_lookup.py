@@ -22,7 +22,7 @@ class Lookup(object):
         )
 
     def convert_to_ds_id(self):
-        """ Converts the input dataset to a drs id form to use with the elasticsearch index. """
+        """Converts the input dataset to a drs id form to use with the elasticsearch index."""
         try:
             return derive_ds_id(self.dset)
         except InvalidProject:

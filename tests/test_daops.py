@@ -7,7 +7,7 @@
 
 
 def test_subset_data_ref():
-    """ Tests daops api.subset function with only a data ref"""
+    """Tests daops api.subset function with only a data ref"""
     pass
 
 
@@ -18,7 +18,7 @@ def test_subset_time():
 
 
 def test_subset_invalid_time():
-    """ Tests daops api.subset function with an invalid time subset."""
+    """Tests daops api.subset function with an invalid time subset."""
     pass
 
 
@@ -29,7 +29,7 @@ def test_subset_space():
 
 
 def test_subset_invalid_space():
-    """ Tests daops api.subset function with an invalid space subset."""
+    """Tests daops api.subset function with an invalid space subset."""
     pass
 
 
@@ -40,7 +40,7 @@ def test_subset_level():
 
 
 def test_subset_invalid_level():
-    """ Tests daops api.subset function with an invalid level subset."""
+    """Tests daops api.subset function with an invalid level subset."""
     pass
 
 
@@ -124,7 +124,7 @@ def test_consolidate_data_ref_drs():
 
 
 def test_consolidate_data_ref_invalid():
-    """ Tests daops utils._consolidate_data_ref with an invalid data ref """
+    """Tests daops utils._consolidate_data_ref with an invalid data ref"""
     pass
 
 
@@ -176,7 +176,7 @@ def test_normalise_character_problem():  # create tests for different types of c
 
 
 def test_normalise_character_no_problem():
-    """ Tests daops utils.normalise for data with no problems"""
+    """Tests daops utils.normalise for data with no problems"""
     pass
 
 
@@ -193,15 +193,15 @@ def test_ResultSet_add():
 
 
 def test_dispatch():  # can test with different operations
-    """ Tests daops processor.dispatch."""
+    """Tests daops processor.dispatch."""
     pass
 
 
 def test_process_serial():
-    """ Tests daops processor.process with mode='serial'"""
+    """Tests daops processor.process with mode='serial'"""
     pass
 
 
 def test_process_other_mode():
-    """ Tests daops processor.process with mode other than 'serial'"""
+    """Tests daops processor.process with mode other than 'serial'"""
     pass
