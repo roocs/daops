@@ -11,7 +11,7 @@ dependencies:
   - netcdf4
   - clisops>=0.6.4
   - elasticsearch>=7.9.1
-  - roocs-utils>=0.4.0
+  - roocs-utils>=0.4.2
   # catalog
   - intake
   - fsspec<0.9

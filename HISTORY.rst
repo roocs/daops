@@ -6,7 +6,7 @@ v0.6.0 (unreleased)
 Breaking Changes
 ^^^^^^^^^^^^^^^^
 * intake, fsspec<0.9 and aiohttp are new dependencies in order to use the intake catalog search functionality.
-* ``clisops``>=0.6.4 and ``roocs-utils``>=0.4.0 required.
+* ``clisops``>=0.6.4 and ``roocs-utils``>=0.4.2 required.
 
 New Features
 ^^^^^^^^^^^^
