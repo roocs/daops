@@ -4,17 +4,15 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.7
   - pip
-  # daops
+  - numpy>=1.16
   - xarray>=0.15
   - dask
   - netcdf4
-  - rtree>=0.9
-  - udunits2>=2.2
-  # - clisops>=0.2.0,<0.3
-  # tests
-  - pytest
-  - pip:
-    - -e git+https://github.com/roocs/roocs-utils.git@master#egg=roocs_utils
-    - -e git+https://github.com/roocs/clisops.git@master#egg=clisops
+  - clisops>=0.6.4
+  - elasticsearch>=7.9.1
+  - roocs-utils>=0.4.2
+  # catalog
+  - intake
+  - fsspec<0.9
+  - aiohttp

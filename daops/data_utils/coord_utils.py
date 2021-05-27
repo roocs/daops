@@ -3,9 +3,9 @@ import numpy as np
 
 def squeeze_dims(ds, **operands):
     """
-    :param ds: Xarray DataSet
-    :param operands: dictionary of arguments
-    :return: Xarray DataArray
+    :param ds: Xarray Dataset
+    :param operands: (dict) Arguments for fix. Dims (list) to remove.
+    :return: Xarray Dataset
     """
     dims = operands.get("dims")
     for dim in dims:
@@ -16,9 +16,9 @@ def squeeze_dims(ds, **operands):
 
 def add_scalar_coord(ds, **operands):
     """
-    :param da: Xarray DataArray
-    :param operands: dictionary of arguments
-    :return: Xarray DataArray
+    :param ds: Xarray Dataset
+    :param operands: (dict) Arguments for fix. Id, value and data type of scalar coordinate to add.
+    :return: Xarray Dataset
     """
     coord = operands.get("id")
     value = operands.get("value")

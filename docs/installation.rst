@@ -7,7 +7,6 @@ Installation
 
 Stable release
 --------------
-
 To install daops, run this command in your terminal:
 
 .. code-block:: console
@@ -32,20 +31,27 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/ellesmith88/daops
+    $ git clone git://github.com/roocs/daops
 
-Or download the `tarball`_:
-
-.. code-block:: console
-
-    $ curl  -OL https://github.com/ellesmith88/daops/tarball/master
-
-Once you have a copy of the source, you can install it with:
+Create Conda environment named `daops`:
 
 .. code-block:: console
 
-    $ python setup.py install
+   $ conda env create -f environment.yml
+   $ source activate daops
 
+Install daops in development mode:
 
-.. _Github repo: https://github.com/ellesmith88/daops
-.. _tarball: https://github.com/ellesmith88/daops/tarball/master
+.. code-block:: console
+
+  $ pip install -r requirements.txt
+  $ pip install -r requirements_dev.txt
+  $ python setup.py develop
+
+Run tests:
+
+.. code-block:: console
+
+    $ pytest -v tests/
+
+.. _Github repo: https://github.com/roocs/daops

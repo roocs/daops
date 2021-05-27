@@ -1,12 +1,16 @@
 import json
 import os
-
-from elasticsearch import Elasticsearch, exceptions
 from pydoc import locate
-import hashlib
+
+from elasticsearch import exceptions
+
+from .base_lookup import Lookup
+from daops import CONFIG
 
 
 class FuncChainer(object):
+    """Chains functions together to allow them to be executed in one call."""
+
     def __init__(self, funcs):
         self.funcs = funcs
 
@@ -17,18 +21,19 @@ class FuncChainer(object):
         return result
 
 
-class Fixer(object):
-    def __init__(self, ds_id):
-        self.ds_id = ds_id
-        self.es = Elasticsearch(["elasticsearch.ceda.ac.uk"], use_ssl=True, port=443)
+class Fixer(Lookup):
+    """
+    Fixer class to look up fixes to apply to input dataset from the elastic search index.
+    Gathers fixes into pre and post processors.
+    Pre-process fixes are chained together to allow them to be executed with one call.
+    """
+
+    def __init__(self, dset):
+        Lookup.__init__(self, dset)
         self._lookup_fix()
 
-    def _convert_id(self, id):
-        m = hashlib.md5()
-        m.update(id.encode("utf-8"))
-        return m.hexdigest()
-
     def _gather_fixes(self, content):
+        """Gathers pre and post processing fixes together"""
         if content["_source"]["fixes"]:
             for fix in content["_source"]["fixes"]:
 
@@ -43,16 +48,15 @@ class Fixer(object):
             self.pre_processor = FuncChainer(self.pre_processors)
 
     def _lookup_fix(self):
-        id = self._convert_id(self.ds_id)
+        """Looks up fixes on the elasticsearch index."""
+        id = self._convert_id(self.dset)
 
         self.pre_processor = None
         self.pre_processors = []
         self.post_processors = []
 
         try:
-            # commented out version work around for the use of multiple indices on one alias
-            content = self.es.get(index="roocs-fix", id=id)
-
+            content = self.es.get(index=CONFIG["elasticsearch"]["fix_store"], id=id)
             self._gather_fixes(content)
         except exceptions.NotFoundError:
             pass
