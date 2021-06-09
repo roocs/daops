@@ -84,12 +84,7 @@ def open_dataset(ds_id, file_paths, apply_fixes=True):
         else:
             LOGGER.info(f"Loading data")
 
-        ds = xr.open_mfdataset(
-            file_paths,
-            preprocess=fix.pre_processor,
-            use_cftime=True,
-            combine="by_coords",
-        )
+        ds = open_xr_dataset(file_paths, preprocess=fix.pre_processor)
 
         if fix.post_processors:
             for post_process in fix.post_processors:
