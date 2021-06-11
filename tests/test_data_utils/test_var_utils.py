@@ -5,7 +5,7 @@ from daops.data_utils.var_utils import reverse_2d_vars
 from tests._common import MINI_ESGF_MASTER_DIR
 
 
-def test_reverse_2d_vars():
+def test_reverse_2d_vars(load_esgf_test_data):
     ds = xr.open_mfdataset(
         f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2/amip/r1i1p1f1/Amon/cl/gn/v20190319/*.nc",
         combine="by_coords",

@@ -6,7 +6,7 @@ from daops.ops.subset import subset
 from tests._common import MINI_ESGF_MASTER_DIR
 
 
-def test_fix_attr_main_var():
+def test_fix_attr_main_var(load_esgf_test_data):
     ds = xr.open_mfdataset(
         f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/ICHEC"
         "/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
@@ -28,7 +28,7 @@ def test_fix_attr_main_var():
     assert ds_change_metadata.tas.attrs["long_name"] == "False long name"
 
 
-def test_fix_attr_var():
+def test_fix_attr_var(load_esgf_test_data):
     ds = xr.open_mfdataset(
         f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/ICHEC"
         "/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",

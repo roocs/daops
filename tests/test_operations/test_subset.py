@@ -69,7 +69,7 @@ def test_subset_zostoga_with_apply_fixes_false(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_with_several_fixes(tmpdir):
+def test_subset_with_several_fixes(tmpdir, load_esgf_test_data):
     ds = xr.open_mfdataset(
         f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip6/data/CMIP6/CMIP/NCAR/CESM2"
         "/amip/r3i1p1f1/Amon/cl/gn/v20190319/*.nc",
