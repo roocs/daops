@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def add_data_var(ds, **operands):
     """
     :param ds: Xarray DataSet

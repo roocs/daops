@@ -37,7 +37,7 @@ def add_scalar_coord(ds, **operands):
 
     # update coordinates of main variable of dataset
     main_var = xu.get_main_variable(ds)
-    main_var_coords = ds[main_var].encoding.get("coordinates")
+    main_var_coords = ds[main_var].encoding.get("coordinates", "")
     main_var_coords += f" {var_id}"
     ds[main_var].encoding["coordinates"] = main_var_coords
 
@@ -53,10 +53,13 @@ def add_coord(ds, **operands):
     """
     var_id = operands.get("var_id")
     dim = operands.get("dim")
-    value = operands.get("value")
+    values = operands.get("values")
     dtype = operands.get("dtype")
 
-    ds = ds.assign_coords({f"{var_id}": (dim, np.array(value, dtype=dtype))})
+    if isinstance(values, str):
+        values = values.split(",")
+
+    ds = ds.assign_coords({f"{var_id}": (dim, np.array(values, dtype=dtype))})
 
     for k, v in operands.get("attrs").items():
         ds[var_id].attrs[k] = v
@@ -66,7 +69,7 @@ def add_coord(ds, **operands):
 
     # update coordinates of main variable of dataset
     main_var = xu.get_main_variable(ds)
-    main_var_coords = ds[main_var].encoding.get("coordinates")
+    main_var_coords = ds[main_var].encoding.get("coordinates", "")
     main_var_coords += f" {var_id}"
     ds[main_var].encoding["coordinates"] = main_var_coords
 
