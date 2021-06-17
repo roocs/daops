@@ -17,7 +17,7 @@ def test_mask_data(load_esgf_test_data):
     assert np.isclose(ds.tas.values[0][0][0], 246.3239)
 
     operands = {
-        "value": 246.3239,
+        "value": "246.3239",
     }
     ds_mask_data = mask_data(ds, **operands)
     np.testing.assert_equal(ds_mask_data.tas.values[0][0][0], np.nan)

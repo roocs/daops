@@ -10,9 +10,8 @@ def fix_attr_main_var(ds, **operands):
     var_id = xu.get_main_variable(ds)
 
     attrs = operands.get("attrs")
-    for attr in attrs:
-        for key, value in attr.items():
-            ds[var_id].attrs[key] = value
+    for k, v in operands.get("attrs").items():
+        ds[var_id].attrs[k] = v
 
     return ds
 
@@ -26,8 +25,7 @@ def fix_attr(ds, **operands):
     var_id = operands.get("var_id")
 
     attrs = operands.get("attrs")
-    for attr in attrs:
-        for key, value in attr.items():
-            ds[var_id].attrs[key] = value
+    for k, v in operands.get("attrs").items():
+        ds[var_id].attrs[k] = v
 
     return ds

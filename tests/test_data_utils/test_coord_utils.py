@@ -37,9 +37,8 @@ def test_add_scalar_coord(load_esgf_test_data):
     )
     operands = {
         "dtype": "float64",
-        "value": 2.0,
+        "value": "2.0",
         "id": "height",
-        "length": 1,
         "attrs": {
             "axis": "Z",
             "long_name": "height",

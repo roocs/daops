@@ -18,10 +18,10 @@ def test_fix_attr_main_var(load_esgf_test_data):
     assert ds.tas.attrs["long_name"] == "Near-Surface Air Temperature"
 
     operands = {
-        "attrs": [
-            {"long_name": "False long name"},
-            {"standard_name": "fake_standard_name"},
-        ],
+        "attrs": {
+            "long_name": "False long name",
+            "standard_name": "fake_standard_name",
+        },
     }
     ds_change_metadata = fix_attr_main_var(ds, **operands)
     assert ds_change_metadata.tas.attrs["standard_name"] == "fake_standard_name"
@@ -41,10 +41,10 @@ def test_fix_attr_var(load_esgf_test_data):
 
     operands = {
         "var_id": "lat",
-        "attrs": [
-            {"long_name": "False long name"},
-            {"standard_name": "fake_standard_name"},
-        ],
+        "attrs": {
+            "long_name": "False long name",
+            "standard_name": "fake_standard_name",
+        },
     }
     ds_change_metadata = fix_attr(ds, **operands)
     assert ds_change_metadata.lat.attrs["standard_name"] == "fake_standard_name"
