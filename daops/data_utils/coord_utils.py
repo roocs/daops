@@ -53,13 +53,13 @@ def add_coord(ds, **operands):
     """
     var_id = operands.get("var_id")
     dim = operands.get("dim")
-    values = operands.get("values")
+    value = operands.get("value")
     dtype = operands.get("dtype")
 
-    if isinstance(values, str):
-        values = values.split(",")
+    if isinstance(value, str):
+        value = value.split(",")
 
-    ds = ds.assign_coords({f"{var_id}": (dim, np.array(values, dtype=dtype))})
+    ds = ds.assign_coords({f"{var_id}": (dim, np.array(value, dtype=dtype))})
 
     for k, v in operands.get("attrs").items():
         ds[var_id].attrs[k] = v

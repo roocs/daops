@@ -63,7 +63,7 @@ def test_add_coord(load_esgf_test_data):
 
     operands = {
         "var_id": "leadtime",
-        "values": np.zeros(120),
+        "value": np.zeros(120),
         "dim": ["time"],
         "dtype": "timedelta64[D]",
         "attrs": {
