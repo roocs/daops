@@ -3,12 +3,16 @@ import glob
 import os
 
 import xarray as xr
+from roocs_utils.exceptions import InvalidCollection
+from roocs_utils.project_utils import derive_ds_id
 from roocs_utils.project_utils import dset_to_filepaths
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
+from roocs_utils.utils.file_utils import FileMapper
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
 from daops import logging
+from daops.catalog import get_catalog
 from daops.utils.core import _wrap_sequence
 
 LOGGER = logging.getLogger(__file__)
@@ -24,54 +28,85 @@ def consolidate(collection, **kwargs):
     :return: An ordered dictionary of each dataset from the collection argument and the file paths
              relating to it.
     """
+    catalog = None
+    time = None
+
     collection = _wrap_sequence(collection.tuple)
+
+    if not isinstance(collection[0], FileMapper):
+        project = get_project_name(collection[0])
+        catalog = get_catalog(project)
 
     filtered_refs = collections.OrderedDict()
 
+    if "time" in kwargs:
+        time = kwargs["time"].asdict()
+
     for dset in collection:
-        consolidated = dset_to_filepaths(dset, force=True)
 
-        if "time" in kwargs:
+        if not catalog:
             try:
-                time = kwargs["time"].asdict()
 
-                file_paths = consolidated
-                LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
-                files_in_range = []
+                consolidated = dset_to_filepaths(dset, force=True)
 
-                ds = open_xr_dataset(dset)
+                if time:
 
-                if time["start_time"] is None:
-                    time["start_time"] = ds.time.values.min().strftime("%Y")
-                if time["end_time"] is None:
-                    time["end_time"] = ds.time.values.max().strftime("%Y")
+                    file_paths = consolidated
+                    LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
+                    files_in_range = []
 
-                times = [
-                    int(time["start_time"].split("-")[0]),
-                    int(time["end_time"].split("-")[0]) + 1,
-                ]
-                required_years = set(range(*[_ for _ in times]))
+                    ds = open_xr_dataset(dset)
 
-                for i, fpath in enumerate(file_paths):
+                    if time["start_time"] is None:
+                        time["start_time"] = ds.time.values.min().strftime("%Y")
+                    if time["end_time"] is None:
+                        time["end_time"] = ds.time.values.max().strftime("%Y")
 
-                    LOGGER.info(f"File {i}: {fpath}")
+                    times = [
+                        int(time["start_time"].split("-")[0]),
+                        int(time["end_time"].split("-")[0]) + 1,
+                    ]
+                    required_years = set(range(*[_ for _ in times]))
 
-                    ds = open_xr_dataset(fpath)
+                    for i, fpath in enumerate(file_paths):
 
-                    found_years = {int(_) for _ in ds.time.dt.year}
+                        LOGGER.info(f"File {i}: {fpath}")
 
-                    if required_years.intersection(found_years):
-                        files_in_range.append(fpath)
+                        ds = open_xr_dataset(fpath)
 
-                LOGGER.info(f"Kept {len(files_in_range)} files")
-                consolidated = files_in_range[:]
-                if len(files_in_range) == 0:
-                    raise Exception(f"No files found in given time range for {dset}")
+                        found_years = {int(_) for _ in ds.time.dt.year}
+
+                        if required_years.intersection(found_years):
+                            files_in_range.append(fpath)
+
+                    LOGGER.info(f"Kept {len(files_in_range)} files")
+                    consolidated = files_in_range[:]
+                    if len(files_in_range) == 0:
+                        raise Exception(
+                            f"No files found in given time range for {dset}"
+                        )
 
             # catch where "time" attribute cannot be accessed in ds
             except AttributeError:
                 pass
 
-        filtered_refs[dset] = consolidated
+            filtered_refs[dset] = consolidated
+
+        else:
+            ds_id = derive_ds_id(dset)
+            result = catalog.search(collection=ds_id, time=time)
+
+            if len(result) == 0:
+                result = catalog.search(collection=ds_id, time=None)
+                if len(result) > 0:
+                    raise Exception(f"No files found in given time range for {dset}")
+                else:
+                    raise InvalidCollection(
+                        f"{dset} is not in the list of available data."
+                    )
+
+            LOGGER.info(f"Found {len(result)} files")
+
+            filtered_refs = result.files()
 
     return filtered_refs

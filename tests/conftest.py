@@ -1,13 +1,13 @@
 import os
 import shutil
 
-from git import Repo
 import numpy as np
-import pandas as pd
 import pytest
 import xarray as xr
+from git import Repo
 
-from tests._common import MINI_ESGF_CACHE_DIR, write_roocs_cfg
+from tests._common import MINI_ESGF_CACHE_DIR
+from tests._common import write_roocs_cfg
 
 write_roocs_cfg()
 

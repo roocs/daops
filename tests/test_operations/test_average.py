@@ -64,18 +64,15 @@ def test_average_time_lon(tmpdir):
 
 @pytest.mark.online
 def test_average_none(tmpdir):
-    result = average_over_dims(
-        CMIP5_IDS[1],
-        dims=None,
-        output_dir=tmpdir,
-        file_namer="simple",
-        apply_fixes=False,
-    )
-    _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
-    assert "time" in ds.dims
-    assert "lon" in ds.dims
-    assert "lat" in ds.dims
+    with pytest.raises(InvalidParameterValue) as exc:
+        average_over_dims(
+            CMIP5_IDS[1],
+            dims=None,
+            output_dir=tmpdir,
+            file_namer="simple",
+            apply_fixes=False,
+        )
+    assert str(exc.value) == "At least one dimension for averaging must be provided"
 
 
 @pytest.mark.online
