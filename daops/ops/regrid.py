@@ -20,7 +20,7 @@ class Regrid(Operation):
 
         self.collection = collection
         self.params = {
-            "method": params.get("adaptive_masking_threshold"),
+            "method": params.get("method"),
             "adaptive_masking_threshold": params.get("adaptive_masking_threshold"),
             "grid": params.get("grid"),
         }

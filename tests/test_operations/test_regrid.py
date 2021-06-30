@@ -22,7 +22,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 def test_regrid(tmpdir):
     result = regrid(
         CMIP5_IDS[1],
-        method="nn",
+        method="conservative",
         adaptive_masking_threshold=0.5,
         grid="1deg",
         output_dir=tmpdir,
