@@ -9,7 +9,7 @@ from daops import CONFIG
 
 
 class FuncChainer(object):
-    """ Chains functions together to allow them to be executed in one call."""
+    """Chains functions together to allow them to be executed in one call."""
 
     def __init__(self, funcs):
         self.funcs = funcs
@@ -33,7 +33,7 @@ class Fixer(Lookup):
         self._lookup_fix()
 
     def _gather_fixes(self, content):
-        """ Gathers pre and post processing fixes together"""
+        """Gathers pre and post processing fixes together"""
         if content["_source"]["fixes"]:
             for fix in content["_source"]["fixes"]:
 
@@ -48,7 +48,7 @@ class Fixer(Lookup):
             self.pre_processor = FuncChainer(self.pre_processors)
 
     def _lookup_fix(self):
-        """ Looks up fixes on the elasticsearch index."""
+        """Looks up fixes on the elasticsearch index."""
         id = self._convert_id(self.dset)
 
         self.pre_processor = None

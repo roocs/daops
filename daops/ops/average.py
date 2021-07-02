@@ -39,7 +39,7 @@ def average_over_dims(
     apply_fixes=True,
 ):
     """
-    Average input dataset according over indicated dimensions.
+    Average input dataset over indicated dimensions.
     Can be averaged over multiple dimensions.
 
     Parameters

@@ -28,7 +28,7 @@ def normalise(collection, apply_fixes=True):
 
 
 class ResultSet(object):
-    """ A class to hold the results from an operation e.g. subset """
+    """A class to hold the results from an operation e.g. subset"""
 
     def __init__(self, inputs=None):
         self._results = collections.OrderedDict()

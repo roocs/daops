@@ -1,6 +1,18 @@
 Version History
 ===============
 
+v0.6.0 (2021-05-19)
+-------------------
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* intake, fsspec<0.9 and aiohttp are new dependencies in order to use the intake catalog search functionality.
+* ``clisops``>=0.6.4 and ``roocs-utils``>=0.4.2 required.
+
+New Features
+^^^^^^^^^^^^
+* Intake catalog search functionality added. In use in ``utils.consolidate``: if the catalog is used for the project, then consolidate will find the files within the time range specified using the intake catalog, rather than opening xarray datasets.
+* ``intake_catalog_url`` has been added to ``etc/roocs.ini``
+
 v0.5.0 (2021-02-26)
 ------------------
 

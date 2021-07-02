@@ -224,7 +224,7 @@ def zostoga_id(request):
 
 
 @pytest.mark.online
-def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir):
+def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir, load_esgf_test_data):
 
     result = subset(
         zostoga_id,
@@ -345,7 +345,7 @@ def test_time_invariant_subset_standard_name(tmpdir, load_esgf_test_data):
 
     result = subset(
         dset,
-        area=(5.0, 10.0, 20.0, 65.0),
+        area=(5.0, 10.0, 300.0, 80.0),
         output_dir=tmpdir,
         output_type="nc",
         file_namer="standard",
@@ -374,3 +374,34 @@ def test_subset_with_file_mapper(tmpdir, load_esgf_test_data):
     )
 
     assert "tas_mon_HadGEM2-ES_rcp85_r1i1p1_20080116-20281216.nc" in result.file_uris[0]
+
+
+@pytest.mark.online
+def test_subset_with_catalog(tmpdir, load_esgf_test_data):
+
+    # c3s-cmip6 dataset so will use catalog in consolidate
+    result = subset(
+        "c3s-cmip6.ScenarioMIP.INM.INM-CM5-0.ssp245.r1i1p1f1.Amon.rlds.gr1.v20190619",
+        time=("2028-01-16", "2050-12-16"),
+        output_dir=tmpdir,
+        output_type="nc",
+        file_namer="standard",
+    )
+
+    _check_output_nc(
+        result, fname="rlds_Amon_INM-CM5-0_ssp245_r1i1p1f1_gr1_20280116-20501116.nc"
+    )
+
+
+@pytest.mark.online
+def test_subset_with_catalog_time_invariant(tmpdir, load_esgf_test_data):
+
+    # c3s-cmip6 dataset so will use catalog in consolidate
+    result = subset(
+        f"c3s-cmip6.ScenarioMIP.MPI-M.MPI-ESM1-2-LR.ssp370.r1i1p1f1.fx.mrsofc.gn.v20190815",
+        output_dir=tmpdir,
+        output_type="nc",
+        file_namer="standard",
+    )
+
+    _check_output_nc(result, fname="mrsofc_fx_MPI-ESM1-2-LR_ssp370_r1i1p1f1_gn.nc")
