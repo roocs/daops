@@ -224,7 +224,7 @@ def zostoga_id(request):
 
 
 @pytest.mark.online
-def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir):
+def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir, load_esgf_test_data):
 
     result = subset(
         zostoga_id,

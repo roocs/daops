@@ -19,7 +19,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 
 
 @pytest.mark.online
-def test_average_time(tmpdir):
+def test_average_time(tmpdir, load_esgf_test_data):
     result = average_over_dims(
         CMIP5_IDS[1],
         dims=["time"],
@@ -33,7 +33,7 @@ def test_average_time(tmpdir):
 
 
 @pytest.mark.online
-def test_average_time_lat(tmpdir):
+def test_average_time_lat(tmpdir, load_esgf_test_data):
     result = average_over_dims(
         CMIP5_IDS[1],
         dims=["latitude", "time"],
@@ -48,7 +48,7 @@ def test_average_time_lat(tmpdir):
 
 
 @pytest.mark.online
-def test_average_time_lon(tmpdir):
+def test_average_time_lon(tmpdir, load_esgf_test_data):
     result = average_over_dims(
         CMIP5_IDS[1],
         dims=["time", "longitude"],
@@ -63,7 +63,7 @@ def test_average_time_lon(tmpdir):
 
 
 @pytest.mark.online
-def test_average_none(tmpdir):
+def test_average_none(tmpdir, load_esgf_test_data):
     with pytest.raises(InvalidParameterValue) as exc:
         average_over_dims(
             CMIP5_IDS[1],
@@ -76,7 +76,7 @@ def test_average_none(tmpdir):
 
 
 @pytest.mark.online
-def test_average_level(tmpdir):
+def test_average_level(tmpdir, load_esgf_test_data):
     with pytest.raises(InvalidParameterValue) as exc:
         average_over_dims(
             CMIP5_IDS[1],
@@ -89,3 +89,4 @@ def test_average_level(tmpdir):
         str(exc.value)
         == "Requested dimensions were not found in input dataset: {'level'}."
     )
+
