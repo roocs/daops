@@ -85,23 +85,17 @@ def get_files_matching_time_range(time_param, file_paths):
     files_in_time_range = []
 
     # Handle times differently depending on the type of time parameter
-    time_dict = kwargs["time"].asdict()
+    time_dict = time_param.asdict()
 
     if time_param.type == "interval":
 
         req_start_year = get_year(time_dict, "start_time", -99999999)
         req_end_year = get_year(time_dict, "end_time", 999999999)
 
-        # Get first and last years in files
-        first_year = min(get_years_from_file(file_paths[0]))
-        last_year = min(get_years_from_file(file_paths[-1]))
-
         # Work through the list of file paths checking if each matches
         for fpath in file_paths:
             years = get_years_from_file(fpath)
-            match = [year for year in years if year >= req_start_year \
-                     and year <= req_end_year]
-            if match:
+            if min(years) <= req_end_year and max(years) >= req_start_year:
                 files_in_time_range.append(fpath)
 
     elif time_param.type == "series":
@@ -113,12 +107,6 @@ def get_files_matching_time_range(time_param, file_paths):
             years = get_years_from_file(fpath)
             if req_years.intersection(years):
                 files_in_time_range.append(fpath)
-
-    # If no files are matched then raise an exception
-    if len(files_in_time_range) == 0:
-        raise Exception(
-            f"No files found in given time range for {dset}"
-        )
 
     LOGGER.info(f"Kept {len(files_in_time_range)} files")
     return files_in_time_range
@@ -154,6 +142,12 @@ def consolidate(collection, **kwargs):
 
             if time_param:
                 file_paths = get_files_matching_time_range(time_param, file_paths)
+
+            # If no files are matched then raise an exception
+            if len(file_paths) == 0:
+                raise Exception(
+                    f"No files found in given time range for {dset}"
+                )
 
             filtered_refs[dset] = file_paths
 
