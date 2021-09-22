@@ -63,3 +63,19 @@ def remove_fill_values(ds):
             ds[coord_id].encoding["_FillValue"] = None
 
     return ds
+
+
+def remove_coord_attr(ds, **operands):
+    """
+    :param ds: Xarray DataSet
+    :param operands: sequence of arguments
+    :return: Xarray Dataset
+
+    Remove coordinate attribute that is added by xarray, for specified variables.
+    """
+
+    var_ids = operands.get("var_ids")
+    for v in var_ids:
+        ds[v].encoding["coordinates"] = None
+
+    return ds
