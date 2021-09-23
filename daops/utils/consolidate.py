@@ -24,10 +24,12 @@ def to_year(time_string):
     return int(time_string.split("-")[0])
 
 
-def get_year(dct, key, default):
-    """Gets a year from a datetime string in a dictionary.
-    Defaults to the value of `default` if not found."""
-    return to_year(dct.get(key, str(default)))
+def get_year(value, default):
+    """Gets a year from a datetime string. Defaults to the value of `default`
+    if not defined."""
+    if value:
+        return to_year(value)
+    return default
 
 
 def get_years_from_file(fpath):
@@ -85,12 +87,11 @@ def get_files_matching_time_range(time_param, file_paths):
     files_in_time_range = []
 
     # Handle times differently depending on the type of time parameter
-    time_dict = time_param.asdict()
-
     if time_param.type == "interval":
 
-        req_start_year = get_year(time_dict, "start_time", -99999999)
-        req_end_year = get_year(time_dict, "end_time", 999999999)
+        tp_start, tp_end = time_param.get_bounds()
+        req_start_year = get_year(tp_start, default=-99999999)
+        req_end_year = get_year(tp_end, default=999999999)
 
         # Work through the list of file paths checking if each matches
         for fpath in file_paths:
@@ -101,7 +102,7 @@ def get_files_matching_time_range(time_param, file_paths):
     elif time_param.type == "series":
 
         # Get requested years and match to files whose years intersect
-        req_years = {to_year(tm) for tm in time_dict.get("time_values", [])}
+        req_years = {to_year(tm) for tm in time_param.asdict().get("time_values", [])}
 
         for fpath in file_paths:
             years = get_years_from_file(fpath)
@@ -153,7 +154,7 @@ def consolidate(collection, **kwargs):
 
         else:
             ds_id = derive_ds_id(dset)
-            result = catalog.search(collection=ds_id, time=time)
+            result = catalog.search(collection=ds_id, time=time_param.get_bounds())
 
             if len(result) == 0:
                 result = catalog.search(collection=ds_id, time=None)
