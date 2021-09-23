@@ -1,6 +1,6 @@
 numpy>=1.16
 xarray>=0.19
-dask[complete]<=2.13.0
+dask[complete]
 netcdf4
 elasticsearch>=7.9.0
 clisops>=0.6.4
