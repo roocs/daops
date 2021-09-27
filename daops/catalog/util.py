@@ -1,16 +1,19 @@
 import datetime
 
-from roocs_utils.parameter import time_parameter
+from roocs_utils.parameter.time_parameter import TimeParameter, time_interval
 
 MIN_DATETIME = datetime.datetime(datetime.MINYEAR, 1, 1).isoformat()
 MAX_DATETIME = datetime.datetime(datetime.MAXYEAR, 12, 30).isoformat()
 
 
 def parse_time(time):
-    # TODO: refactor code ... maybe we need this only in the catalog. allow dicts in time parameter?
-    if isinstance(time, dict):
-        time = (time["start_time"], time["end_time"])
-    start, end = time_parameter.TimeParameter(time).tuple
+    
+    if isinstance(time, TimeParameter):
+        start, end = time.get_bounds()
+    elif time is None or set(time) == {None}:
+        start, end = None, None
+    else:
+        start, end = TimeParameter(time_interval(time)).value
 
     if not start:
         start = MIN_DATETIME

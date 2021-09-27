@@ -126,7 +126,7 @@ def consolidate(collection, **kwargs):
     catalog = None
     time = None
 
-    collection = _wrap_sequence(collection.tuple)
+    collection = _wrap_sequence(collection.value)
 
     if not isinstance(collection[0], FileMapper):
         project = get_project_name(collection[0])

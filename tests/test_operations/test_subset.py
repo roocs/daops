@@ -7,6 +7,7 @@ from roocs_utils.exceptions import MissingParameterValue
 from roocs_utils.parameter import area_parameter
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import time_parameter
+from roocs_utils.parameter.param_utils import time_interval, level_interval
 from roocs_utils.utils.file_utils import FileMapper
 
 from daops import CONFIG
@@ -40,7 +41,7 @@ def test_subset_zostoga_with_fix(tmpdir, load_esgf_test_data):
 
     result = subset(
         CMIP5_IDS[0],
-        time=("2085-01-16", "2120-12-16"),
+        time=time_interval("2085-01-16", "2120-12-16"),
         output_dir=tmpdir,
         file_namer="simple",
     )
@@ -55,7 +56,7 @@ def test_subset_zostoga_with_apply_fixes_false(tmpdir, load_esgf_test_data):
 
     result = subset(
         CMIP5_IDS[0],
-        time=("2085-01-16", "2120-12-16"),
+        time=time_interval("2085-01-16", "2120-12-16"),
         output_dir=tmpdir,
         file_namer="simple",
         apply_fixes=False,
@@ -72,7 +73,7 @@ def test_subset_zostoga_with_apply_fixes_false(tmpdir, load_esgf_test_data):
 def test_subset_t(tmpdir, load_esgf_test_data):
     result = subset(
         CMIP5_IDS[1],
-        time=("2085-01-16", "2120-12-16"),
+        time=time_interval("2085-01-16", "2120-12-16"),
         output_dir=tmpdir,
         file_namer="simple",
     )
@@ -85,16 +86,16 @@ def test_subset_t(tmpdir, load_esgf_test_data):
 def test_subset_no_collection(tmpdir):
     with pytest.raises(TypeError):
         subset(
-            time=("2085-01-16", "2120-12-16"), output_dir=tmpdir, file_namer="simple"
+            time=time_interval("2085-01-16", "2120-12-16"), output_dir=tmpdir, file_namer="simple"
         )
 
 
 @pytest.mark.online
 def test_subset_collection_as_none(tmpdir):
-    with pytest.raises(MissingParameterValue):
+    with pytest.raises(InvalidParameterValue):
         subset(
             None,
-            time=("2085-01-16", "2120-12-16"),
+            time=time_interval("2085-01-16", "2120-12-16"),
             output_dir=tmpdir,
             file_namer="simple",
         )
@@ -105,7 +106,7 @@ def test_subset_collection_as_empty_string(tmpdir):
     with pytest.raises(MissingParameterValue):
         subset(
             "",
-            time=("2085-01-16", "2120-12-16"),
+            time=time_interval("2085-01-16", "2120-12-16"),
             output_dir=tmpdir,
             file_namer="simple",
         )
@@ -129,7 +130,7 @@ def test_subset_t_y_x(tmpdir, load_esgf_test_data):
 
     result = subset(
         CMIP5_IDS[1],
-        time=("2085-01-16", "2120-12-16"),
+        time=time_interval("2085-01-16", "2120-12-16"),
         area=(0, -10, 120, 40),
         output_dir=tmpdir,
         file_namer="simple",
@@ -180,9 +181,9 @@ def test_subset_t_z_y_x(tmpdir, load_esgf_test_data):
 
     result = subset(
         CMIP6_IDS[0],
-        time=("1890-01-16", "1901-12-16"),
+        time=time_interval("1890-01-16", "1901-12-16"),
         area=(0, -10, 120, 40),
-        level=(10000, 850.0),
+        level=level_interval(10000, 850.0),
         output_dir=tmpdir,
         file_namer="simple",
     )
@@ -197,7 +198,7 @@ def test_subset_t_with_invalid_date(tmpdir, load_esgf_test_data):
     with pytest.raises(Exception) as exc:
         subset(
             CMIP5_IDS[1],
-            time=("1985-01-16", "2002-12-16"),
+            time=time_interval("1985-01-16", "2002-12-16"),
             area=("0", "-10", "120", "40"),
             output_dir=tmpdir,
             file_namer="simple",
@@ -228,7 +229,7 @@ def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir):
 
     result = subset(
         zostoga_id,
-        time=("2008-01-16", "2028-12-16"),
+        time=time_interval("2008-01-16", "2028-12-16"),
         output_dir=tmpdir,
         file_namer="simple",
     )
@@ -243,7 +244,7 @@ def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir):
 @pytest.mark.online
 def test_parameter_classes_as_args(tmpdir, load_esgf_test_data):
     collection = collection_parameter.CollectionParameter(CMIP5_IDS[1])
-    time = time_parameter.TimeParameter(("2085-01-16", "2120-12-16"))
+    time = time_parameter.TimeParameter(time_interval("2085-01-16", "2120-12-16"))
     area = area_parameter.AreaParameter((0, -10, 120, 40))
 
     result = subset(
@@ -290,7 +291,7 @@ def test_end_time_is_none(tmpdir, load_esgf_test_data):
 
     result = subset(
         CMIP5_IDS[2],
-        time="1940-10-14/",
+        time=time_interval("1940-10-14/"),
         area=("0", "-10", "120", "40"),
         output_dir=tmpdir,
         file_namer="simple",
@@ -317,7 +318,7 @@ def test_start_time_is_none(tmpdir, load_esgf_test_data):
 
     result = subset(
         CMIP5_IDS[1],
-        time="/2120-12-16",
+        time=time_interval("/2120-12-16"),
         area=("0", "-10", "120", "40"),
         output_dir=tmpdir,
         file_namer="simple",
@@ -367,7 +368,7 @@ def test_subset_with_file_mapper(tmpdir, load_esgf_test_data):
 
     result = subset(
         dset,
-        time=("2008-01-16", "2028-12-16"),
+        time=time_interval("2008-01-16", "2028-12-16"),
         output_dir=tmpdir,
         output_type="nc",
         file_namer="standard",
@@ -382,7 +383,7 @@ def test_subset_with_catalog(tmpdir, load_esgf_test_data):
     # c3s-cmip6 dataset so will use catalog in consolidate
     result = subset(
         "c3s-cmip6.ScenarioMIP.INM.INM-CM5-0.ssp245.r1i1p1f1.Amon.rlds.gr1.v20190619",
-        time=("2028-01-16", "2050-12-16"),
+        time=time_interval("2028-01-16", "2050-12-16"),
         output_dir=tmpdir,
         output_type="nc",
         file_namer="standard",
