@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 import pytest
 import xarray as xr
 from roocs_utils.exceptions import InvalidParameterValue
@@ -7,7 +8,11 @@ from roocs_utils.exceptions import MissingParameterValue
 from roocs_utils.parameter import area_parameter
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import time_parameter
-from roocs_utils.parameter.param_utils import time_interval, level_interval
+from roocs_utils.parameter.param_utils import level_interval
+from roocs_utils.parameter.param_utils import level_series
+from roocs_utils.parameter.param_utils import time_components
+from roocs_utils.parameter.param_utils import time_interval
+from roocs_utils.parameter.param_utils import time_series
 from roocs_utils.utils.file_utils import FileMapper
 
 from daops import CONFIG
@@ -19,6 +24,10 @@ CMIP5_IDS = [
     "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas",
     "cmip5.output1.MOHC.HadGEM2-ES.historical.mon.land.Lmon.r1i1p1.latest.rh",
 ]
+
+CMIP5_TAS_FPATH = f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc"
+
+CMIP5_DAY = f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp45/day/land/day/r1i1p1/latest/mrsos/mrsos_day_HadGEM2-ES_rcp45_r1i1p1_20051201-20151130.nc"
 
 CMIP6_IDS = ["CMIP6.CMIP.NOAA-GFDL.GFDL-ESM4.historical.r1i1p1f1.Amon.o3.gr1.v20190726"]
 
@@ -86,7 +95,9 @@ def test_subset_t(tmpdir, load_esgf_test_data):
 def test_subset_no_collection(tmpdir):
     with pytest.raises(TypeError):
         subset(
-            time=time_interval("2085-01-16", "2120-12-16"), output_dir=tmpdir, file_namer="simple"
+            time=time_interval("2085-01-16", "2120-12-16"),
+            output_dir=tmpdir,
+            file_namer="simple",
         )
 
 
@@ -156,6 +167,7 @@ def test_subset_t_z_y_x(tmpdir, load_esgf_test_data):
         use_cftime=True,
         combine="by_coords",
     )
+
     assert ds.o3.shape == (1200, 19, 2, 3)
     assert list(ds.o3.coords["plev"].values) == [
         100000.0,
@@ -406,3 +418,92 @@ def test_subset_with_catalog_time_invariant(tmpdir, load_esgf_test_data):
     )
 
     _check_output_nc(result, fname="mrsofc_fx_MPI-ESM1-2-LR_ssp370_r1i1p1f1_gn.nc")
+
+
+@pytest.mark.online
+def test_subset_by_time_components_year_month(tmpdir, load_esgf_test_data):
+    tc1 = time_components(year=(2021, 2022), month=["dec", "jan", "feb"])
+    tc2 = time_components(year=(2021, 2022), month=[12, 1, 2])
+
+    for tc in (tc1, tc2):
+        result = subset(
+            CMIP5_TAS_FPATH, time_components=tc, output_dir=tmpdir, file_namer="simple"
+        )
+
+        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+        assert set(ds.time.dt.year.values) == {2021, 2022}
+        assert set(ds.time.dt.month.values) == {12, 1, 2}
+        ds.close()
+
+
+@pytest.mark.online
+def test_subset_by_time_components_month_day(tmpdir, load_esgf_test_data):
+    # 20051201-20151130
+    tc1 = time_components(month=["jul"], day=[1, 11, 21])
+    tc2 = time_components(month=[7], day=[1, 11, 21])
+
+    for tc in (tc1, tc2):
+        result = subset(
+            CMIP5_DAY, time_components=tc, output_dir=tmpdir, file_namer="simple"
+        )
+
+        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+        assert set(ds.time.dt.month.values) == {7}
+        assert set(ds.time.dt.day.values) == {1, 11, 21}
+        assert len(ds.time.values) == 30
+        ds.close()
+
+
+@pytest.mark.online
+def test_subset_by_time_interval_and_components_month_day(tmpdir, load_esgf_test_data):
+    pass
+
+
+@pytest.mark.online
+def test_subset_by_time_series_and_components_month_day(tmpdir, load_esgf_test_data):
+    pass
+
+
+@pytest.mark.online
+def test_subset_by_time_series(tmpdir, load_esgf_test_data):
+    t = [str(tm) for tm in xr.open_dataset(CMIP5_TAS_FPATH).time.values]
+    some_times = [t[0], t[100], t[4], t[33], t[9]]
+
+    result = subset(
+        CMIP5_TAS_FPATH,
+        time=time_series(some_times),
+        output_dir=tmpdir,
+        file_namer="simple",
+    )
+    _check_output_nc(result)
+
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+    assert len(ds.time) == 5
+    assert [str(t) for t in ds.time.values] == sorted(some_times)
+    ds.tas.time.shape == (5,)
+
+    ds.close()
+
+
+@pytest.mark.online
+def test_subset_by_level_series(tmpdir, load_esgf_test_data):
+    some_levels = [60000.0, 15000.0, 40000.0, 1000.0, 92500.0]
+
+    result = subset(
+        CMIP6_IDS[0],
+        level=level_series(some_levels),
+        output_dir=tmpdir,
+        file_namer="simple",
+    )
+    _check_output_nc(result)
+
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+    assert len(ds.plev) == 5
+    np.testing.assert_array_equal(ds.plev.values, sorted(some_levels, reverse=True))
+    ds.o3.plev.shape == (5,)
+
+    ds.close()
