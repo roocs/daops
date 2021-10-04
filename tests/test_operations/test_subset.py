@@ -17,6 +17,10 @@ from roocs_utils.utils.file_utils import FileMapper
 
 from daops import CONFIG
 from daops.ops.subset import subset
+from tests._common import CMIP5_DAY
+from tests._common import CMIP5_TAS_FPATH
+from tests._common import CMIP6_DAY
+from tests._common import CMIP6_MONTH
 from tests._common import MINI_ESGF_MASTER_DIR
 
 CMIP5_IDS = [
@@ -24,10 +28,6 @@ CMIP5_IDS = [
     "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas",
     "cmip5.output1.MOHC.HadGEM2-ES.historical.mon.land.Lmon.r1i1p1.latest.rh",
 ]
-
-CMIP5_TAS_FPATH = f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc"
-
-CMIP5_DAY = f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp45/day/land/day/r1i1p1/latest/mrsos/mrsos_day_HadGEM2-ES_rcp45_r1i1p1_20051201-20151130.nc"
 
 CMIP6_IDS = ["CMIP6.CMIP.NOAA-GFDL.GFDL-ESM4.historical.r1i1p1f1.Amon.o3.gr1.v20190726"]
 
@@ -458,12 +458,125 @@ def test_subset_by_time_components_month_day(tmpdir, load_esgf_test_data):
 
 @pytest.mark.online
 def test_subset_by_time_interval_and_components_month_day(tmpdir, load_esgf_test_data):
-    pass
+    # 20051201-20151130
+    ys, ye = 2007, 2010
+    ti = time_interval(f"{ys}-12-01T00:00:00", f"{ye}-11-30T23:59:59")
+
+    months = [3, 4, 5]
+    days = [5, 6]
+
+    tc1 = time_components(month=["mar", "apr", "may"], day=days)
+    tc2 = time_components(month=months, day=days)
+
+    for tc in (tc1, tc2):
+        result = subset(
+            CMIP5_DAY,
+            time=ti,
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
+        )
+        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+        assert set(ds.time.dt.month.values) == set(months)
+        assert set(ds.time.dt.day.values) == set(days)
+        assert len(ds.time.values) == (ye - ys) * len(months) * len(days)
+        ds.close()
+
+
+# @pytest.mark.online
+# def test_subset_by_time_series_and_components_month_day_cmip5(tmpdir, load_esgf_test_data):
+#     # 20051201-20151130
+#     ys, ye = 2007, 2010
+#     req_times = [tm.isoformat() for tm in xr.open_dataset(CMIP5_DAY).time.values
+#                  if ys <= tm.year <= ye]
+
+#     ts = time_series(req_times)
+#     months = [3, 4, 5]
+#     days = [5, 6]
+
+#     tc1 = time_components(month=["mar", "apr", "may"], day=days)
+#     tc2 = time_components(month=months, day=days)
+
+#     for tc in (tc1, tc2):
+#         result = subset(
+#             CMIP5_DAY, time=ts, time_components=tc, output_dir=tmpdir, file_namer="simple"
+#         )
+#         ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+#         assert set(ds.time.dt.month.values) == set(months)
+#         assert set(ds.time.dt.day.values) == set(days)
+#         assert len(ds.time.values) == (ye - ys) * len(months) * len(days)
+# dateutil.parser._parser.ParserError: day is out of range for month: 2007-02-29T12:00:00
 
 
 @pytest.mark.online
-def test_subset_by_time_series_and_components_month_day(tmpdir, load_esgf_test_data):
-    pass
+def test_subset_by_time_series_and_components_month_day_cmip6(
+    tmpdir, load_esgf_test_data
+):
+    # 18500101-20141231
+
+    # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
+    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+
+    ys, ye = 1998, 2010
+    req_times = [
+        tm.isoformat()
+        for tm in xr.open_dataset(CMIP6_DAY).time.values
+        if ys <= tm.year <= ye
+    ]
+
+    ts = time_series(req_times)
+    months = [3, 4, 5]
+    days = [5, 6]
+
+    tc1 = time_components(month=["mar", "apr", "may"], day=days)
+    tc2 = time_components(month=months, day=days)
+
+    for tc in (tc1, tc2):
+        result = subset(
+            CMIP6_DAY,
+            time=ts,
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
+        )
+        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+        assert set(ds.time.dt.month.values) == set(months)
+        assert set(ds.time.dt.day.values) == set(days)
+        assert len(ds.time.values) == (ye - ys + 1) * len(months) * len(days)
+        ds.close()
+
+
+@pytest.mark.online
+def test_subset_components_day_monthly_dataset(tmpdir, load_esgf_test_data):
+    #  tests key error is raised when trying to select a non existent day on a monthly dataset
+    # 18500101-20141231
+
+    # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
+    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    ys, ye = 1998, 2010
+    req_times = [
+        tm.isoformat()
+        for tm in xr.open_dataset(CMIP6_MONTH).time.values
+        if ys <= tm.year <= ye
+    ]
+
+    ts = time_series(req_times)
+    months = [3, 4, 5]
+    days = [5, 6]
+
+    tc = time_components(month=months, day=days)
+
+    with pytest.raises(KeyError) as exc:
+        subset(
+            CMIP6_MONTH,
+            time=ts,
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
+        )
 
 
 @pytest.mark.online
