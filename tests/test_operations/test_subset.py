@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 import pytest
 import xarray as xr
 from roocs_utils.exceptions import InvalidParameterValue
@@ -7,11 +8,19 @@ from roocs_utils.exceptions import MissingParameterValue
 from roocs_utils.parameter import area_parameter
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import time_parameter
-from roocs_utils.parameter.param_utils import time_interval, level_interval
+from roocs_utils.parameter.param_utils import level_interval
+from roocs_utils.parameter.param_utils import level_series
+from roocs_utils.parameter.param_utils import time_components
+from roocs_utils.parameter.param_utils import time_interval
+from roocs_utils.parameter.param_utils import time_series
 from roocs_utils.utils.file_utils import FileMapper
 
 from daops import CONFIG
 from daops.ops.subset import subset
+from tests._common import CMIP5_DAY
+from tests._common import CMIP5_TAS_FPATH
+from tests._common import CMIP6_DAY
+from tests._common import CMIP6_MONTH
 from tests._common import MINI_ESGF_MASTER_DIR
 
 CMIP5_IDS = [
@@ -86,7 +95,9 @@ def test_subset_t(tmpdir, load_esgf_test_data):
 def test_subset_no_collection(tmpdir):
     with pytest.raises(TypeError):
         subset(
-            time=time_interval("2085-01-16", "2120-12-16"), output_dir=tmpdir, file_namer="simple"
+            time=time_interval("2085-01-16", "2120-12-16"),
+            output_dir=tmpdir,
+            file_namer="simple",
         )
 
 
@@ -156,6 +167,7 @@ def test_subset_t_z_y_x(tmpdir, load_esgf_test_data):
         use_cftime=True,
         combine="by_coords",
     )
+
     assert ds.o3.shape == (1200, 19, 2, 3)
     assert list(ds.o3.coords["plev"].values) == [
         100000.0,
@@ -406,3 +418,205 @@ def test_subset_with_catalog_time_invariant(tmpdir, load_esgf_test_data):
     )
 
     _check_output_nc(result, fname="mrsofc_fx_MPI-ESM1-2-LR_ssp370_r1i1p1f1_gn.nc")
+
+
+@pytest.mark.online
+def test_subset_by_time_components_year_month(tmpdir, load_esgf_test_data):
+    tc1 = time_components(year=(2021, 2022), month=["dec", "jan", "feb"])
+    tc2 = time_components(year=(2021, 2022), month=[12, 1, 2])
+
+    for tc in (tc1, tc2):
+        result = subset(
+            CMIP5_TAS_FPATH, time_components=tc, output_dir=tmpdir, file_namer="simple"
+        )
+
+        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+        assert set(ds.time.dt.year.values) == {2021, 2022}
+        assert set(ds.time.dt.month.values) == {12, 1, 2}
+        ds.close()
+
+
+@pytest.mark.online
+def test_subset_by_time_components_month_day(tmpdir, load_esgf_test_data):
+    # 20051201-20151130
+    tc1 = time_components(month=["jul"], day=[1, 11, 21])
+    tc2 = time_components(month=[7], day=[1, 11, 21])
+
+    for tc in (tc1, tc2):
+        result = subset(
+            CMIP5_DAY, time_components=tc, output_dir=tmpdir, file_namer="simple"
+        )
+
+        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+        assert set(ds.time.dt.month.values) == {7}
+        assert set(ds.time.dt.day.values) == {1, 11, 21}
+        assert len(ds.time.values) == 30
+        ds.close()
+
+
+@pytest.mark.online
+def test_subset_by_time_interval_and_components_month_day(tmpdir, load_esgf_test_data):
+    # 20051201-20151130
+    ys, ye = 2007, 2010
+    ti = time_interval(f"{ys}-12-01T00:00:00", f"{ye}-11-30T23:59:59")
+
+    months = [3, 4, 5]
+    days = [5, 6]
+
+    tc1 = time_components(month=["mar", "apr", "may"], day=days)
+    tc2 = time_components(month=months, day=days)
+
+    for tc in (tc1, tc2):
+        result = subset(
+            CMIP5_DAY,
+            time=ti,
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
+        )
+        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+        assert set(ds.time.dt.month.values) == set(months)
+        assert set(ds.time.dt.day.values) == set(days)
+        assert len(ds.time.values) == (ye - ys) * len(months) * len(days)
+        ds.close()
+
+
+# @pytest.mark.online
+# def test_subset_by_time_series_and_components_month_day_cmip5(tmpdir, load_esgf_test_data):
+#     # 20051201-20151130
+#     ys, ye = 2007, 2010
+#     req_times = [tm.isoformat() for tm in xr.open_dataset(CMIP5_DAY).time.values
+#                  if ys <= tm.year <= ye]
+
+#     ts = time_series(req_times)
+#     months = [3, 4, 5]
+#     days = [5, 6]
+
+#     tc1 = time_components(month=["mar", "apr", "may"], day=days)
+#     tc2 = time_components(month=months, day=days)
+
+#     for tc in (tc1, tc2):
+#         result = subset(
+#             CMIP5_DAY, time=ts, time_components=tc, output_dir=tmpdir, file_namer="simple"
+#         )
+#         ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+#         assert set(ds.time.dt.month.values) == set(months)
+#         assert set(ds.time.dt.day.values) == set(days)
+#         assert len(ds.time.values) == (ye - ys) * len(months) * len(days)
+# dateutil.parser._parser.ParserError: day is out of range for month: 2007-02-29T12:00:00
+
+
+@pytest.mark.online
+def test_subset_by_time_series_and_components_month_day_cmip6(
+    tmpdir, load_esgf_test_data
+):
+    # 18500101-20141231
+
+    # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
+    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+
+    ys, ye = 1998, 2010
+    req_times = [
+        tm.isoformat()
+        for tm in xr.open_dataset(CMIP6_DAY).time.values
+        if ys <= tm.year <= ye
+    ]
+
+    ts = time_series(req_times)
+    months = [3, 4, 5]
+    days = [5, 6]
+
+    tc1 = time_components(month=["mar", "apr", "may"], day=days)
+    tc2 = time_components(month=months, day=days)
+
+    for tc in (tc1, tc2):
+        result = subset(
+            CMIP6_DAY,
+            time=ts,
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
+        )
+        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+        assert set(ds.time.dt.month.values) == set(months)
+        assert set(ds.time.dt.day.values) == set(days)
+        assert len(ds.time.values) == (ye - ys + 1) * len(months) * len(days)
+        ds.close()
+
+
+@pytest.mark.online
+def test_subset_components_day_monthly_dataset(tmpdir, load_esgf_test_data):
+    #  tests key error is raised when trying to select a non existent day on a monthly dataset
+    # 18500101-20141231
+
+    # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
+    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    ys, ye = 1998, 2010
+    req_times = [
+        tm.isoformat()
+        for tm in xr.open_dataset(CMIP6_MONTH).time.values
+        if ys <= tm.year <= ye
+    ]
+
+    ts = time_series(req_times)
+    months = [3, 4, 5]
+    days = [5, 6]
+
+    tc = time_components(month=months, day=days)
+
+    with pytest.raises(KeyError) as exc:
+        subset(
+            CMIP6_MONTH,
+            time=ts,
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
+        )
+
+
+@pytest.mark.online
+def test_subset_by_time_series(tmpdir, load_esgf_test_data):
+    t = [str(tm) for tm in xr.open_dataset(CMIP5_TAS_FPATH).time.values]
+    some_times = [t[0], t[100], t[4], t[33], t[9]]
+
+    result = subset(
+        CMIP5_TAS_FPATH,
+        time=time_series(some_times),
+        output_dir=tmpdir,
+        file_namer="simple",
+    )
+    _check_output_nc(result)
+
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+    assert len(ds.time) == 5
+    assert [str(t) for t in ds.time.values] == sorted(some_times)
+    ds.tas.time.shape == (5,)
+
+    ds.close()
+
+
+@pytest.mark.online
+def test_subset_by_level_series(tmpdir, load_esgf_test_data):
+    some_levels = [60000.0, 15000.0, 40000.0, 1000.0, 92500.0]
+
+    result = subset(
+        CMIP6_IDS[0],
+        level=level_series(some_levels),
+        output_dir=tmpdir,
+        file_namer="simple",
+    )
+    _check_output_nc(result)
+
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+    assert len(ds.plev) == 5
+    np.testing.assert_array_equal(ds.plev.values, sorted(some_levels, reverse=True))
+    ds.o3.plev.shape == (5,)
+
+    ds.close()
