@@ -43,7 +43,7 @@ def get_years_from_file(fpath):
     time_comps = os.path.splitext(os.path.basename(fpath))[0].split("_")[-1].split("-")
     years = {int(tm[:4]) for tm in time_comps if re.match(r"^\d{4,}", tm)}
 
-    # If a range of years 
+    # If a range of years
     if len(years) > 1:
         years = set(range(min(years), max(years) + 1))
 
@@ -61,7 +61,7 @@ def get_files_matching_time_range(time_param, file_paths):
     Using the settings in `time_param`, examine each file to see if it contains
     years that are in the requested range.
 
-    The `time_param` can have three types: 
+    The `time_param` can have three types:
         1. type: "interval":
            - defined with "start_time" and "end_time"
         2. type: "series":
@@ -154,7 +154,7 @@ def consolidate(collection, **kwargs):
 
         else:
             ds_id = derive_ds_id(dset)
-            result = catalog.search(collection=ds_id, time=time_param.get_bounds())
+            result = catalog.search(collection=ds_id, time=time_param)
 
             if len(result) == 0:
                 result = catalog.search(collection=ds_id, time=None)
