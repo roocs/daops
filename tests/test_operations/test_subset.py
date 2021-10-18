@@ -193,7 +193,7 @@ def test_subset_t_z_y_x(tmpdir, load_esgf_test_data):
 
     result = subset(
         CMIP6_IDS[0],
-        time=time_interval("1890-01-16", "1901-12-16"),
+        time=time_interval("1900-01-16", "1900-12-16"),
         area=(0, -10, 120, 40),
         level=level_interval(10000, 850.0),
         output_dir=tmpdir,
@@ -202,7 +202,7 @@ def test_subset_t_z_y_x(tmpdir, load_esgf_test_data):
     _check_output_nc(result)
 
     ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
-    assert ds_subset.o3.shape == (143, 6, 1, 1)
+    assert ds_subset.o3.shape == (12, 6, 1, 1)
 
 
 @pytest.mark.online
@@ -402,7 +402,7 @@ def test_subset_with_catalog(tmpdir, load_esgf_test_data):
     )
 
     _check_output_nc(
-        result, fname="rlds_Amon_INM-CM5-0_ssp245_r1i1p1f1_gr1_20280116-20501116.nc"
+        result, fname="rlds_Amon_INM-CM5-0_ssp245_r1i1p1f1_gr1_20280116-20501216.nc"
     )
 
 
