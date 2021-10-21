@@ -74,7 +74,7 @@ setup(
     license=__license__,
     # This qualifier can be used to selectively exclude Python versions -
     # in this case early Python 2 and 3 releases
-    python_requires=">=3.6.0",
+    python_requires=">=3.7.0",
     install_requires=[
         requirements,
     ],
