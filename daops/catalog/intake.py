@@ -28,9 +28,9 @@ class IntakeCatalog(Catalog):
             self._store[self.project] = self.catalog[self.project].read()
         return self._store[self.project]
 
-    def _query(self, collection, time=None):
+    def _query(self, collection, time=None, time_components=None):
         df = self.load()
-        start, end = parse_time(time)
+        start, end = parse_time(time, time_components)
 
         # workaround for NaN values when no time axis (fx datasets)
         df = df.fillna({"start_time": MIN_DATETIME, "end_time": MAX_DATETIME})

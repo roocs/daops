@@ -43,3 +43,24 @@ def write_roocs_cfg():
 
     # point to roocs cfg in environment
     os.environ["ROOCS_CONFIG"] = ROOCS_CFG
+
+
+CMIP5_TAS_FPATH = Path(
+    MINI_ESGF_MASTER_DIR,
+    "test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc",
+).as_posix()
+
+CMIP5_DAY = Path(
+    MINI_ESGF_MASTER_DIR,
+    "test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp45/day/land/day/r1i1p1/latest/mrsos/mrsos_day_HadGEM2-ES_rcp45_r1i1p1_20051201-20151130.nc",
+).as_posix()
+
+CMIP6_MONTH = Path(
+    MINI_ESGF_MASTER_DIR,
+    "test_data/badc/cmip6/data/CMIP6/CMIP/CCCma/CanESM5/historical/r1i1p1f1/SImon/siconc/gn/latest/siconc_SImon_CanESM5_historical_r1i1p1f1_gn_185001-201412.nc",
+).as_posix()
+
+CMIP6_DAY = Path(
+    MINI_ESGF_MASTER_DIR,
+    "test_data/badc/cmip6/data/CMIP6/CMIP/CCCma/CanESM5/historical/r1i1p1f1/SIday/siconc/gn/v20190429/siconc_SIday_CanESM5_historical_r1i1p1f1_gn_18500101-20141231.nc",
+).as_posix()
