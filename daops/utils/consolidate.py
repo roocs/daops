@@ -146,9 +146,7 @@ def consolidate(collection, **kwargs):
 
             # If no files are matched then raise an exception
             if len(file_paths) == 0:
-                raise Exception(
-                    f"No files found in given time range for {dset}"
-                )
+                raise Exception(f"No files found in given time range for {dset}")
 
             filtered_refs[dset] = file_paths
 

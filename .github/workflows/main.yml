@@ -29,7 +29,7 @@ jobs:
       run: flake8 daops tests
       if: matrix.python-version == 3.7
     - name: Check formatting with black
-      run: black --check --target-version py36 daops tests
+      run: black --check --target-version py37 daops tests
       if: matrix.python-version == 3.7
     - name: Test with pytest
       run: |
