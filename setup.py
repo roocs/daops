@@ -6,7 +6,7 @@ __author__ = """Elle Smith"""
 __contact__ = "eleanor.smith@stfc.ac.uk"
 __copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
 __license__ = "BSD"
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 import os
 from setuptools import setup, find_packages
