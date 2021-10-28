@@ -8,13 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.7, 3.8, 3.9]
     steps:
     - uses: actions/checkout@v2
     - name: Install packages
       run: |
         sudo apt-get -y install pandoc
-      if: matrix.python-version == 3.6
+      if: matrix.python-version == 3.7
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -27,13 +27,13 @@ jobs:
         if [ -f requirements_dev.txt ]; then pip install -r requirements_dev.txt; fi
     - name: Lint with flake8
       run: flake8 daops tests
-      if: matrix.python-version == 3.6
+      if: matrix.python-version == 3.7
     - name: Check formatting with black
-      run: black --check --target-version py36 daops tests
-      if: matrix.python-version == 3.6
+      run: black --check --target-version py37 daops tests
+      if: matrix.python-version == 3.7
     - name: Test with pytest
       run: |
         pytest -v tests
     - name: Build docs 🏗️
       run: make docs
-      if: matrix.python-version == 3.6
+      if: matrix.python-version == 3.7
