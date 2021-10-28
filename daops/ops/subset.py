@@ -19,7 +19,7 @@ class Subset(Operation):
             time=params.get("time"),
             area=params.get("area"),
             level=params.get("level"),
-            time_components=params.get("time_components")
+            time_components=params.get("time_components"),
         )
 
         self.collection = parameters.pop("collection")
@@ -47,11 +47,11 @@ def subset(
 
     Parameters
     ----------
-    collection: Collection of datasets to process, sequence or string of 
+    collection: Collection of datasets to process, sequence or string of
       comma-separated dataset identifiers.
     time: Time interval (defined by start/end) or time series (a sequence of
       datetime values) to subset over. Datetimes are typically provided as strings.
-    area: Area to subset over, sequence or string of comma separated lat and lon 
+    area: Area to subset over, sequence or string of comma separated lat and lon
       bounds. Must contain 4 values.
     level: Level interval (defined by start/end) or level series (a sequence of
       values) to subset over. Levels are typically provided as integers or floats.
