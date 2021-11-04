@@ -7,6 +7,7 @@ import pytest
 import xarray as xr
 
 from daops.ops.subset import subset
+from tests._common import CMIP6_DECADAL
 from tests._common import MINI_ESGF_MASTER_DIR
 
 
@@ -18,7 +19,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 def test_fixes_applied_decadal_data(tmpdir, load_esgf_test_data):
 
     result = subset(
-        "CMIP6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417",
+        CMIP6_DECADAL,
         output_dir=tmpdir,
         file_namer="simple",
     )

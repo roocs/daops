@@ -1,10 +1,12 @@
 import numpy as np
 import xarray as xr
+from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
 from daops.data_utils.attr_utils import add_global_attrs_if_needed
 from daops.data_utils.attr_utils import edit_global_attrs
 from daops.data_utils.attr_utils import edit_var_attrs
 from daops.data_utils.attr_utils import remove_fill_values
+from tests._common import CMIP6_DECADAL
 from tests._common import MINI_ESGF_MASTER_DIR
 
 
@@ -56,6 +58,25 @@ def test_edit_global_attrs(load_esgf_test_data):
     assert ds_change_global_attrs.attrs["comment"] == "this is a test commment"
     assert ds_change_global_attrs.attrs["title"] == "this is a test title"
     assert ds_change_global_attrs.attrs["test"] == "this is a new test attribute"
+
+
+def test_edit_global_attrs_with_derive(load_esgf_test_data):
+    ds = open_xr_dataset(CMIP6_DECADAL)
+    ds_id = "CMIP6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417"
+
+    assert ds.attrs.get("startdate") is None
+    assert ds.attrs.get("sub_experiment_id")
+
+    operands = {
+        "attrs": {
+            "startdate": "derive: daops.data_utils.fix_utils.get_sub_experiment_id",
+            "sub_experiment_id": "derive: daops.data_utils.fix_utils.get_sub_experiment_id",
+        }
+    }
+    ds_change_global_attrs = edit_global_attrs(ds_id, ds, **operands)
+
+    assert ds_change_global_attrs.attrs["startdate"] == "s200411"
+    assert ds_change_global_attrs.attrs["sub_experiment_id"] == "s200411"
 
 
 def test_add_global_attrs_if_needed(load_esgf_test_data):

@@ -1,7 +1,9 @@
 from roocs_utils.xarray_utils import xarray_utils as xu
 
+from .fix_utils import handle_derive_str
 
-def edit_var_attrs(ds, **operands):
+
+def edit_var_attrs(ds_id, ds, **operands):
     """
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
@@ -12,27 +14,29 @@ def edit_var_attrs(ds, **operands):
 
     attrs = operands.get("attrs")
     for k, v in operands.get("attrs").items():
+        v = handle_derive_str(v, ds_id, ds)
         ds[var_id].attrs[k] = v
 
     return ds
 
 
-def edit_global_attrs(ds, **operands):
+def edit_global_attrs(ds_id, ds, **operands):
     """
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
     :return: Xarray DataArray
     Change the gloabl attributes.
     """
-
     attrs = operands.get("attrs")
+
     for k, v in operands.get("attrs").items():
+        v = handle_derive_str(v, ds_id, ds)
         ds.attrs[k] = v
 
     return ds
 
 
-def add_global_attrs_if_needed(ds, **operands):
+def add_global_attrs_if_needed(ds_id, ds, **operands):
     """
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
@@ -43,13 +47,14 @@ def add_global_attrs_if_needed(ds, **operands):
     attrs = operands.get("attrs")
     for k, v in operands.get("attrs").items():
         # check if the key already exists before setting it
+        v = handle_derive_str(v, ds_id, ds)
         if not ds.attrs.get(k, None):
             ds.attrs[k] = v
 
     return ds
 
 
-def remove_fill_values(ds):
+def remove_fill_values(ds_id, ds):
     """
     :param ds: Xarray Dataset
     :param operands: sequence of arguments
