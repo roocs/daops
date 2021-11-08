@@ -17,6 +17,8 @@ def test_edit_var_attrs(load_esgf_test_data):
         use_cftime=True,
     )
 
+    ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
+
     assert ds.lat.attrs["standard_name"] == "latitude"
     assert ds.lat.attrs["long_name"] == "latitude"
 
@@ -27,7 +29,7 @@ def test_edit_var_attrs(load_esgf_test_data):
             "standard_name": "fake_standard_name",
         },
     }
-    ds_change_var_attrs = edit_var_attrs(ds, **operands)
+    ds_change_var_attrs = edit_var_attrs(ds_id, ds, **operands)
     assert ds_change_var_attrs.lat.attrs["standard_name"] == "fake_standard_name"
     assert ds_change_var_attrs.lat.attrs["long_name"] == "False long name"
 
@@ -38,6 +40,7 @@ def test_edit_global_attrs(load_esgf_test_data):
         combine="by_coords",
         use_cftime=True,
     )
+    ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
 
     assert (
         ds.attrs["comment"]
@@ -53,7 +56,7 @@ def test_edit_global_attrs(load_esgf_test_data):
             "test": "this is a new test attribute",
         }
     }
-    ds_change_global_attrs = edit_global_attrs(ds, **operands)
+    ds_change_global_attrs = edit_global_attrs(ds_id, ds, **operands)
 
     assert ds_change_global_attrs.attrs["comment"] == "this is a test commment"
     assert ds_change_global_attrs.attrs["title"] == "this is a test title"
@@ -86,6 +89,8 @@ def test_add_global_attrs_if_needed(load_esgf_test_data):
         use_cftime=True,
     )
 
+    ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
+
     assert (
         ds.attrs["comment"]
         == "Equilibrium reached after preindustrial spin-up after which data were output starting with nominal date of January 1850"
@@ -100,7 +105,7 @@ def test_add_global_attrs_if_needed(load_esgf_test_data):
             "test": "this is a new test attribute",
         }
     }
-    ds_change_global_attrs = add_global_attrs_if_needed(ds, **operands)
+    ds_change_global_attrs = add_global_attrs_if_needed(ds_id, ds, **operands)
 
     assert (
         ds_change_global_attrs.attrs["comment"]
@@ -120,12 +125,14 @@ def test_remove_fill_values(load_esgf_test_data):
         use_cftime=True,
     )
 
+    ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
+
     assert ds.lat.encoding.get("_FillValue", "") == ""
     assert ds.lat.encoding.get("_FillValue", "") == ""
     assert ds.lat.encoding.get("_FillValue", "") == ""
 
     operands = {}
-    ds = remove_fill_values(ds, **operands)
+    ds = remove_fill_values(ds_id, ds, **operands)
 
     assert ds.lat.encoding.get("_FillValue", "") is None
     assert ds.lat.encoding.get("_FillValue", "") is None

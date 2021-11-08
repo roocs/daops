@@ -62,6 +62,8 @@ def add_coord(ds_id, ds, **operands):
     dtype = operands.get("dtype")
 
     value = handle_derive_str(value, ds_id, ds)
+    if isinstance(value, str):
+        value = value.split(",")
     ds = ds.assign_coords({f"{var_id}": (dim, np.array(value, dtype=dtype))})
 
     for k, v in operands.get("attrs").items():
