@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def add_data_var(ds, **operands):
+def add_data_var(ds_id, ds, **operands):
     """
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
