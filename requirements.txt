@@ -1,6 +1,7 @@
 numpy>=1.16
 xarray>=0.19
 dask[complete]
+cftime
 netcdf4
 elasticsearch>=7.8.0
 clisops>=0.7.0
@@ -9,4 +10,3 @@ roocs-utils>=0.5.0
 intake
 fsspec
 aiohttp
-cftime
