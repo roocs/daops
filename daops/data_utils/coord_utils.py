@@ -1,7 +1,7 @@
 import numpy as np
 from roocs_utils.xarray_utils import xarray_utils as xu
 
-from .fix_utils import handle_derive_str
+from .common_utils import handle_derive_str
 
 
 def squeeze_dims(ds_id, ds, **operands):
@@ -62,8 +62,6 @@ def add_coord(ds_id, ds, **operands):
     dtype = operands.get("dtype")
 
     value = handle_derive_str(value, ds_id, ds)
-    if isinstance(value, str):
-        value = value.split(",")
     ds = ds.assign_coords({f"{var_id}": (dim, np.array(value, dtype=dtype))})
 
     for k, v in operands.get("attrs").items():

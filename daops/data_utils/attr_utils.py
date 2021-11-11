@@ -1,6 +1,6 @@
 from roocs_utils.xarray_utils import xarray_utils as xu
 
-from .fix_utils import handle_derive_str
+from .common_utils import handle_derive_str
 
 
 def edit_var_attrs(ds_id, ds, **operands):
@@ -70,7 +70,7 @@ def remove_fill_values(ds_id, ds):
     return ds
 
 
-def remove_coord_attr(ds, **operands):
+def remove_coord_attr(ds_id, ds, **operands):
     """
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
@@ -78,8 +78,8 @@ def remove_coord_attr(ds, **operands):
 
     Remove coordinate attribute that is added by xarray, for specified variables.
     """
+    var_ids = handle_derive_str(operands.get("var_ids"), ds_id, ds)
 
-    var_ids = operands.get("var_ids")
     for v in var_ids:
         ds[v].encoding["coordinates"] = None
 

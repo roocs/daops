@@ -9,3 +9,4 @@ roocs-utils>=0.5.0
 intake
 fsspec
 aiohttp
+cftime

@@ -72,14 +72,33 @@ def test_edit_global_attrs_with_derive(load_esgf_test_data):
 
     operands = {
         "attrs": {
-            "startdate": "derive: daops.data_utils.fix_utils.get_sub_experiment_id",
-            "sub_experiment_id": "derive: daops.data_utils.fix_utils.get_sub_experiment_id",
+            "startdate": "derive: daops.fix_utils.decadal_utils.get_sub_experiment_id",
+            "sub_experiment_id": "derive: daops.fix_utils.decadal_utils.get_sub_experiment_id",
         }
     }
     ds_change_global_attrs = edit_global_attrs(ds_id, ds, **operands)
 
     assert ds_change_global_attrs.attrs["startdate"] == "s200411"
     assert ds_change_global_attrs.attrs["sub_experiment_id"] == "s200411"
+
+
+def test_edit_global_attrs_with_derive_and_arg(load_esgf_test_data):
+    ds = open_xr_dataset(CMIP6_DECADAL)
+    ds_id = "CMIP6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417"
+
+    assert ds.attrs.get("forcing_description") is None
+
+    operands = {
+        "attrs": {
+            "forcing_description": "derive: daops.fix_utils.decadal_utils.get_decadal_model_attr_from_dict: forcing_description",
+        }
+    }
+    ds_change_global_attrs = edit_global_attrs(ds_id, ds, **operands)
+
+    assert (
+        ds_change_global_attrs.attrs["forcing_description"]
+        == "f2, CMIP6 v6.2.0 forcings; no ozone remapping"
+    )
 
 
 def test_add_global_attrs_if_needed(load_esgf_test_data):

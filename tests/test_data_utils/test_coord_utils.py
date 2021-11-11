@@ -65,7 +65,7 @@ def test_add_scalar_coord_with_derive(load_esgf_test_data):
 
     operands = {
         "var_id": "reftime",
-        "value": "derive: daops.data_utils.fix_utils.get_reftime",
+        "value": "derive: daops.fix_utils.decadal_utils.get_reftime",
         "dtype": "datetime64[ns]",
         "attrs": {
             "long_name": "Start date of the forecast",
@@ -119,7 +119,7 @@ def test_add_coord_with_derive(load_esgf_test_data):
 
     operands = {
         "var_id": "leadtime",
-        "value": "derive: daops.data_utils.fix_utils.get_lead_times",
+        "value": "derive: daops.fix_utils.decadal_utils.get_lead_times",
         "dim": ["time"],
         "dtype": "timedelta64[D]",
         "attrs": {
