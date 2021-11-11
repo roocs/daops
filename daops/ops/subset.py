@@ -19,6 +19,7 @@ class Subset(Operation):
             time=params.get("time"),
             area=params.get("area"),
             level=params.get("level"),
+            time_components=params.get("time_components"),
         )
 
         self.collection = parameters.pop("collection")
@@ -33,6 +34,7 @@ def subset(
     time=None,
     area=None,
     level=None,
+    time_components=None,
     output_dir=None,
     output_type="netcdf",
     split_method="time:auto",
@@ -45,10 +47,15 @@ def subset(
 
     Parameters
     ----------
-    collection: Collection of datasets to process, sequence or string of comma separated dataset identifiers.
-    time: Time period - Time range to subset over, sequence of two time values or string of two / separated time values
-    area: Area to subset over, sequence or string of comma separated lat and lon bounds. Must contain 4 values.
-    level: Level range - Level values to subset over, sequence of two level values or string of two / separated level values
+    collection: Collection of datasets to process, sequence or string of
+      comma-separated dataset identifiers.
+    time: Time interval (defined by start/end) or time series (a sequence of
+      datetime values) to subset over. Datetimes are typically provided as strings.
+    area: Area to subset over, sequence or string of comma separated lat and lon
+      bounds. Must contain 4 values.
+    level: Level interval (defined by start/end) or level series (a sequence of
+      values) to subset over. Levels are typically provided as integers or floats.
+    time_compoonents: Time components to filter on: year, month, day, hour, minute, second
     output_dir: str or path like object describing output directory for output files.
     output_type: {"netcdf", "nc", "zarr", "xarray"}
     split_method: {"time:auto"}
@@ -66,6 +73,7 @@ def subset(
     | time: ("1999-01-01T00:00:00", "2100-12-30T00:00:00")
     | area: (-5.,49.,10.,65)
     | level: (1000.,)
+    | time_components: {"month": ["dec", "jan", "feb"]}
     | output_type: "netcdf"
     | output_dir: "/cache/wps/procs/req0111"
     | split_method: "time:auto"

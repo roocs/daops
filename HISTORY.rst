@@ -1,6 +1,24 @@
 Version History
 ===============
 
+v0.7.0 (2021-10-28)
+-------------------
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.7.0 and ``roocs-utils``>=0.5.0 required.
+* ``fsspec`` no longer constrained to ``fsspec`` < 0.9
+* Python 3.7 required.
+* ``time`` input for ``time`` in ``ops.subset.subset`` but now be one of [<class 'roocs_utils.parameter.param_utils.Interval'>, <class 'roocs_utils.parameter.param_utils.Series'>, <class 'NoneType'>, <class 'str'>].
+* ``level`` input for ``level`` in ``ops.subset.subset`` but now be one of [<class 'roocs_utils.parameter.param_utils.Interval'>, <class 'roocs_utils.parameter.param_utils.Series'>, <class 'NoneType'>, <class 'str'>].
+
+New Features
+^^^^^^^^^^^^
+* ``time_components`` argument added to ``ops.subset.subset`` to allowing subsetting by time components such as year, month, day etc.
+
+Other Changes
+^^^^^^^^^^^^^
+* Python 3.6 no longer tested in GitHub actions.
+
 v0.6.0 (2021-05-19)
 -------------------
 Breaking Changes

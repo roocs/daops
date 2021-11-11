@@ -2,11 +2,17 @@ numpy>=1.16
 xarray>=0.19
 dask[complete]
 netcdf4
+<<<<<<< HEAD
 elasticsearch>=7.9.0
 clisops>=0.6.4
 # clisops @ git+https://github.com/roocs/clisops.git
 # roocs-utils>=0.4.2
 roocs-utils @ git+https://github.com/roocs/roocs-utils.git@master#egg=roocs-utils
+=======
+elasticsearch>=7.8.0
+clisops>=0.7.0
+roocs-utils>=0.5.0
+>>>>>>> master
 # catalog
 intake
 fsspec
