@@ -89,7 +89,7 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir, load_esgf_test_data):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store "] = fix_index
+    CONFIG["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
@@ -167,7 +167,7 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir, load_esgf_test_data):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store "] = fix_index
+    CONFIG["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
@@ -244,7 +244,7 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir, load_esgf_test_data):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store "] = fix_index
+    CONFIG["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
@@ -321,7 +321,7 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir, load_esgf_test_data):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store "] = fix_index
+    CONFIG["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
@@ -399,7 +399,7 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir, load_esgf_test_data):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store "] = fix_index
+    CONFIG["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
@@ -477,7 +477,7 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir, load_esgf_test_data):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store "] = fix_index
+    CONFIG["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
@@ -555,7 +555,7 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir, load_esgf_test_data):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store "] = fix_index
+    CONFIG["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
@@ -633,4 +633,4 @@ def test_fixes_applied_decadal_CMCC_day(tmpdir, load_esgf_test_data):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store "] = fix_index
+    CONFIG["elasticsearch"]["fix_store"] = fix_index
