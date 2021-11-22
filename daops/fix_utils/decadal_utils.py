@@ -125,7 +125,7 @@ def fix_further_info_url(ds_id, ds):
     model = ds_id.split(".")[3]
     further_info_url = ds.attrs.get("further_info_url", None)
 
-    if model == "EC-Earth3" and "none" in further_info_url:
+    if "none" in further_info_url:
         year = get_sub_experiment_id(ds_id, ds)[:-2]
         return further_info_url.replace("none", year)
 
