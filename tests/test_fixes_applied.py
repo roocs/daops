@@ -19,7 +19,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 def test_fixes_applied_decadal_MOHC_mon(tmpdir, load_esgf_test_data):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
-    test_fix_index = "c3s-roocs-fix-for-tests"
+    test_fix_index = "c3s-roocs-fix"
     CONFIG["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
@@ -96,7 +96,7 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir, load_esgf_test_data):
 def test_fixes_applied_decadal_MOHC_day(tmpdir, load_esgf_test_data):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
-    test_fix_index = "c3s-roocs-fix-for-tests"
+    test_fix_index = "c3s-roocs-fix"
     CONFIG["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
@@ -174,7 +174,7 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir, load_esgf_test_data):
 def test_fixes_applied_decadal_EC_Earth_mon(tmpdir, load_esgf_test_data):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
-    test_fix_index = "c3s-roocs-fix-for-tests"
+    test_fix_index = "c3s-roocs-fix"
     CONFIG["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
@@ -251,7 +251,7 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir, load_esgf_test_data):
 def test_fixes_applied_decadal_EC_Earth_day(tmpdir, load_esgf_test_data):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
-    test_fix_index = "c3s-roocs-fix-for-tests"
+    test_fix_index = "c3s-roocs-fix"
     CONFIG["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
@@ -328,7 +328,7 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir, load_esgf_test_data):
 def test_fixes_applied_decadal_MPI_M_mon(tmpdir, load_esgf_test_data):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
-    test_fix_index = "c3s-roocs-fix-for-tests"
+    test_fix_index = "c3s-roocs-fix"
     CONFIG["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
@@ -406,7 +406,7 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir, load_esgf_test_data):
 def test_fixes_applied_decadal_MPI_M_day(tmpdir, load_esgf_test_data):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
-    test_fix_index = "c3s-roocs-fix-for-tests"
+    test_fix_index = "c3s-roocs-fix"
     CONFIG["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
@@ -484,7 +484,7 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir, load_esgf_test_data):
 def test_fixes_applied_decadal_CMCC_mon(tmpdir, load_esgf_test_data):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
-    test_fix_index = "c3s-roocs-fix-for-tests"
+    test_fix_index = "c3s-roocs-fix"
     CONFIG["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
@@ -558,11 +558,12 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir, load_esgf_test_data):
     CONFIG["elasticsearch"]["fix_store"] = fix_index
 
 
+@pytest.mark.skip(reason="no CMCC day datasets on c3s fix index")
 @pytest.mark.online
 def test_fixes_applied_decadal_CMCC_day(tmpdir, load_esgf_test_data):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
-    test_fix_index = "c3s-roocs-fix-for-tests"
+    test_fix_index = "c3s-roocs-fix"
     CONFIG["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
