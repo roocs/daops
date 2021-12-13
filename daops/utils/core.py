@@ -90,7 +90,7 @@ def open_dataset(ds_id, file_paths, apply_fixes=True):
             for post_process in fix.post_processors:
                 func, operands = post_process
                 LOGGER.info(f"Running post-processing function: {func.__name__}")
-                ds = func(ds, **operands)
+                ds = func(ds_id, ds, **operands)
 
     else:
         ds = open_xr_dataset(file_paths)

@@ -64,3 +64,8 @@ CMIP6_DAY = Path(
     MINI_ESGF_MASTER_DIR,
     "test_data/badc/cmip6/data/CMIP6/CMIP/CCCma/CanESM5/historical/r1i1p1f1/SIday/siconc/gn/v20190429/siconc_SIday_CanESM5_historical_r1i1p1f1_gn_18500101-20141231.nc",
 ).as_posix()
+
+CMIP6_DECADAL = Path(
+    MINI_ESGF_MASTER_DIR,
+    "test_data/badc/cmip6/data/CMIP6/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s2004-r3i1p1f2/Amon/pr/gn/v20200417/pr_Amon_HadGEM3-GC31-MM_dcppA-hindcast_s2004-r3i1p1f2_gn_200411-200412.nc",
+).as_posix()
