@@ -1,4 +1,5 @@
 from clisops.ops.average import average_over_dims as clisops_average_over_dims
+from clisops.ops.average import average_time as clisops_average_time
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import dimension_parameter
 
@@ -73,5 +74,68 @@ def average_over_dims(
     """
 
     result_set = Average(**locals()).calculate()
+
+    return result_set
+
+
+class AverageTime(Operation):
+    def _resolve_params(self, collection, **params):
+        """
+        Resolve the input parameters to `self.params` and parameterise
+        collection parameter and set to `self.collection`.
+        """
+        freq = params.get("freq")
+        collection = collection_parameter.CollectionParameter(collection)
+
+        self.collection = collection
+        self.params = {
+            "freq": freq,
+        }
+
+    def get_operation_callable(self):
+        return clisops_average_time
+
+
+def average_time(
+    collection,
+    freq="year",
+    output_dir=None,
+    output_type="netcdf",
+    split_method="time:auto",
+    file_namer="standard",
+    apply_fixes=True,
+):
+    """
+    Average input dataset according over indicated frequency.
+
+    Parameters
+    ----------
+    collection: Collection of datasets to process, sequence or string of comma separated dataset identifiers.
+    freq: Frequency to average over {"day", "month", "year"}
+    output_dir: str or path like object describing output directory for output files.
+    output_type: {"netcdf", "nc", "zarr", "xarray"}
+    split_method: {"time:auto"}
+    file_namer: {"standard", "simple"}
+    apply_fixes: Boolean. If True fixes will be applied to datasets if needed. Default is True.
+
+    Returns
+    -------
+    List of outputs in the selected type: a list of xarray Datasets or file paths.
+
+
+    Examples
+    --------
+    | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
+    | freq: "month"
+    | ignore_undetected_dims: (-5.,49.,10.,65)
+    | output_type: "netcdf"
+    | output_dir: "/cache/wps/procs/req0111"
+    | split_method: "time:auto"
+    | file_namer: "standard"
+    | apply_fixes: True
+
+    """
+
+    result_set = AverageTime(**locals()).calculate()
 
     return result_set

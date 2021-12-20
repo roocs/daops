@@ -6,6 +6,9 @@ from roocs_utils.exceptions import InvalidParameterValue
 
 from daops import CONFIG
 from daops.ops.average import average_over_dims
+from daops.ops.average import average_time
+from tests._common import CMIP5_DAY
+from tests._common import CMIP6_MONTH
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -19,7 +22,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 
 
 @pytest.mark.online
-def test_average_time(tmpdir):
+def test_average_dims_time(tmpdir):
     result = average_over_dims(
         CMIP5_IDS[1],
         dims=["time"],
@@ -89,3 +92,29 @@ def test_average_level(tmpdir):
         str(exc.value)
         == "Requested dimensions were not found in input dataset: {'level'}."
     )
+
+
+@pytest.mark.online
+def test_average_time_month(tmpdir):
+    ds = xr.open_mfdataset(CMIP5_DAY, use_cftime=True, combine="by_coords")
+
+    assert ds.time.shape == (3600,)
+    assert ds.time.values[0].isoformat() == "2005-12-01T12:00:00"
+    assert ds.time.values[-1].isoformat() == "2015-11-30T12:00:00"
+
+    result = average_time(
+        CMIP5_DAY,
+        freq="month",
+        output_dir=tmpdir,
+        file_namer="simple",
+        apply_fixes=False,
+    )
+    _check_output_nc(result)
+
+    # check only one output file
+    assert len(result.file_uris) == 1
+    ds_res = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+    assert ds_res.time.shape == (120,)
+    assert ds_res.time.values[0].isoformat() == "2005-12-01T00:00:00"
+    assert ds_res.time.values[-1].isoformat() == "2015-11-01T00:00:00"
