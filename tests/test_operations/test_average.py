@@ -111,10 +111,45 @@ def test_average_time_month(tmpdir):
     )
     _check_output_nc(result)
 
+    time_length = (
+        ds.time.values[-1].year - ds.time.values[0].year
+    ) * 12  # get number of months
+
     # check only one output file
     assert len(result.file_uris) == 1
     ds_res = xr.open_dataset(result.file_uris[0], use_cftime=True)
 
-    assert ds_res.time.shape == (120,)
+    assert ds_res.time.shape == (time_length,)
     assert ds_res.time.values[0].isoformat() == "2005-12-01T00:00:00"
     assert ds_res.time.values[-1].isoformat() == "2015-11-01T00:00:00"
+
+
+@pytest.mark.online
+def test_average_time_year(tmpdir):
+    # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
+    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    ds = xr.open_mfdataset(CMIP6_MONTH, use_cftime=True, combine="by_coords")
+
+    assert ds.time.shape == (1980,)
+    assert ds.time.values[0].isoformat() == "1850-01-16T12:00:00"
+    assert ds.time.values[-1].isoformat() == "2014-12-16T12:00:00"
+
+    result = average_time(
+        CMIP6_MONTH,
+        freq="year",
+        output_dir=tmpdir,
+        file_namer="simple",
+        apply_fixes=False,
+    )
+    _check_output_nc(result)
+
+    time_length = ds.time.values[-1].year - ds.time.values[0].year + 1
+
+    # check only one output file
+    assert len(result.file_uris) == 1
+    ds_res = xr.open_dataset(result.file_uris[0], use_cftime=True)
+
+    assert ds_res.time.shape == (time_length,)
+    assert ds_res.time.values[0].isoformat() == "1850-01-01T00:00:00"
+    assert ds_res.time.values[-1].isoformat() == "2014-01-01T00:00:00"
+    CONFIG["project:c3s-cmip6"]["use_catalog"] = True
