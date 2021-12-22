@@ -1,3 +1,5 @@
+import cf_xarray
+
 from roocs_utils.xarray_utils import xarray_utils as xu
 
 from .common_utils import handle_derive_str
@@ -66,6 +68,10 @@ def remove_fill_values(ds_id, ds):
     for coord_id in ds[main_var].dims:
         if ds.coords[coord_id].dims == (coord_id,):
             ds[coord_id].encoding["_FillValue"] = None
+
+        bounds = ds.cf.get_bounds(coord_id)
+        if bounds is not None:
+            bounds.encoding["_FillValue"] = None
 
     return ds
 
