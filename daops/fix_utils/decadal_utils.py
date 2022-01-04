@@ -28,12 +28,17 @@ model_specific_global_attrs = {
 }
 
 
+def get_time_calendar(ds_id, ds):
+    times = ds.time.values
+    cal = times[0].calendar
+    return cal
+
+
 def get_lead_times(ds_id, ds):
 
     start_date = datetime.fromisoformat(get_start_date(ds_id, ds))
 
-    times = ds.time.values
-    cal = times[0].calendar
+    cal = get_time_calendar(ds_id, ds)
     reftime = cftime.datetime(
         start_date.year,
         start_date.month,
@@ -46,7 +51,7 @@ def get_lead_times(ds_id, ds):
 
     lead_times = []
     # calculate leadtime from reftime and valid times
-    for time in times:
+    for time in ds.time.values:
         td = time - reftime
         days = td.days
         lead_times.append(days)
