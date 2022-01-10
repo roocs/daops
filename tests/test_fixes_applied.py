@@ -58,10 +58,10 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.Datetime360Day(2004, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.Datetime360Day(2004, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -79,15 +79,6 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
@@ -143,10 +134,10 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.Datetime360Day(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.Datetime360Day(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -164,15 +155,6 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
@@ -227,10 +209,10 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.DatetimeProlepticGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.DatetimeProlepticGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -248,15 +230,6 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
@@ -311,10 +284,10 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.DatetimeProlepticGregorian(1961, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.DatetimeProlepticGregorian(1961, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -332,15 +305,6 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
@@ -395,10 +359,10 @@ def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -416,15 +380,6 @@ def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
@@ -480,10 +435,10 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -501,15 +456,6 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
@@ -565,10 +511,10 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -586,15 +532,6 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
@@ -650,10 +587,10 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.DatetimeNoLeap(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.DatetimeNoLeap(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -671,15 +608,6 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
@@ -736,10 +664,10 @@ def test_fixes_applied_decadal_CMCC_day(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    assert ds.reftime.values == np.array(
-        cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    )
+    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    # assert ds.reftime.values == np.array(
+    #     cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    # )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -757,15 +685,6 @@ def test_fixes_applied_decadal_CMCC_day(tmpdir, load_esgf_test_data):
         ds.realization.comment
         == "For more information on the ripf, refer to the variant_label, initialization_description, physics_description and forcing_description global attributes"
     )
-
-    # check RemoveFillValuesFix is applied
-    # assert no fill value for coordinate variables
-    assert ds.lon.encoding.get("_FillValue") is None
-    assert ds.lat.encoding.get("_FillValue") is None
-    assert ds.time.encoding.get("_FillValue") is None
-
-    # compare to e.g. lon_bnds where the fill value is added by xarray but we haven't removed it
-    assert math.isnan(ds.lon_bnds.encoding.get("_FillValue"))
 
     # check coordinate attribute removed from realization and bounds variables
     assert ds.realization.encoding.get("coordinates") is None
