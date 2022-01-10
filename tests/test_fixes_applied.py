@@ -58,10 +58,10 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.Datetime360Day(2004, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.Datetime360Day(2004, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -134,10 +134,10 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.Datetime360Day(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.Datetime360Day(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -209,10 +209,10 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.DatetimeProlepticGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.DatetimeProlepticGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -284,10 +284,10 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.DatetimeProlepticGregorian(1961, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.DatetimeProlepticGregorian(1961, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -359,10 +359,10 @@ def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -435,10 +435,10 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -511,10 +511,10 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -587,10 +587,10 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.DatetimeNoLeap(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.DatetimeNoLeap(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
@@ -664,10 +664,10 @@ def test_fixes_applied_decadal_CMCC_day(tmpdir, load_esgf_test_data):
     # check AddScalarCoord Fix is applied
     assert "reftime" in ds.coords
     assert ds.reftime.dims == ()
-    # assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
-    # assert ds.reftime.values == np.array(
-    #     cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
-    # )
+    assert ds.reftime.encoding["calendar"] == ds.time.values[0].calendar
+    assert ds.reftime.values == np.array(
+        cftime.DatetimeGregorian(1960, 11, 1, 0, 0, 0, 0), dtype=object
+    )
 
     # check AddCoordFix is applied
     assert "leadtime" in ds.coords
