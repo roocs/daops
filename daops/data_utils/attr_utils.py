@@ -54,22 +54,6 @@ def add_global_attrs_if_needed(ds_id, ds, **operands):
     return ds
 
 
-def remove_fill_values(ds_id, ds):
-    """
-    :param ds: Xarray Dataset
-    :param operands: sequence of arguments
-    :return: Xarray Dataset
-    Remove _FillValue attribute that is added by xarray.
-    """
-
-    main_var = xu.get_main_variable(ds)
-    for coord_id in ds[main_var].dims:
-        if ds.coords[coord_id].dims == (coord_id,):
-            ds[coord_id].encoding["_FillValue"] = None
-
-    return ds
-
-
 def remove_coord_attr(ds_id, ds, **operands):
     """
     :param ds: Xarray DataSet
