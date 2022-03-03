@@ -153,3 +153,36 @@ def test_average_time_year(tmpdir):
     assert ds_res.time.values[0].isoformat() == "1850-01-01T00:00:00"
     assert ds_res.time.values[-1].isoformat() == "2014-01-01T00:00:00"
     CONFIG["project:c3s-cmip6"]["use_catalog"] = True
+
+
+@pytest.mark.online
+def test_average_time_incorrect_freq(tmpdir):
+    with pytest.raises(InvalidParameterValue) as exc:
+
+        average_time(
+            CMIP5_DAY,
+            freq="week",
+            output_dir=tmpdir,
+            file_namer="simple",
+            apply_fixes=False,
+        )
+
+    assert (
+        str(exc.value)
+        == "Time frequency for averaging must be one of ['day', 'month', 'year']."
+    )
+
+
+@pytest.mark.online
+def test_average_time_no_freq(tmpdir):
+    with pytest.raises(InvalidParameterValue) as exc:
+
+        average_time(
+            CMIP5_DAY,
+            freq=None,
+            output_dir=tmpdir,
+            file_namer="simple",
+            apply_fixes=False,
+        )
+
+    assert str(exc.value) == "At least one frequency for averaging must be provided"

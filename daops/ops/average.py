@@ -127,7 +127,6 @@ def average_time(
     --------
     | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
     | freq: "month"
-    | ignore_undetected_dims: (-5.,49.,10.,65)
     | output_type: "netcdf"
     | output_dir: "/cache/wps/procs/req0111"
     | split_method: "time:auto"
