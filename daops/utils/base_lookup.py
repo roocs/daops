@@ -16,9 +16,10 @@ class Lookup(object):
     def __init__(self, dset):
         self.dset = dset
         self.es = Elasticsearch(
-            [CONFIG["elasticsearch"]["endpoint"]],
-            use_ssl=True,
-            port=CONFIG["elasticsearch"]["port"],
+            "https://"
+            + CONFIG["elasticsearch"]["endpoint"]
+            + ":"
+            + CONFIG["elasticsearch"]["port"],
         )
 
     def convert_to_ds_id(self):
