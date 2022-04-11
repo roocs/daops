@@ -1,6 +1,16 @@
 Version History
 ===============
 
+v0.8.0 (2022-04-13)
+-------------------
+
+New Features
+^^^^^^^^^^^^
+
+* Added `AverageTime` operation.
+* Added support for decadal fixes (#89, #87, #84, #83).
+
+
 v0.7.0 (2021-10-28)
 -------------------
 Breaking Changes
