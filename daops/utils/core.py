@@ -2,14 +2,12 @@ import collections
 
 import xarray as xr
 from elasticsearch import exceptions
+from loguru import logger
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
 from .base_lookup import Lookup
 from daops import CONFIG
-from daops import logging
 from daops.utils import fixer
-
-LOGGER = logging.getLogger(__file__)
 
 
 def _wrap_sequence(obj):
@@ -80,16 +78,16 @@ def open_dataset(ds_id, file_paths, apply_fixes=True):
         fix = fixer.Fixer(ds_id)
         if fix.pre_processor:
             for pre_process in fix.pre_processors:
-                LOGGER.info(f"Loading data with pre_processor: {pre_process.__name__}")
+                logger.info(f"Loading data with pre_processor: {pre_process.__name__}")
         else:
-            LOGGER.info(f"Loading data")
+            logger.info(f"Loading data")
 
         ds = open_xr_dataset(file_paths, preprocess=fix.pre_processor)
 
         if fix.post_processors:
             for post_process in fix.post_processors:
                 func, operands = post_process
-                LOGGER.info(f"Running post-processing function: {func.__name__}")
+                logger.info(f"Running post-processing function: {func.__name__}")
                 ds = func(ds_id, ds, **operands)
 
     else:
