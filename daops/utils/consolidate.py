@@ -4,6 +4,7 @@ import os
 import re
 
 import xarray as xr
+from loguru import logger
 from roocs_utils.exceptions import InvalidCollection
 from roocs_utils.project_utils import derive_ds_id
 from roocs_utils.project_utils import dset_to_filepaths
@@ -12,11 +13,8 @@ from roocs_utils.project_utils import get_project_name
 from roocs_utils.utils.file_utils import FileMapper
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
-from daops import logging
 from daops.catalog import get_catalog
 from daops.utils.core import _wrap_sequence
-
-LOGGER = logging.getLogger(__file__)
 
 
 def to_year(time_string):
@@ -83,7 +81,7 @@ def get_files_matching_time_range(time_param, file_paths):
     if time_param.type == "none":
         return file_paths
 
-    LOGGER.info(f"Testing {len(file_paths)} files in time range: ...")
+    logger.info(f"Testing {len(file_paths)} files in time range: ...")
     files_in_time_range = []
 
     # Handle times differently depending on the type of time parameter
@@ -109,7 +107,7 @@ def get_files_matching_time_range(time_param, file_paths):
             if req_years.intersection(years):
                 files_in_time_range.append(fpath)
 
-    LOGGER.info(f"Kept {len(files_in_time_range)} files")
+    logger.info(f"Kept {len(files_in_time_range)} files")
     return files_in_time_range
 
 
@@ -163,7 +161,7 @@ def consolidate(collection, **kwargs):
                         f"{dset} is not in the list of available data."
                     )
 
-            LOGGER.info(f"Found {len(result)} files")
+            logger.info(f"Found {len(result)} files")
 
             filtered_refs = result.files()
 
