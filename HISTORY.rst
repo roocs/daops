@@ -3,10 +3,12 @@ Version History
 
 v0.8.0 (2022-04-13)
 -------------------
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.9.0 required.
 
 New Features
 ^^^^^^^^^^^^
-
 * Added `AverageTime` operation (#90).
 * Added support for decadal fixes (#89, #87, #84, #83).
 
