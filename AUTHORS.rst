@@ -16,4 +16,4 @@ Co-Developers
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Trevor James Smith smith.trevorj@ouranos.ca
