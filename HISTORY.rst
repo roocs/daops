@@ -7,7 +7,7 @@ v0.8.0 (2022-04-13)
 New Features
 ^^^^^^^^^^^^
 
-* Added `AverageTime` operation.
+* Added `AverageTime` operation (#90).
 * Added support for decadal fixes (#89, #87, #84, #83).
 
 
