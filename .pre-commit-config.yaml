@@ -11,7 +11,7 @@ repos:
         exclude: 'setup.cfg'
       - id: check-yaml
       - id: debug-statements
--   repo: https://github.com/ambv/black
+  - repo: https://github.com/ambv/black
     rev: 20.8b1
     hooks:
       - id: black
