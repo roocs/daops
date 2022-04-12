@@ -1,7 +1,9 @@
 import os
 import tempfile
 from pathlib import Path
+from typing import Optional
 
+from _pytest.logging import LogCaptureFixture
 from jinja2 import Template
 
 TESTS_HOME = os.path.abspath(os.path.dirname(__file__))
@@ -15,6 +17,32 @@ try:
     os.mkdir(TESTS_OUTPUTS)
 except Exception:
     pass
+
+
+class ContextLogger:
+    """Helper function for safe logging management in pytests"""
+
+    def __init__(self, caplog: Optional[LogCaptureFixture] = False):
+        from loguru import logger
+
+        self.logger = logger
+        self.using_caplog = False
+        if caplog:
+            self.using_caplog = True
+
+    def __enter__(self):
+        self.logger.enable("daops")
+        return self.logger
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """If test is supplying caplog, pytest will manage teardown."""
+
+        self.logger.disable("daops")
+        if not self.using_caplog:
+            try:
+                self.logger.remove()
+            except ValueError:
+                pass
 
 
 def write_roocs_cfg():
