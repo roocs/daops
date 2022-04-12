@@ -21,7 +21,8 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from .._common import TESTS_OUTPUTS, MINI_ESGF_MASTER_DIR
+from .._common import MINI_ESGF_MASTER_DIR
+from .._common import TESTS_OUTPUTS
 
 file_base = (
     f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/"

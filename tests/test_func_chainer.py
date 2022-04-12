@@ -1,11 +1,8 @@
-from pydoc import locate
-
 import pytest
 import xarray as xr
 
 from daops import utils
 from daops.utils.fixer import FuncChainer
-
 from tests._common import MINI_ESGF_MASTER_DIR
 
 CMIP5_IDS = [
