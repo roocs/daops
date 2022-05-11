@@ -620,3 +620,28 @@ def test_subset_by_level_series(tmpdir, load_esgf_test_data):
     ds.o3.plev.shape == (5,)
 
     ds.close()
+
+
+@pytest.mark.online
+def test_subset_nc_consistent_bounds(tmpdir, load_esgf_test_data):
+    """Test daops subset to check consistent bounds in metadata."""
+    result = subset(
+        CMIP6_IDS[0],
+        time=time_interval("1900-01-01T00:00:00", "1900-12-31T00:00:00"),
+        output_dir=tmpdir,
+        file_namer="simple",
+    )
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    # check fill value in bounds
+    assert "_FillValue" not in ds.lat_bnds.encoding
+    assert "_FillValue" not in ds.lon_bnds.encoding
+    assert "_FillValue" not in ds.time_bnds.encoding
+    # check fill value in coordinates
+    assert "_FillValue" not in ds.time.encoding
+    assert "_FillValue" not in ds.lat.encoding
+    assert "_FillValue" not in ds.lon.encoding
+    # assert "_FillValue" not in ds.height.encoding
+    # check coordinates in bounds
+    assert "coordinates" not in ds.lat_bnds.encoding
+    assert "coordinates" not in ds.lon_bnds.encoding
+    assert "coordinates" not in ds.time_bnds.encoding
