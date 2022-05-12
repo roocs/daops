@@ -1,6 +1,18 @@
 Version History
 ===============
 
+v0.8.1 (2022-05-12)
+-------------------
+
+Bug fixes
+^^^^^^^^^
+* Fix inconsistent bounds in metadata after subset operation by updating to ``clisops`` 0.9.1 (#94).
+
+Other Changes
+^^^^^^^^^^^^^
+* Merged pre-commit autoupdate (#93).
+* Updated logging using ``loguru`` (#92).
+
 v0.8.0 (2022-04-13)
 -------------------
 Breaking Changes
