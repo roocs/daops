@@ -1,6 +1,15 @@
 Version History
 ===============
 
+v0.8.2 (2023-02-01)
+-------------------
+
+Other Changes
+^^^^^^^^^^^^^
+
+* update requirements.
+* update pre-commit.
+
 v0.8.1 (2022-05-12)
 -------------------
 
