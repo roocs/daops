@@ -4,8 +4,7 @@ dask[complete]
 cftime
 netcdf4
 elasticsearch>=8.0.1
-clisops>=0.9.1
-# clisops @ git+https://github.com/roocs/clisops.git@master#egg=clisops
+clisops>=0.9.4
 roocs-utils>=0.6.2
 # logging
 loguru>=0.5.3
