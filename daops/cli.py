@@ -94,7 +94,8 @@ def main():
     args = parse_args()
     params = get_params(args)
     print(params)
-    return subset(**params)
+    ret = subset(**params)
+    print(ret.file_uris)
 
 
 if __name__ == "__main__":
