@@ -86,7 +86,6 @@ def get_files_matching_time_range(time_param, file_paths):
 
     # Handle times differently depending on the type of time parameter
     if time_param.type == "interval":
-
         tp_start, tp_end = time_param.get_bounds()
         req_start_year = get_year(tp_start, default=-99999999)
         req_end_year = get_year(tp_end, default=999999999)
@@ -98,7 +97,6 @@ def get_files_matching_time_range(time_param, file_paths):
                 files_in_time_range.append(fpath)
 
     elif time_param.type == "series":
-
         # Get requested years and match to files whose years intersect
         req_years = {to_year(tm) for tm in time_param.asdict().get("time_values", [])}
 
@@ -135,7 +133,6 @@ def consolidate(collection, **kwargs):
     time_param = kwargs.get("time")
 
     for dset in collection:
-
         if not catalog:
             file_paths = dset_to_filepaths(dset, force=True)
 

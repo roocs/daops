@@ -113,7 +113,8 @@ def test_is_characterised_all_required_false_none():
 # consolidate fixes data inputs so they can be passed to xarray
 def test_consolidate_data_ref_fpath():
     """Tests daops utils._consolidate_data_ref with file path e.g.
-    /badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc"""
+    /badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc
+    """
     pass
 
 
