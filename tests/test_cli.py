@@ -43,7 +43,7 @@ def _get_input_dict(args, **kwargs):
 def test1(args, expected_shape, tmpdir, load_esgf_test_data):
     d = _get_input_dict(args, output_dir=tmpdir, file_namer="simple", apply_fixes=False)
     result = subset(**d)
-    
+
     _check_output_nc(result)
     ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds.o3.shape == expected_shape
