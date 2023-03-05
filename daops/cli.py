@@ -10,13 +10,7 @@ import sys
 import dateutil.parser
 
 from daops.ops.subset import subset
-from roocs_utils.parameter.param_utils import time_interval
 from roocs_utils.parameter.param_utils import time_components
-
-
-def time_window_arg(val):
-    start, end = val.split('/')
-    return time_interval(start, end)
 
 
 def time_components_arg(val):
@@ -39,7 +33,7 @@ def parse_args():
                                      'e.g. --area=-10,...'))
     parser_subset.add_argument('--time', '-t', type=time_window_arg, metavar='time_window',
                                help='time window e.g. 1999-01-01T00:00:00/2100-12-30T00:00:00')
-    parser_subset.add_argument('--time-components', '-c', type=time_components_arg, metavar='time_components',
+    parser_subset.add_argument('--time-components', '-c', type=str, metavar='time_components',
                                help="time components e.g. month:dec,jan,feb or 'year:1970,1980|month:01,02,03'")
     parser_subset.add_argument('--levels', '-l', type=str,
                                metavar='levels',
