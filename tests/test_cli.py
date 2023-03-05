@@ -269,10 +269,10 @@ def test_subset_t_with_invalid_date(tmpdir, load_esgf_test_data):
             output_dir=tmpdir,
             file_namer="simple",
         )
-        assert (
-            exc.value == "No files found in given time range for "
-            "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas"
-        )
+    assert (
+        "No files found in given time range for "
+        "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas" in str(exc.value)
+    )
 
 
 @pytest.fixture(
