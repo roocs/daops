@@ -28,7 +28,6 @@ def test_squeeze_dims(load_esgf_test_data):
 
 
 def test_add_scalar_coord(load_esgf_test_data):
-
     ds_no_height = xr.open_mfdataset(
         f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         combine="by_coords",
@@ -59,7 +58,6 @@ def test_add_scalar_coord(load_esgf_test_data):
 
 
 def test_add_scalar_coord_with_derive(load_esgf_test_data):
-
     ds_no_reftime = open_xr_dataset(CMIP6_DECADAL)
     ds_id = "CMIP6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417"
 

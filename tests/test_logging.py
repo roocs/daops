@@ -22,7 +22,6 @@ class TestLoggingFuncs:
 
     def test_disabled_enabled_logging(self, capsys):
         with ContextLogger() as _logger:
-
             _logger.disable("daops")
 
             # DAOPS disabled
@@ -47,7 +46,6 @@ class TestLoggingFuncs:
 
     def test_logging_enabler(self, capsys):
         with ContextLogger():
-
             _logging_examples()  # noqa
 
             captured = capsys.readouterr()

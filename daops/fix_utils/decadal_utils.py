@@ -35,7 +35,6 @@ def get_time_calendar(ds_id, ds):
 
 
 def get_lead_times(ds_id, ds):
-
     start_date = datetime.fromisoformat(get_start_date(ds_id, ds))
 
     cal = get_time_calendar(ds_id, ds)
