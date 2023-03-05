@@ -46,7 +46,6 @@ def get_params(args):
             'level': args.levels,
             'output_type': args.output_format,
             'output_dir': args.output_dir,
-            'collection': args.collection,
             'apply_fixes': False
             }
 
