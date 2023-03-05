@@ -12,7 +12,6 @@ import dateutil.parser
 from daops.ops.subset import subset
 from roocs_utils.parameter.param_utils import time_interval
 from roocs_utils.parameter.param_utils import time_components
-from roocs_utils.parameter.param_utils import level_series
 
 
 def time_window_arg(val):
@@ -26,10 +25,6 @@ def time_components_arg(val):
         time_type, time_vals_str = val.split(':')
         d[time_type] = time_vals_str
     return time_components(**d)
-
-
-def levels_arg(val):
-    return level_series(val)
 
 
 def parse_args():
@@ -46,10 +41,12 @@ def parse_args():
                                help='time window e.g. 1999-01-01T00:00:00/2100-12-30T00:00:00')
     parser_subset.add_argument('--time-components', '-c', type=time_components_arg, metavar='time_components',
                                help="time components e.g. month:dec,jan,feb or 'year:1970,1980|month:01,02,03'")
-    parser_subset.add_argument('--levels', '-l', type=levels_arg,
-                               metavar='levels', help='comma-separated list of levels')
+    parser_subset.add_argument('--levels', '-l', type=str,
+                               metavar='levels',
+                               help=('comma-separated list of levels (e.g. 500,1000,2000) '
+                                     'or slash-separated range (e.g. 50/2000 for 50 to 2000)'))
     parser_subset.add_argument('--output-format', '-f', type=str, metavar='format',
-                               choices=('netcdf', 'nc', 'zarr'))
+                               choices=('netcdf', 'nc', 'zarr'), default='netcdf')
     parser_subset.add_argument('--output-dir', '-d', type=str, metavar='output_directory', required=True)
     parser_subset.add_argument('collection', type=str, nargs='+')
 
