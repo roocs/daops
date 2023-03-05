@@ -10,7 +10,7 @@ import sys
 import dateutil.parser
 
 from daops.ops.subset import subset
-
+from roocs_utils.utils.file_utils import FileMapper
 
 def parse_args():
 
@@ -19,19 +19,20 @@ def parse_args():
     sub_parsers = parser.add_subparsers()
 
     parser_subset = sub_parsers.add_parser('subset', help='subset data')
-    parser_subset.add_argument('--area', '-a', type=str, metavar='area',
+    parser_subset.add_argument('--area', '-a', type=str, 
                                help=('area in format w,s,e,n. Hint: if w is negative, include an "=" sign '
                                      'e.g. --area=-10,...'))
     parser_subset.add_argument('--time', '-t', type=str, metavar='time_window',
                                help='time window e.g. 1999-01-01T00:00:00/2100-12-30T00:00:00')
-    parser_subset.add_argument('--time-components', '-c', type=str, metavar='time_components',
+    parser_subset.add_argument('--time-components', '-c', type=str, 
                                help="time components e.g. month:dec,jan,feb or 'year:1970,1980|month:01,02,03'")
     parser_subset.add_argument('--levels', '-l', type=str,
-                               metavar='levels',
                                help=('comma-separated list of levels (e.g. 500,1000,2000) '
                                      'or slash-separated range (e.g. 50/2000 for 50 to 2000)'))
     parser_subset.add_argument('--output-format', '-f', type=str, metavar='format',
                                choices=('netcdf', 'nc', 'zarr'), default='netcdf')
+    parser_subset.add_argument('--file-namer', '-F', type=str, 
+                               choices=('simple', 'standard'), default='standard')
     parser_subset.add_argument('--output-dir', '-d', type=str, metavar='output_directory', required=True)
     parser_subset.add_argument('collection', type=str, nargs='+')
 
@@ -39,14 +40,18 @@ def parse_args():
 
 
 def get_params(args):
-    return {'collection': args.collection,
+
+    collection = args.collection if len(args.collection) == 1 else FileMapper(args.collection)
+    
+    return {'collection': collection,
             'time': args.time,
             'time_components': args.time_components,
             'area': args.area,
             'level': args.levels,
             'output_type': args.output_format,
             'output_dir': args.output_dir,
-            'apply_fixes': False
+            'file_namer': args.file_namer,
+            'apply_fixes': False            
             }
 
 
