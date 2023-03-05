@@ -2,16 +2,6 @@ import xarray as xr
 import pytest
 
 from daops.ops.subset import subset
-
-from roocs_utils.parameter import area_parameter
-from roocs_utils.parameter import collection_parameter
-from roocs_utils.parameter import time_parameter
-from roocs_utils.parameter.param_utils import level_interval
-from roocs_utils.parameter.param_utils import level_series
-from roocs_utils.parameter.param_utils import time_components
-from roocs_utils.parameter.param_utils import time_interval
-from roocs_utils.parameter.param_utils import time_series
-
 from tests.test_operations.test_subset import _check_output_nc
 
 
@@ -23,20 +13,10 @@ inputs = [
     (
         [
             CMIP6_ID,
-            time_interval("1900-01-16", "1900-12-16"),
-            None,
-            (0, -10, 120, 40),
-            level_interval(100000, 85000),
-        ],
-        (12, 3, 1, 1),
-    ),
-    (
-        [
-            CMIP6_ID,
             "1900-01-16/1900-12-16",
             None,
-            (0, -10, 120, 40),
-            level_interval(100000, 85000),
+            "0,-10,120,40",
+            "100000/85000",
         ],
         (12, 3, 1, 1),
     ),
