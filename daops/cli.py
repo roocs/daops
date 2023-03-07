@@ -5,9 +5,11 @@ __contact__ = 'alan.iwi@stfc.ac.uk'
 __copyright__ = "Copyright 2023 United Kingdom Research and Innovation"
 __license__ = "BSD - see LICENSE file in top-level package directory"
 
-import argparse
+import os
 import sys
+import argparse
 import dateutil.parser
+import configparser
 
 from daops.ops.subset import subset
 from roocs_utils.utils.file_utils import FileMapper
@@ -55,9 +57,28 @@ def get_params(args):
             }
 
 
+def check_env():
+    """
+    Check that ROOCS_CONFIG points to a valid config file
+    (although for certain types of invalid file, in fact main is never called,
+    so exit might not always be graceful in these cases).
+    Call this after get_params() so that 'help' still works even if this is not set.
+    """
+    config_env_var = 'ROOCS_CONFIG'
+    c = configparser.ConfigParser()
+    try:
+        ret = c.read(os.environ[config_env_var])
+    except (KeyError, configparser.Error):
+        ret = None
+    if not ret:
+        print(f'Environment variable {config_env_var} must contain the path name of a config file in ini format')
+        sys.exit(1)
+
+
 def main():
     args = parse_args()
     params = get_params(args)
+    check_env()
     ret = subset(**params)
     for uri in ret.file_uris:
         print(uri)
