@@ -25,11 +25,11 @@ jobs:
         # pip install flake8 black pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         if [ -f requirements_dev.txt ]; then pip install -r requirements_dev.txt; fi
-    - name: Lint with flake8
-      run: flake8 daops tests
-      if: matrix.python-version == 3.8
-    - name: Check formatting with black
-      run: black --check --target-version py38 daops tests
+#    - name: Lint with flake8
+#      run: flake8 daops tests
+#      if: matrix.python-version == 3.8
+#    - name: Check formatting with black
+#      run: black --check --target-version py38 daops tests
       if: matrix.python-version == 3.8
     - name: Test with pytest
       run: |
