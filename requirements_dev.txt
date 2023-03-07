@@ -16,4 +16,4 @@ pytest-loguru
 pytest-runner
 pre-commit>=2.9.0
 black>=22.3.0
-GitPython==3.1.12
+GitPython==3.1.30
