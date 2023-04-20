@@ -17,8 +17,8 @@ from roocs_utils.utils.file_utils import FileMapper
 def parse_args():
 
     parser = argparse.ArgumentParser()
-
     sub_parsers = parser.add_subparsers()
+    sub_parsers.required = True
 
     parser_subset = sub_parsers.add_parser('subset', help='subset data')
     parser_subset.add_argument('--area', '-a', type=str, 
@@ -36,7 +36,7 @@ def parse_args():
     parser_subset.add_argument('--file-namer', '-F', type=str, 
                                choices=('simple', 'standard'), default='standard')
     parser_subset.add_argument('--output-dir', '-d', type=str, metavar='output_directory', required=True)
-    parser_subset.add_argument('collection', type=str, nargs='+')
+    parser_subset.add_argument('collection', type=str, nargs='+', default=list)
 
     return parser.parse_args()
 
