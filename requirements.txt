@@ -5,7 +5,7 @@ cftime
 netcdf4
 elasticsearch>=8.0.1
 clisops>=0.9.1
-# clisops @ git+https://github.com/roocs/clisops.git@master#egg=clisops
+## clisops @ git+https://github.com/roocs/clisops.git@master#egg=clisops
 roocs-utils>=0.6.2
 # logging
 loguru>=0.5.3

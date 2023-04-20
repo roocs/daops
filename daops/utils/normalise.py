@@ -19,7 +19,6 @@ def normalise(collection, apply_fixes=True):
     norm_collection = collections.OrderedDict()
 
     for dset, file_paths in collection.items():
-
         ds = open_dataset(dset, file_paths, apply_fixes)
         norm_collection[dset] = ds
 

@@ -77,6 +77,11 @@ setup(
     install_requires=[
         requirements,
     ],
+    entry_points={
+        "console_scripts": [
+            "daops=daops.cli:main",
+        ],
+    },
     long_description=_long_description,
     long_description_content_type="text/x-rst",
     include_package_data=True,

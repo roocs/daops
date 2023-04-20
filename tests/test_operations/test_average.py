@@ -158,7 +158,6 @@ def test_average_time_year(tmpdir):
 @pytest.mark.online
 def test_average_time_incorrect_freq(tmpdir):
     with pytest.raises(InvalidParameterValue) as exc:
-
         average_time(
             CMIP5_DAY,
             freq="week",
@@ -176,7 +175,6 @@ def test_average_time_incorrect_freq(tmpdir):
 @pytest.mark.online
 def test_average_time_no_freq(tmpdir):
     with pytest.raises(InvalidParameterValue) as exc:
-
         average_time(
             CMIP5_DAY,
             freq=None,
