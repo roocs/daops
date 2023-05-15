@@ -1,5 +1,3 @@
-from pdb import set_trace as ST
-
 import os
 os.environ["USE_PYGEOS"] = "0"
 import random
@@ -182,16 +180,9 @@ def prepare_test(ds, do_area=False, do_time=False, do_levels=False, area_args=No
         area = get_rand_area(ds, **area_args)
         req_area = [float(v) for v in area["req_area"]]
         
-        ### # it seems that subset treats a longitude range e.g. [350, 10] as [10, 350]
-        ### # change it to [350, 370] etc
-        ### if area_p[2] < area_p[0]:
-        ###     #area_p[2] += 360
-        ###     area_p[0] -= 360
-        ###     
         params["area"] = req_area
         
         expect["lons_in_range"] = area["lons_in_range"]
-        ## expect["wrap_lon"] = area["wrap_lon"]
         expect["lats_in_range"] = area["lats_in_range"]
     else:
         expect["lons_in_range"] = get_lons(ds)
@@ -325,11 +316,7 @@ def get_rand_lon_range(ds, force_wrap=False):
     else:
         params = {"can_wrap": can_wrap}
     return get_rand_range(lons, **params)
-    
-    ## wrap_lon = get_wrap_lon(lons)
-    ## print(f"wrap long = {wrap_lon}")
-    ## return get_rand_range(lons, can_wrap=(wrap_lon is not None)), wrap_lon
-    
+        
 
 def get_rand_lat_range(ds, force_pole=None):
     """
@@ -354,12 +341,6 @@ def get_rand_lat_range(ds, force_pole=None):
     else:
         return get_rand_range(lats)
 
-### def get_rand_lev_range(ds):
-###     return get_rand_range(get_levs(ds))
-### 
-### def get_rand_time_range(ds):
-###     return get_rand_range(get_times(ds))
-### 
 
 def get_rand_range(var, max_fraction=.1, can_wrap=False, force=None):
     """
@@ -463,43 +444,6 @@ def get_levs(ds):
     "Get the height coordinate variable for a dataset"
     return get_axis_by_direction(ds, "Z")
 
-## ------------------------------------------------------
-##  Now commented out anything to do with getting ranges,
-##  except in the case of curvilinear grid. Code now tests
-##  the set of actual coord values rather than just the range,
-##  where 1d coord variables.
-## ------------------------------------------------------
-##
-### def get_lon_range(ds, wrap_lon=None):
-###     lons = get_lons(ds)
-###     if wrap_lon is not None:
-###         ST()
-###     return get_range(get_lons(ds))
-###     
-### def get_lat_range(ds):
-###     return get_range(get_lats(ds))
-### 
-### def get_lev_range(ds):
-###     return get_range(get_levs(ds))
-### 
-### def get_time_range(ds):
-###     return get_range(get_times(ds))
-### 
-### def get_range(var):
-###     return (var.min(), var.max())
-##
-## def get_lon_lat_ranges(ds, wrap_lon=None):
-## 
-##     lons = get_lons(ds)
-##     lats = get_lats(ds)
-##     
-##     if is_curvi(lons, lats):
-##         return get_lonlat_ranges_for_curvi(ds, lons, lats)
-##     else:
-##         if wrap_lon is not None:
-##             ST()  ## FIXME
-##         return (get_range(lons), get_range(lats))
-
 
 def get_var_by_stdname(ds, stdname):
     """
@@ -544,9 +488,6 @@ def get_lonlat_ranges_for_curvi(ds):
     # (start with 2d array of False, then use logical OR with 
     # each variable, although probably there is only one such var)
     #
-    ##vars_on_grid = [v for v in ds.variables.values()
-    ##                if v.dims[-2:] == grid_dims and 
-    ##                v.attrs.get("standard_name") not in ("longitude", "latitude")]
     vars_on_grid = [v for v in ds.data_vars.values()
                     if v.dims[-2:] == grid_dims]
     if not vars_on_grid:
@@ -578,19 +519,6 @@ def get_lonlat_ranges_for_curvi(ds):
     
     return (lon_range_where_data, lat_range_where_data)
 
-
-## def is_in_range(actual_range, requested_range, wrap=None, modulus=360):
-##     req0, req1 = requested_range
-##     if wrap is not None and req0 > req1:
-##         return all((req0 <= val < wrap
-##                     or wrap - modulus <= val <= req1
-##                     for val in actual_range))
-##     else:
-##         if req0 > req1:
-##             req0, req1 = req1, req0
-##         return all((req0 <= val <= req1
-##                     for val in actual_range))
-## 
 
 def check_in_range(actual_range, requested_range, label="", **kwargs):
     """
@@ -627,7 +555,6 @@ def check_equal(vals, exp_vals, label=""):
     #print(f"Expected vals: {exp_vals}")
 
     if not np.array_equal(vals, exp_vals):
-        ST()
         raise Exception(f"equal values assertion failed for {label}:"
                         f"actual {vals}, expected: {exp_vals}")
         
@@ -653,7 +580,6 @@ def check_result(result, expect, subset_params):
     """
 
     fn, = result.file_uris
-    #os.system(f"ls -l {fn}") ## FIXME: remove?
     dsout = xr.open_dataset(fn)
     dump_dims(dsout, label="output")
 
@@ -666,7 +592,6 @@ def check_result(result, expect, subset_params):
 
         lon_range, lat_range = get_lonlat_ranges_for_curvi(dsout)
         if lon_range is not None:
-            #check_in_range(lon_range, req_lon_range, label="longitudes", wrap=expect["wrap_lon"])
             print("Checking that lon-lat values with (unmasked) data in requested range")
             check_in_range(lon_range, req_lon_range, label="longitudes")
             check_in_range(lat_range, req_lat_range, label="latitudes")
