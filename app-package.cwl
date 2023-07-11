@@ -116,7 +116,7 @@ $graph:
     ResourceRequirement: {}
     InlineJavascriptRequirement: {}
     DockerRequirement:
-      dockerPull: iwi/daops:0.0.1
+      dockerPull: alaniwi/daops:latest
   #stderr: std.err
   #stdout: std.out
 
