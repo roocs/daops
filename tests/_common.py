@@ -97,3 +97,6 @@ CMIP6_DECADAL = Path(
     MINI_ESGF_MASTER_DIR,
     "test_data/badc/cmip6/data/CMIP6/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s2004-r3i1p1f2/Amon/pr/gn/v20200417/pr_Amon_HadGEM3-GC31-MM_dcppA-hindcast_s2004-r3i1p1f2_gn_200411-200412.nc",
 ).as_posix()
+
+CMIP6_KERCHUNK_HTTPS_OPEN_JSON = ("https://gws-access.jasmin.ac.uk/public/cmip6_prep/eodh-eocis/kc-indexes-cmip6-http-v1/"
+                                  "CMIP6.CMIP.MOHC.UKESM1-1-LL.1pctCO2.r1i1p1f2.Amon.tasmax.gn.v20220513.json")
