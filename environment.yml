@@ -17,7 +17,7 @@ dependencies:
   # catalog
   - intake
   # to support kerchunk
-  - fsspec
+  - fsspec==2022.11.0
   - aiohttp
   - zstd
   - pip:
