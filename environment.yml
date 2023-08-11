@@ -6,15 +6,19 @@ channels:
 dependencies:
   - pip
   - numpy>=1.16
-  - xarray>=0.15
+  - xarray>=2023.7.0
   - dask
   - netcdf4
   - clisops>=0.9.1
   - elasticsearch>=7.9.1
-  - roocs-utils>=0.6.2
+#  - roocs-utils>=0.6.2
   # logging
   - loguru>=0.5.3
   # catalog
   - intake
+  # to support kerchunk
   - fsspec
   - aiohttp
+  - zstd
+  - pip:
+    - git+https://github.com/roocs/roocs-utils.git@i106-enable-read-kerchunk#egg=roocs_utils
