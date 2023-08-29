@@ -6,35 +6,87 @@ import tempfile
 import datetime
 import numpy as np
 import shutil
+import time
 
 from daops.ops.subset import subset
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 from roocs_utils.parameter.param_utils import time_interval, level_interval
 
+from results_db import ResultsDB
 from examples_data import data_pool_tests_db
 from caching import cached_output_fn, CachedResult
 
 
-def main():
-    for collection in data_pool_tests_db:
-        test_subset_in_data_pools(collection)
+
+def main(test_location=''):
+
+    results_db_columns = ['test_location', 'test_time', 'collection', 'area',
+                          'level', 'time', 'success', 'message']    
     
-    
-def test_subset_in_data_pools(collection):
+    with ResultsDB(results_db_columns) as rdb:
+
+        row_writer = lambda **kwargs: \
+            rdb.add_row(test_location=test_location,
+                        test_time=time.strftime("%Y-%m-%d %H:%M:%S"),
+                        **kwargs)
+        
+        for collection in data_pool_tests_db:
+            test_subset_in_data_pools(collection, row_writer)
+
+
+def test_subset_in_data_pools(collection, row_writer=None):
     """
     Do a range of tests on a given collection
     """
-    
+
     ds = open_dataset(collection)
 
+    for test_kwargs, description in get_tests():
+
+        print(description)
+        subset_params, success, message = do_test(collection, ds, **test_kwargs)
+        
+        if row_writer is not None:
+            store_result(row_writer,
+                         collection, subset_params, success, message)
+
+
+def store_result(row_writer, collection, subset_params, success, message):
+    tm = subset_params.get('time')
+    if tm is not None:
+        tm = '/'.join(str(v) for v in tm.value)
+    level = subset_params.get('level')
+    if level is not None:
+        level = '/'.join(str(float(v)) for v in level.value)
+    area = subset_params.get('area')
+    if area is not None:
+        area = '/'.join(str(v) for v in area)
+    success = str(success)
+
+    row_writer(collection=collection,
+               area=area,
+               level=level,
+               time=tm,
+               success=success,
+               message=message)
+
+            
+def get_tests():
+    """
+    Gets a sequence of tests to do.
+    """
+    
     # subset horizontally and in time
     for _ in range(3):
-        do_test(collection, ds, do_area=True, do_time=True)
+        yield {'do_area': True,
+               'do_time': True}, 'subset by area and time'
 
     # subset in all dimensions (though levels will be ignored if there isn't
     # a level dimension)
     for _ in range(3):
-        do_test(collection, ds, do_area=True, do_time=True, do_levels=True)
+        yield {'do_area': True,
+               'do_time': True,
+               'do_levels': True}, 'subset by area, time and levels'
 
     # and a few special cases to try
     special_cases = [{"force_lon_wrap": True},
@@ -43,14 +95,11 @@ def test_subset_in_data_pools(collection):
                      {"force_lon_wrap": True, "force_pole": "south"}]
 
     for area_args in special_cases:
-        print(f"Doing special case: {area_args}")
-        do_test(collection, ds, do_area=True, do_time=True, do_levels=True,
-                area_args=area_args)
-
-    # to delete? - extra test that got left in
-    # (not removing for now due to existing cache)
-    do_test(collection, ds, do_area=True, do_time=True, do_levels=True)
-    
+        yield {'do_area': True,
+               'do_time': True,
+               'do_levels': True,
+               'area_args': area_args}, f"Doing special case: {area_args}"
+        
         
 def open_dataset(collection):
     
@@ -94,7 +143,7 @@ def dump_dims(ds, label=""):
 def get_data(val):
     return val.data if isinstance(val, (xr.DataArray, xr.IndexVariable)) else val
     
-    
+
 def do_test(collection, ds, use_cache=True, **kwargs):
     """
     Do an individual test on a collection
@@ -150,16 +199,22 @@ def do_test(collection, ds, use_cache=True, **kwargs):
     except KeyboardInterrupt:
         raise
     except Exception as exc:
+        success = False
+        message = str(exc)
         print("*******************\n"
               "*** TEST FAILED ***\n"
               "*******************\n\n\n")
-        raise  # FIXME: comment out
+        #raise  # FIXME: comment out
     else:
+        success = True
+        message = ""
         print("Test succeeded\n\n\n")
     finally:        
         temp_dir.cleanup()
-    
 
+    return subset_params, success, message
+            
+    
 def prepare_test(ds, do_area=False, do_time=False, do_levels=False, area_args=None):
     """
     returns the params to the subset function that will be needed for the test
@@ -635,7 +690,8 @@ def get_axis_by_direction(ds, direction):
     else:
         return None
 
-
+    
 if __name__ == "__main__":
     random.seed(0)  ## FIXME - remove
-    main()
+    main(test_location='CEDA')
+    
