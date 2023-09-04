@@ -37,6 +37,22 @@ class ResultsDB:
             for row in reader:
                 yield row
 
+
+    def _read_as_dicts(self, reader, remove_blank=True, **kwargs):
+        if remove_blank:
+            cond = lambda t: t[1]
+        else:
+            cond = lambda t: True
+            
+        return (dict(t for t in zip(self.columns, row) if cond(t))
+                for row in reader(**kwargs))
+                        
+    def read_csvgz_as_dicts(self, **kwargs):
+        return self._read_as_dicts(self.read_csvgz, **kwargs)
+        
+    def read_sqlite_as_dicts(self, **kwargs):
+        return self._read_as_dicts(self.get_sqlite_rows, **kwargs)
+                
     def write_csvgz(self, rows, dest=None):
         "write .csv.gz, input is a sequence of rows"
         if dest is None:
@@ -80,7 +96,7 @@ class ResultsDB:
             self._init_sqlite()
         return self._cur, self._conn
 
-    def _get_sqlite_rows(self, include_primary_key=False):
+    def get_sqlite_rows(self, include_primary_key=False):
         cur, conn = self._get_cur_conn()
         cur.execute(f'SELECT * from {self._sql_table_name}')
         for row in cur:
@@ -97,7 +113,7 @@ class ResultsDB:
                 
     def merge_and_tidy(self):
         csv_rows = self.read_csvgz()
-        new_rows = self._get_sqlite_rows()
+        new_rows = self.get_sqlite_rows()
         self.write_csvgz(chain(csv_rows, new_rows))
         self._destroy_sqlite()
 
