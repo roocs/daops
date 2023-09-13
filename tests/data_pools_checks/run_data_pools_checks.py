@@ -194,17 +194,15 @@ def do_test(collection, ds, use_cache=True, **kwargs):
                             output_dir=tmpdir,
                             **subset_params)
 
-        check_result(result, expect, subset_params)
+        check_result(result, expect, collection, subset_params, tmpdir)
 
     except KeyboardInterrupt:
         raise
     except Exception as exc:
         success = False
         message = str(exc)
-        print("*******************\n"
-              "*** TEST FAILED ***\n"
-              "*******************\n\n\n")
-        #raise  # FIXME: comment out
+        print_error(f"TEST FAILED: {message}")
+        raise  # FIXME: comment out
     else:
         success = True
         message = ""
@@ -213,7 +211,14 @@ def do_test(collection, ds, use_cache=True, **kwargs):
         temp_dir.cleanup()
 
     return subset_params, success, message
-            
+
+
+def print_error(message):
+    stars = "*" * len(message)
+    print(f"****{stars}****\n"
+          f"*** {message} ***\n"
+          f"****{stars}****\n\n\n")
+    
     
 def prepare_test(ds, do_area=False, do_time=False, do_levels=False, area_args=None):
     """
@@ -522,7 +527,26 @@ def is_curvi(lons, lats):
         return True
     else:
         raise Exception(f"unexpected dimensionality of lon, lat arrays: {lon.dims} and {lat.dims}")
+    
+    
+def get_gridded_vars(ds, lons=None, lats=None, curvi=None):
+    if lons is None:
+        lons = get_lons(ds)
+    if lats is None:
+        lats = get_lats(ds)
+    if curvi is None:
+        curvi = is_curvi(lons, lats)
 
+    if curvi:
+        grid_dims = lons.dims
+    else:
+        latdim, = lats.dims
+        londim, = lons.dims
+        grid_dims = (latdim, londim)
+    return [v for v in ds.data_vars.values()
+            if v.dims[-2:] == grid_dims]
+        
+    
 def get_lonlat_ranges_for_curvi(ds):
     """
     get ranges of lon, lat values where there is actual data (not masked)
@@ -532,7 +556,6 @@ def get_lonlat_ranges_for_curvi(ds):
     lons = get_lons(ds)
     lats = get_lats(ds)
     
-    grid_dims = lons.dims
     grid_shape = lons.shape
 
     # get a list of the variables that are on the lon-lat grid,
@@ -543,8 +566,9 @@ def get_lonlat_ranges_for_curvi(ds):
     # (start with 2d array of False, then use logical OR with 
     # each variable, although probably there is only one such var)
     #
-    vars_on_grid = [v for v in ds.data_vars.values()
-                    if v.dims[-2:] == grid_dims]
+    vars_on_grid = get_gridded_vars(ds,
+                                    lons=lons, lats=lats,
+                                    curvi=True)
     if not vars_on_grid:
         raise Exception("could not find any data variables")
     has_data = np.zeros(grid_shape, dtype=bool)
@@ -616,7 +640,7 @@ def check_equal(vals, exp_vals, label=""):
     print(f"{label}: checked {len(vals)} values match expected values")
 
     
-def check_result(result, expect, subset_params):
+def check_result(result, expect, collection, subset_params, tmpdir):
 
     """
     Do various checks on the result of subsetting.  result should be an
@@ -640,7 +664,10 @@ def check_result(result, expect, subset_params):
 
     lons = get_lons(dsout)
     lats = get_lats(dsout)
-    if is_curvi(lons, lats) and "area" in subset_params:
+
+    curvi = is_curvi(lons, lats)
+    
+    if curvi and "area" in subset_params:
         area = subset_params["area"]
         req_lon_range = (area[0], area[2])
         req_lat_range = (area[1], area[3])
@@ -668,7 +695,16 @@ def check_result(result, expect, subset_params):
     if expected_times is not None:
         times = get_times(dsout)
         check_equal(times, expected_times, label="times")
+        timeval = times[0]
+    else:
+        timeval = None
 
+    vars_on_grid = get_gridded_vars(dsout,
+                                    lons=lons, lats=lats,
+                                    curvi=curvi)
+
+    do_nans_check(vars_on_grid, collection, timeval, tmpdir)
+    
     
 def get_axis_by_direction(ds, direction):
     """
@@ -689,6 +725,50 @@ def get_axis_by_direction(ds, direction):
         return axes[0]
     else:
         return None
+
+
+def do_nans_check(vars_on_grid, collection, timeval, tmpdir):
+    """
+    Check whether any of the variables consist of all NaN values.
+    If so, then extract (for one timestep) the variable on all grid points.
+    If that variable consists of some but not all NaN values, then assume 
+    that the subsetter is working and we are just requesting a region where
+    there are NaN values, so downgrade to a warning -- otherwise raise
+    an exception.
+    """
+
+    vars_with_nans = set()
+    for var in vars_on_grid:
+        if np.all(np.isnan(var.data)):
+            vars_with_nans.add(var.name)
+
+    if vars_with_nans:
+        dsout2 = get_fullfield(collection, tmpdir,
+                               timeval=timeval)
+
+        for varname in vars_with_nans:
+            isnan_ref = np.isnan(dsout2[varname].data)
+            if np.any(isnan_ref) and not np.all(isnan_ref):
+                print(f"Warning: {varname} contains all NaNs (but some non-NaNs exist in full field).")
+            else:
+                raise Exception(f"Variable {varname} contains all NaNs.")
+
+    
+
+
+def get_fullfield(collection, tmpdir, timeval=None):
+    """
+    Get the result of subsetting, optionally by time to a particular
+    time value, but not in any other dimensions.
+    """    
+    params = {}
+    if timeval is not None:
+        t_iso = timeval.data.tolist().isoformat()
+        params['time'] = time_interval(t_iso, t_iso)
+
+    result = subset(collection, output_dir=tmpdir, **params)
+    fn, = result.file_uris
+    return xr.open_dataset(fn)
 
     
 if __name__ == "__main__":
