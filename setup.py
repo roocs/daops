@@ -80,6 +80,7 @@ setup(
     entry_points={
         "console_scripts": [
             "daops=daops.cli:main",
+            "data-pools-checks=tests.data_pools_checks.run_data_pools_checks:cli"
         ],
     },
     long_description=_long_description,

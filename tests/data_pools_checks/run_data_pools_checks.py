@@ -7,20 +7,18 @@ import datetime
 import numpy as np
 import shutil
 import time
+import argparse
 
 from daops.ops.subset import subset
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 from roocs_utils.parameter.param_utils import time_interval, level_interval
 
-from results_db import ResultsDB
-from examples_data import data_pool_tests_db
-from caching import cached_output_fn, CachedResult
-
-
+from .results_db import ResultsDB
+from .examples_data import data_pool_tests_db
+from .caching import cached_output_fn, CachedResult
 
 
 class SubsetTester:
-
 
     def __init__(self,
                  test_location='',
@@ -786,10 +784,25 @@ class SubsetTester:
         return xr.open_dataset(fn)
 
 
+def _cli_arg_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('test_location',
+                        help='test location, e.g. CEDA')
+    parser.add_argument('--seed', '-s', type=int,
+                        help='value for random seed')
+    parser.add_argument('--cache', '-c', action='store_true',
+                        help='use cache of subsetter output')
+    return parser.parse_args()
 
-    
-if __name__ == "__main__":
-    random.seed(0)  ## FIXME - remove
-    tester = SubsetTester(test_location='CEDA')
+
+def cli():
+    args = _cli_arg_parser()
+    if args.seed is not None:
+        random.seed(args.seed)
+    else:
+        if args.cache:
+            print('Warning: using --cache but not --seed; cache hits are unlikely.')
+    tester = SubsetTester(test_location=args.test_location,
+                          use_cache=args.cache)
     tester.main()
     
