@@ -1,6 +1,7 @@
 import os
 import random
 import subprocess as sp
+import pytest
 
 from results_db import ResultsDB
 
@@ -38,12 +39,12 @@ def _purge():
         if os.path.exists(path):
             os.remove(path)
 
-def _open_test_db(merge_every=10):
-    return ResultsDB(columns,
-                     csvgz_file=tmp_csvgz,
-                     sqlite_file=tmp_sqlite,
-                     merge_every=merge_every)
-
+def _open_test_db(**kwargs):
+    params = {'csvgz_file': tmp_csvgz,
+              'sqlite_file': tmp_sqlite,
+              'merge_every': 10}
+    params.update(kwargs)
+    return ResultsDB(columns, **params)
 
 def test_write_and_read():
     _purge()
@@ -93,6 +94,37 @@ def test_manual_merge():
             assert rows_in_sqlite == []
 
 
+def test_ro_db():
+    _purge()
+    test_write_and_read()
+    with _open_test_db(read_only=True) as rdb:
+        data_read = list(rdb.read_csvgz_as_dicts())
+    assert tst_data == data_read
+
+
+def test_write_to_rodb():
+    _purge()
+    with _open_test_db(read_only=True) as rdb:
+        with pytest.raises(Exception):
+            rdb.add_row(**tst_data[0])
+
+
+def test_db_no_sqlite():
+    _purge()
+    test_write_and_read()
+    with _open_test_db(sqlite_file=None) as rdb:
+        data_read = list(rdb.read_csvgz_as_dicts())
+    assert tst_data == data_read
+
+
+def test_db_write_no_sqlite():
+    _purge()
+    test_write_and_read()
+    with _open_test_db(sqlite_file=None) as rdb:
+        with pytest.raises(Exception):
+            rdb.add_row(**tst_data[0])
+
+            
 def test_dump_data():
 
     _purge()

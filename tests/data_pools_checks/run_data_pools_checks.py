@@ -34,7 +34,10 @@ class SubsetTester:
         results_db_columns = ['test_location', 'test_time', 'collection', 'area',
                               'level', 'time', 'success', 'message']    
 
-        with ResultsDB(results_db_columns) as rdb:
+        file_stem = f'tests_{self._test_location}'
+        with ResultsDB(results_db_columns,
+                       csvgz_file=f'{file_stem}.csv.gz',
+                       sqlite_file=f'{file_stem}_tmp.db') as rdb:
 
             row_writer = lambda **kwargs: \
                 rdb.add_row(test_location=self._test_location,
