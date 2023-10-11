@@ -3,7 +3,7 @@ import random
 import subprocess as sp
 import pytest
 
-from results_db import ResultsDB
+from .results_db import ResultsDB
 
 
 columns = ['test_location', 'test_time', 'collection', 'area',
@@ -25,11 +25,7 @@ tst_data2 = [{'collection': 'foo',
 tst_csv_data = (','.join(columns) + '\n' +
                 ',,foo,,,bar,,\n,,baz,,,,,qux')
 
-tst_sql_data = f'''PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
-CREATE TABLE test_results(id integer PRIMARY KEY,{','.join(f'{col} text' for col in columns)});
-INSERT INTO "test_results" VALUES(1,NULL,NULL,'quux',NULL,NULL,NULL,NULL,'corge');
-COMMIT;'''
+tst_sql_data =f'id|{"|".join(columns)}\n1|||quux|||||corge'
 
 tmp_csvgz = '/tmp/test.csv.gz'
 tmp_sqlite = '/tmp/test_tmp.sql'
@@ -132,7 +128,8 @@ def test_dump_data():
         for row in tst_data2:
             rdb.add_row(**row)
         csvdata = sp.getoutput(f'zcat {tmp_csvgz}')
-        sqldata = sp.getoutput('echo .dump '
+        sqldata = sp.getoutput('echo "select * from test_results" '
                                f'| sqlite3 -header {tmp_sqlite}')
+
     assert csvdata == tst_csv_data
     assert sqldata == tst_sql_data
