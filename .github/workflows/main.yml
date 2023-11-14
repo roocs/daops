@@ -27,9 +27,9 @@ jobs:
         if [ -f requirements_dev.txt ]; then pip install -r requirements_dev.txt; fi
         # pip install the package, command-line unit tests work 
         pip install --no-deps -e .
-#    - name: Lint with flake8
-#      run: flake8 daops tests
-#      if: matrix.python-version == 3.8
+    - name: Lint with flake8
+      run: make lint
+      if: matrix.python-version == 3.8
 #    - name: Check formatting with black
 #      run: black --check --target-version py38 daops tests
 #      if: matrix.python-version == 3.8
