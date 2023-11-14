@@ -1,14 +1,21 @@
 Version History
 ===============
 
-v0.8.2 (2023-02-01)
+v0.9.0 (2023-11-15)
 -------------------
+
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.10.0 required.
 
 Other Changes
 ^^^^^^^^^^^^^
 
-* update requirements.
-* update pre-commit.
+* Updated requirements.
+* Updated pre-commit.
+* Support tests on Python 3.10 and 3.11.
+* Enabled linting test.
+
 
 v0.8.1 (2022-05-12)
 -------------------
