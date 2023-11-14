@@ -4,7 +4,7 @@ dask[complete]
 cftime
 netcdf4
 elasticsearch>=8.0.1
-clisops>=0.9.4
+clisops>=0.10.0
 roocs-utils>=0.6.2
 # logging
 loguru>=0.5.3
