@@ -9,7 +9,6 @@ Welcome to daops's documentation!
    installation
    usage
    api
-   notebooks/index
    contributing
    authors
    history

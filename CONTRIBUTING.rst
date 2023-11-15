@@ -121,12 +121,14 @@ Logging
 ``daops`` uses the `loguru <https://loguru.readthedocs.io/en/stable/index.html>`_ library as its primary logging engine. In order to integrate this kind of logging in processes, we can use their logger:
 
 .. code-block:: python
+
     from loguru import logger
     logger.warning("This a warning message!")
 
 The mechanism for enabling log reporting in scripts/notebooks using ``loguru`` is as follows:
 
 .. code-block:: python
+
     import sys
     from loguru import logger
 
@@ -139,6 +141,7 @@ The mechanism for enabling log reporting in scripts/notebooks using ``loguru`` i
 For convenience, a preset logger configuration can be enabled via `daops.enable_logging()`.
 
 .. code-block:: python
+
     from daops import enable_logging
 
     enable_logging()

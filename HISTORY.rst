@@ -72,7 +72,7 @@ New Features
 * ``intake_catalog_url`` has been added to ``etc/roocs.ini``
 
 v0.5.0 (2021-02-26)
-------------------
+-------------------
 
 New Features
 ^^^^^^^^^^^^
@@ -84,7 +84,7 @@ Other Changes
 
 
 v0.4.0 (2021-02-23)
-------------------
+-------------------
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
@@ -107,7 +107,7 @@ Other Changes
 
 
 v0.3.0 (2020-11-19)
-------------------
+-------------------
 
 Updating doc strings and documentation.
 
@@ -143,12 +143,12 @@ Other Changes
 * Functions that take the ``data_ref`` parameter have been changed to use ``dset`` parameter instead.
 
 v0.2.0 (2020-06-22)
-------------------
+-------------------
 
 * Updated to use clisops v0.2.0 (#17)
 * Added xarray aggregation tests (#16)
 
 v0.1.0 (2020-04-27)
-------------------
+-------------------
 
 * First release with clisops v0.1.0.
