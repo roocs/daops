@@ -1,10 +1,9 @@
 import collections
 import os
 
-from daops import logging
-from daops.utils.core import open_dataset
+from loguru import logger
 
-LOGGER = logging.getLogger(__file__)
+from daops.utils.core import open_dataset
 
 
 def normalise(collection, apply_fixes=True):
@@ -16,11 +15,10 @@ def normalise(collection, apply_fixes=True):
     :return: An ordered dictionary of ds ids and their fixed xarray Dataset.
     """
 
-    LOGGER.info(f"Working on datasets: {collection}")
+    logger.info(f"Working on datasets: {collection}")
     norm_collection = collections.OrderedDict()
 
     for dset, file_paths in collection.items():
-
         ds = open_dataset(dset, file_paths, apply_fixes)
         norm_collection[dset] = ds
 

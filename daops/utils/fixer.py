@@ -36,7 +36,6 @@ class Fixer(Lookup):
         """Gathers pre and post processing fixes together"""
         if content["_source"]["fixes"]:
             for fix in content["_source"]["fixes"]:
-
                 ref_implementation = fix["reference_implementation"]
                 func = locate(ref_implementation)
 

@@ -15,12 +15,12 @@ class Catalog:
     def __init__(self, project):
         self.project = project
 
-    def _query(self, collection, time=None):
+    def _query(self, collection, time=None, time_components=None):
         raise NotImplementedError
 
-    def search(self, collection, time=None):
+    def search(self, collection, time=None, time_components=None):
         cols = make_list(collection)
-        records = self._query(cols, time)
+        records = self._query(cols, time, time_components)
         result = Result(self.project, records)
         return result
 

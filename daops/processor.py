@@ -1,10 +1,8 @@
-from daops import logging
-
-LOGGER = logging.getLogger(__file__)
+from loguru import logger
 
 
 def dispatch(operation, dset, **kwargs):
-    LOGGER.info(f"NOW SENDING TO PARALLEL DISPATCH MODE...")
+    logger.info(f"NOW SENDING TO PARALLEL DISPATCH MODE...")
     return process(operation, dset, mode="serial", **kwargs)
 
 
@@ -14,7 +12,7 @@ def process(operation, dset, mode="serial", **kwargs):
     op_name = operation.__name__
 
     if mode == "serial":
-        LOGGER.info(f"Running {op_name} [{mode}]: on Dataset with args: {kwargs}")
+        logger.info(f"Running {op_name} [{mode}]: on Dataset with args: {kwargs}")
 
         result = operation(dset, **kwargs)
     #        try:

@@ -1,6 +1,48 @@
 Version History
 ===============
 
+v0.8.1 (2022-05-12)
+-------------------
+
+Bug fixes
+^^^^^^^^^
+* Fix inconsistent bounds in metadata after subset operation by updating to ``clisops`` 0.9.1 (#94).
+
+Other Changes
+^^^^^^^^^^^^^
+* Merged pre-commit autoupdate (#93).
+* Updated logging using ``loguru`` (#92).
+
+v0.8.0 (2022-04-13)
+-------------------
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.9.0 required.
+
+New Features
+^^^^^^^^^^^^
+* Added `AverageTime` operation (#90).
+* Added support for decadal fixes (#89, #87, #84, #83).
+
+
+v0.7.0 (2021-10-28)
+-------------------
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.7.0 and ``roocs-utils``>=0.5.0 required.
+* ``fsspec`` no longer constrained to ``fsspec`` < 0.9
+* Python 3.7 required.
+* ``time`` input for ``time`` in ``ops.subset.subset`` but now be one of [<class 'roocs_utils.parameter.param_utils.Interval'>, <class 'roocs_utils.parameter.param_utils.Series'>, <class 'NoneType'>, <class 'str'>].
+* ``level`` input for ``level`` in ``ops.subset.subset`` but now be one of [<class 'roocs_utils.parameter.param_utils.Interval'>, <class 'roocs_utils.parameter.param_utils.Series'>, <class 'NoneType'>, <class 'str'>].
+
+New Features
+^^^^^^^^^^^^
+* ``time_components`` argument added to ``ops.subset.subset`` to allowing subsetting by time components such as year, month, day etc.
+
+Other Changes
+^^^^^^^^^^^^^
+* Python 3.6 no longer tested in GitHub actions.
+
 v0.6.0 (2021-05-19)
 -------------------
 Breaking Changes

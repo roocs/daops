@@ -1,7 +1,6 @@
 from collections import OrderedDict
 
 from daops.utils.normalise import ResultSet
-
 from tests._common import MINI_ESGF_MASTER_DIR
 
 

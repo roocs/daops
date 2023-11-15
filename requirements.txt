@@ -1,13 +1,15 @@
 numpy>=1.16
-xarray>=0.15
+xarray>=0.19
 dask[complete]
+cftime
 netcdf4
-elasticsearch>=7.8.0
-clisops>=0.6.4
-# clisops @ git+https://github.com/roocs/clisops.git
-# roocs-utils>=0.4.2
-roocs-utils @ git+https://github.com/roocs/roocs-utils.git@master#egg=roocs-utils
+elasticsearch>=8.0.1
+clisops>=0.9.1
+## clisops @ git+https://github.com/roocs/clisops.git@master#egg=clisops
+roocs-utils>=0.6.2
+# logging
+loguru>=0.5.3
 # catalog
 intake
-fsspec<0.9
+fsspec
 aiohttp

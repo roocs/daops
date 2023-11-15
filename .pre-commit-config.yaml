@@ -1,44 +1,46 @@
-
 default_language_version:
-    python: python3.6
+    python: python3
 
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.3.0
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
     hooks:
-    -   id: trailing-whitespace
+      - id: trailing-whitespace
         exclude: 'setup.cfg'
-        language_version: python3
-    -   id: end-of-file-fixer
+      - id: end-of-file-fixer
         exclude: 'setup.cfg'
-        language_version: python3
-    -   id: check-yaml
-        language_version: python3
-    -   id: debug-statements
-        language_version: python3
--   repo: https://github.com/ambv/black
-    rev: 20.8b1
+      - id: check-yaml
+      - id: debug-statements
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
     hooks:
-    -   id: black
-        language_version: python3
-        args: ["--target-version", "py36"]
--   repo: https://github.com/pycqa/flake8
-    rev: 3.8.1
+      - id: black
+        args: ["--target-version", "py37"]
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
     hooks:
-    -   id: flake8
-        language_version: python3
+      - id: flake8
         args: ['--config=setup.cfg']
--   repo: https://github.com/asottile/reorder_python_imports
-    rev: v2.3.0
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.0.1
     hooks:
-    -   id: reorder-python-imports
-        language_version: python3
--   repo: https://github.com/asottile/pyupgrade
-    rev: v2.4.1
+      - id: reorder-python-imports
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.32.0
     hooks:
-    -   id: pyupgrade
-        language_version: python3
--   repo: meta
+      - id: pyupgrade
+  - repo: meta
     hooks:
-    -   id: check-hooks-apply
-    -   id: check-useless-excludes
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit.com hooks
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false
