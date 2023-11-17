@@ -10,7 +10,6 @@ Breaking Changes
 
 Other Changes
 ^^^^^^^^^^^^^
-
 * Updated requirements.
 * Updated pre-commit.
 * Support tests on Python 3.10 and 3.11.
