@@ -9,26 +9,22 @@ version: 2
 sphinx:
   configuration: docs/conf.py
 
-# Build documentation with MkDocs
-#mkdocs:
-#  configuration: mkdocs.yml
-
 # Optionally build your docs in additional formats such as PDF and ePub
-formats: all
+# formats:
+#    - pdf
+
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "mambaforge-22.9"
+
+conda:
+  environment: environment.yml
 
 # Optionally set the version of Python and requirements required to build your docs
-#python:
-#  version: 3.6
 python:
-  version: 3.7
   install:
     - method: pip
       path: .
       extra_requirements:
         - docs
-
-#conda:
-#  environment: docs/environment.yml
-
-build:
-  image: stable

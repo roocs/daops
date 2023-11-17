@@ -1,6 +1,21 @@
 Version History
 ===============
 
+v0.9.0 (2023-11-17)
+-------------------
+
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.10.0 required.
+
+Other Changes
+^^^^^^^^^^^^^
+* Updated requirements.
+* Updated pre-commit.
+* Support tests on Python 3.10 and 3.11.
+* Enabled linting test.
+
+
 v0.8.1 (2022-05-12)
 -------------------
 
@@ -56,7 +71,7 @@ New Features
 * ``intake_catalog_url`` has been added to ``etc/roocs.ini``
 
 v0.5.0 (2021-02-26)
-------------------
+-------------------
 
 New Features
 ^^^^^^^^^^^^
@@ -68,7 +83,7 @@ Other Changes
 
 
 v0.4.0 (2021-02-23)
-------------------
+-------------------
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
@@ -91,7 +106,7 @@ Other Changes
 
 
 v0.3.0 (2020-11-19)
-------------------
+-------------------
 
 Updating doc strings and documentation.
 
@@ -127,12 +142,12 @@ Other Changes
 * Functions that take the ``data_ref`` parameter have been changed to use ``dset`` parameter instead.
 
 v0.2.0 (2020-06-22)
-------------------
+-------------------
 
 * Updated to use clisops v0.2.0 (#17)
 * Added xarray aggregation tests (#16)
 
 v0.1.0 (2020-04-27)
-------------------
+-------------------
 
 * First release with clisops v0.1.0.
