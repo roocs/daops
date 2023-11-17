@@ -3,7 +3,7 @@ bumpversion
 wheel
 watchdog
 flake8
-tox~=3.0
+tox
 coverage
 Sphinx
 sphinx-rtd-theme
