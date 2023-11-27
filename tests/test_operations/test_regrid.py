@@ -2,17 +2,14 @@ import os
 
 import pytest
 import xarray as xr
-from roocs_utils.exceptions import InvalidParameterValue
 
-from daops import CONFIG
-from daops.ops.regrid import regrid
 
-CMIP5_IDS = [
-    "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
-    "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas",
-    "cmip5.output1.MOHC.HadGEM2-ES.historical.mon.land.Lmon.r1i1p1.latest.rh",
-]
-CMIP5_MRSOS_ID = "cmip5.output1.MOHC.HadGEM2-ES.rcp85.day.land.day.r1i1p1.latest.mrsos"
+# from daops.ops.regrid import regrid
+
+# TODO: remove when upgraded to new clisops version
+# pytestmark = pytest.mark.xfail(reason="needs clisops>=0.12 with regrid operator")
+
+CMIP6_IDS = ["CMIP6.CMIP.MPI-M.MPI-ESM1-2-HR.historical.r1i1p1f1.Omon.tos.gn.v20190710"]
 
 
 def _check_output_nc(result, fname="output_001.nc"):
@@ -21,8 +18,10 @@ def _check_output_nc(result, fname="output_001.nc"):
 
 @pytest.mark.online
 def test_regrid(tmpdir, load_esgf_test_data):
+    from daops.ops.regrid import regrid
+
     result = regrid(
-        CMIP5_MRSOS_ID,
+        CMIP6_IDS[0],
         method="conservative",
         adaptive_masking_threshold=0.5,
         grid="1deg",
@@ -33,4 +32,5 @@ def test_regrid(tmpdir, load_esgf_test_data):
 
     _check_output_nc(result)
     ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
-
+    assert "time" in ds.dims
+    assert "tos" in ds

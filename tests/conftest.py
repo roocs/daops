@@ -40,4 +40,3 @@ def load_esgf_test_data():
         repo = Repo(target)
         repo.git.checkout(branch)
         repo.remotes[0].pull()
-

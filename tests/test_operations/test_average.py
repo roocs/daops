@@ -36,7 +36,7 @@ def test_average_dims_time(tmpdir):
 
 
 @pytest.mark.online
-def test_average_time_lat(tmpdir, load_esgf_test_data):
+def test_average_time_lat(tmpdir):
     result = average_over_dims(
         CMIP5_IDS[1],
         dims=["latitude", "time"],
@@ -51,7 +51,7 @@ def test_average_time_lat(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_average_time_lon(tmpdir, load_esgf_test_data):
+def test_average_time_lon(tmpdir):
     result = average_over_dims(
         CMIP5_IDS[1],
         dims=["time", "longitude"],
@@ -66,7 +66,7 @@ def test_average_time_lon(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_average_none(tmpdir, load_esgf_test_data):
+def test_average_none(tmpdir):
     with pytest.raises(InvalidParameterValue) as exc:
         average_over_dims(
             CMIP5_IDS[1],
@@ -79,7 +79,7 @@ def test_average_none(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_average_level(tmpdir, load_esgf_test_data):
+def test_average_level(tmpdir):
     with pytest.raises(InvalidParameterValue) as exc:
         average_over_dims(
             CMIP5_IDS[1],
