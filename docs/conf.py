@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # daops documentation build configuration file, created by
 # sphinx-quickstart on Fri Jun  9 13:47:02 2017.
@@ -74,7 +73,7 @@ author = "Elle Smith"
 # the built documents.
 #
 # The short X.Y version.
-version = "0.9.0"
+version = "0.10.0"
 # The full version, including alpha/beta/rc tags.
 release = version
 

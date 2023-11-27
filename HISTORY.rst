@@ -1,6 +1,19 @@
 Version History
 ===============
 
+v0.10.0 (2023-11-27)
+-------------------
+
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.12.0 required.
+
+New Features
+^^^^^^^^^^^^
+
+* Added regridding operator (#111)
+
+
 v0.9.0 (2023-11-17)
 -------------------
 
