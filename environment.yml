@@ -9,7 +9,7 @@ dependencies:
   - xarray>=2023.7.0
   - dask
   - netcdf4
-  - clisops>=0.9.1
+  - clisops>=0.10.0
   - elasticsearch>=7.9.1
 #  - roocs-utils>=0.6.2
   # logging

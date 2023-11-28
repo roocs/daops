@@ -3,7 +3,7 @@ bumpversion
 wheel
 watchdog
 flake8
-tox
+tox>=4.0
 coverage
 Sphinx
 sphinx-rtd-theme
@@ -14,6 +14,6 @@ twine
 pytest>=6.0
 pytest-loguru
 pytest-runner
-pre-commit>=2.9.0
-black>=22.3.0
-GitPython==3.1.30
+pre-commit>=3.0.0
+black>=23.7.0
+GitPython>=3.1.37
