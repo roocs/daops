@@ -27,29 +27,39 @@ FROM ubuntu:20.04
 
 SHELL ["/bin/bash", "-c"]
 
-ENV BASH_ENV=~/.bashrc                       \
-    MAMBA_ROOT_PREFIX=/srv/conda             \
-    PATH=$PATH:/srv/conda/envs/daops/bin
-
+ENV BASH_ENV=~/.bashrc                                       \
+    PATH=$PATH:/srv/conda/envs/daops/bin:/srv/conda/bin      \
+    MINICONDA_PREFIX=/srv/conda
+#     MAMBA_ROOT_PREFIX=/srv/conda             \
 
 # ==== Install apt-packages and micromamba ====
 
-RUN apt-get update                                                                                                           && \
-    apt-get install -y ca-certificates ttf-dejavu file wget bash bzip2 git                                                   && \
-    wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1  && \
-    ./micromamba shell init -s bash -p ~/micromamba                                                                          && \
-    apt-get clean autoremove --yes                                                                                           && \
-    cp ./micromamba /usr/bin                                                                                                 && \
-    rm -fr /srv/conda/pkgs
+ARG $MINICONDA_PREFIX=/srv/conda
+
+RUN apt-get update                                                          && \
+    apt-get install -y ca-certificates ttf-dejavu file wget bash bzip2 git
+
+#RUN    curl -L https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1  && \
+#    ./micromamba shell init -s bash -p ~/micromamba                                                                          && \
+#    apt-get clean autoremove --yes                                                                                           && \
+#    cp ./micromamba /usr/bin                                                                                                 && \
+#    rm -fr /srv/conda/pkgs
+
+ARG mconda=Miniconda3-py311_23.10.0-1-Linux-x86_64.sh
+RUN wget https://repo.anaconda.com/miniconda/$mconda    && \
+    bash ./$mconda -b -p $MINICONDA_PREFIX              && \
+    apt-get clean autoremove --yes                      && \ 
+    rm -fr $MINICONDA_PREFIX/pkgs
+
+#    wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1  && \
 
 
 # ==== Set up conda environment from yml file ====
 
 ARG tmp_env=/tmp/environment.yml
 ADD environment.yml $tmp_env
-RUN micromamba create -f $tmp_env    && \
-    rm -fr $tmp_env /srv/conda/pkgs
-
+RUN conda env create -f $tmp_env            && \
+    rm -fr $MINICONDA_PREFIX/pkgs
 
 # ==== Clone the data repo ====
 
@@ -60,7 +70,6 @@ RUN git clone $data_repo_url $data_dir  && \
     cd $data_dir                        && \
     git checkout $data_repo_branch      && \
     rm -fr .git
-
 
 # ==== Set up the roocs.ini file with paths pointing to the data repo ====
 # ==== and ensure that ROOCS_CONFIG environment variable points to it ====
@@ -79,14 +88,31 @@ ARG tmp_install_dir=/tmp/daops-install
 RUN mkdir $tmp_install_dir
 COPY . $tmp_install_dir
 RUN    cd $tmp_install_dir                                 && \
-       /srv/conda/envs/daops/bin/python setup.py install   && \
+       $MINICONDA_PREFIX/envs/daops/bin/python setup.py install   && \
        rm -fr $tmp_install_dir                             && \
        echo "export USE_PYGEOS=0" >> /root/.bashrc
+
+# ==== Activate the env and install packages with pip ====
+
+#RUN source activate $MINICONDA_PREFIX/bin/conda                          && \
+#    conda activate daops                                                 && \
+RUN  $MINICONDA_PREFIX/envs/daops/bin/pip uninstall roocs_utils -y                                         && \
+    $MINICONDA_PREFIX/envs/daops/bin/pip install roocs-utils@git+https://github.com/roocs/roocs-utils.git@i106-enable-read-kerchunk#egg=roocs_utils
 
 # ==== Create a directory that we can bind-mount ====
 RUN mkdir /outputs
 
-
 # ==== Some tidying up (NB further apt-install not possible after this) ====
 
 RUN rm -fr /var/lib/{apt,dpkg,cache,log}
+
+# ==== Run a test script ====
+#COPY ./kc-script.py /tmp/kc-script.py
+#RUN $MINICONDA_PREFIX/envs/daops/bin/python /tmp/kc-script.py
+
+# ==== Run daops at the command-line ====
+RUN ROOCS_CONFIG=$config_file $MINICONDA_PREFIX/envs/daops/bin/daops subset --area 0,-10,120,40 \
+  --time 2085-01-16/2120-12-16 --levels / --time-components year:2090,2091,2092 \
+  --output-dir /tmp --file-namer simple cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas
+
+ 
