@@ -96,8 +96,9 @@ RUN    cd $tmp_install_dir                                 && \
 
 #RUN source activate $MINICONDA_PREFIX/bin/conda                          && \
 #    conda activate daops                                                 && \
-RUN  $MINICONDA_PREFIX/envs/daops/bin/pip uninstall roocs_utils -y                                         && \
-    $MINICONDA_PREFIX/envs/daops/bin/pip install roocs-utils@git+https://github.com/roocs/roocs-utils.git@i106-enable-read-kerchunk#egg=roocs_utils
+RUN $MINICONDA_PREFIX/envs/daops/bin/pip uninstall roocs_utils -y         && \
+    $MINICONDA_PREFIX/envs/daops/bin/pip install \
+    roocs-utils@git+https://github.com/roocs/roocs-utils.git@master#egg=roocs_utils
 
 # ==== Create a directory that we can bind-mount ====
 RUN mkdir /outputs
@@ -110,7 +111,7 @@ RUN rm -fr /var/lib/{apt,dpkg,cache,log}
 #COPY ./kc-script.py /tmp/kc-script.py
 #RUN $MINICONDA_PREFIX/envs/daops/bin/python /tmp/kc-script.py
 
-# ==== Run daops at the command-line ====
+# ==== Test run daops at the command-line ====
 RUN ROOCS_CONFIG=$config_file $MINICONDA_PREFIX/envs/daops/bin/daops subset --area 0,-10,120,40 \
   --time 2085-01-16/2120-12-16 --levels / --time-components year:2090,2091,2092 \
   --output-dir /tmp --file-namer simple cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas

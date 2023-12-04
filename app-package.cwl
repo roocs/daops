@@ -15,8 +15,17 @@ $graph:
       - class: ScatterFeatureRequirement
 
     inputs:
+      area:
+          doc: area
+          type: string
       time:
           doc: time
+          type: string
+      time_components:
+          doc: time_components
+          type: string
+      levels:
+          doc: levels
           type: string
       collection:
           doc: collection
@@ -38,7 +47,10 @@ $graph:
       subset:
         run: "#clt"
         in:
+            area: area
             time: time
+            time_components: time_components
+            levels: levels
             collection: collection
             file_namer: file_namer
             output_dir: output_dir
@@ -53,8 +65,6 @@ $graph:
         envDef:  
            ROOCS_CONFIG: /root/roocs.ini
 #          PATH: /srv/conda/envs/env_crop/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-#          PYTHONPATH: /home/jovyan/ogc-eo-application-package-hands-on/water-bodies/command-line-tools/crop:/home/jovyan/water-bodies/command-line-tools/crop:/workspaces/vscode-binder/command-line-tools/crop
-#          PROJ_LIB: /srv/conda/envs/env_crop/share/proj/
 #      ResourceRequirement:
 #        coresMax: 1
 #        ramMax: 500Mb
@@ -65,25 +75,40 @@ $graph:
 
     arguments: []
     inputs:
+      area:
+        type: string
+        inputBinding:
+          prefix: --area
+          position: 1
       time:
         type: string
         inputBinding:
           prefix: --time
-          position: 1
+          position: 2
+      time_components:
+        type: string
+        inputBinding:
+          prefix: --time-components
+          position: 3
+      levels:
+        type: string
+        inputBinding:
+          prefix: --levels
+          position: 4
       file_namer:
         type: string
         inputBinding:
           prefix: --file-namer
-          position: 2
+          position: 5
       output_dir:
         type: string
         inputBinding:
           prefix: --output-dir
-          position: 3
+          position: 6
       collection:
         type: string
         inputBinding:
-          position: 4
+          position: 7
     outputs:
       results:
         outputBinding:
