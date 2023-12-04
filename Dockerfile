@@ -112,8 +112,8 @@ RUN rm -fr /var/lib/{apt,dpkg,cache,log}
 #RUN $MINICONDA_PREFIX/envs/daops/bin/python /tmp/kc-script.py
 
 # ==== Test run daops at the command-line ====
-RUN ROOCS_CONFIG=$config_file $MINICONDA_PREFIX/envs/daops/bin/daops subset --area 0,-10,120,40 \
-  --time 2085-01-16/2120-12-16 --levels / --time-components year:2090,2091,2092 \
-  --output-dir /tmp --file-namer simple cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas
+#RUN ROOCS_CONFIG=$config_file $MINICONDA_PREFIX/envs/daops/bin/daops subset --area 0,-10,120,40 \
+#  --time 2085-01-16/2120-12-16 --levels / --time-components year:2090,2091,2092 \
+#  --output-dir /tmp --file-namer simple cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas
 
  

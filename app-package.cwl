@@ -70,7 +70,7 @@ $graph:
 #        ramMax: 500Mb
     hints:
       DockerRequirement:
-        dockerPull: agstephens/daops-kerchunk:v0.3
+        dockerPull: agstephens/daops-kerchunk:v0.4
     baseCommand: ["daops", "subset"]
 
     arguments: []
