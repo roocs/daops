@@ -50,13 +50,18 @@ zostoga_ids = [
 def _check_output_nc(result, fname="output_001.nc"):
     assert fname in [os.path.basename(uri) for uri in result.file_uris]
 
+
 def _commasep(lst):
     return ",".join(str(el) for el in lst)
-    
+
+
 def _time_components_str(**params):
     return "|".join(f"{k}:{_commasep(v)}" for k, v in params.items())
 
-class _CliFail(Exception): pass
+
+class _CliFail(Exception):
+    pass
+
 
 class _SimpleSubsetReturn:
     def __init__(self, file_uris):
@@ -75,36 +80,37 @@ def _make_tmp_config(config_file, config_overrides):
             config.add_section(section)
         config[section][item] = str(value)
 
-    with tempfile.NamedTemporaryFile(delete=False, mode='w+') as fout:
+    with tempfile.NamedTemporaryFile(delete=False, mode="w+") as fout:
         tmp_config_file = fout.name
         config.write(fout)
-        
+
     return tmp_config_file
-    
-        
+
+
 def _cli_subset(*args, config_overrides=None, **kwargs):
     """
     A function that behaves somewhat similarly to calling subset directly,
     but instead wraps the CLI using subprocess.
     """
 
-    config_env_var = 'ROOCS_CONFIG'
-       
+    config_env_var = "ROOCS_CONFIG"
+
     collections = args
     for c in collections:
         assert isinstance(c, str)
 
-    mapping = {'time': '--time',
-               'time_components': '--time-components',
-               'area': '--area',
-               'level': '--levels',
-               'output_type': '--output-format',
-               'output_dir': '--output-dir',
-               'file_namer': '--file-namer'}
+    mapping = {
+        "time": "--time",
+        "time_components": "--time-components",
+        "area": "--area",
+        "level": "--levels",
+        "output_type": "--output-format",
+        "output_dir": "--output-dir",
+        "file_namer": "--file-namer",
+    }
 
-    cmdline = ['daops', 'subset']
+    cmdline = ["daops", "subset"]
     for k, v in kwargs.items():
-
         if isinstance(v, py.path.local):
             v = str(v)
         else:
@@ -127,14 +133,14 @@ def _cli_subset(*args, config_overrides=None, **kwargs):
         os.environ[config_env_var] = config_file
 
     if proc.returncode != 0:
-        msg = f'''CLI Failed:
+        msg = f"""CLI Failed:
 cmdline: {" ".join(cmdline)}
-status code: {proc.returncode}      
+status code: {proc.returncode}
 stdout: {stdout}
-stderr: {stderr}'''
-        raise _CliFail(msg)  
+stderr: {stderr}"""
+        raise _CliFail(msg)
 
-    file_uris = [line.strip() for line in stdout.decode().strip().split('\n')]
+    file_uris = [line.strip() for line in stdout.decode().strip().split("\n")]
     return _SimpleSubsetReturn(file_uris)
 
 
@@ -271,7 +277,8 @@ def test_cli_subset_t_with_invalid_date(tmpdir, load_esgf_test_data):
         )
     assert (
         "No files found in given time range for "
-        "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas" in str(exc.value)
+        "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas"
+        in str(exc.value)
     )
 
 
@@ -471,7 +478,9 @@ def test_cli_subset_by_time_components_month_day(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_cli_subset_by_time_interval_and_components_month_day(tmpdir, load_esgf_test_data):
+def test_cli_subset_by_time_interval_and_components_month_day(
+    tmpdir, load_esgf_test_data
+):
     # 20051201-20151130
     ys, ye = 2007, 2010
     ti = f"{ys}-12-01T00:00:00/{ye}-11-30T23:59:59"
@@ -531,10 +540,10 @@ def test_cli_subset_by_time_series_and_components_month_day_cmip6(
     # 18500101-20141231
 
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
-    config_overrides=[
+    config_overrides = [
         ("project:c3s-cmip6", "use_catalog", False),
     ]
-    
+
     ys, ye = 1998, 2010
     req_times = [
         tm.isoformat()
@@ -556,7 +565,7 @@ def test_cli_subset_by_time_series_and_components_month_day_cmip6(
             time_components=tc,
             output_dir=tmpdir,
             file_namer="simple",
-            config_overrides=config_overrides
+            config_overrides=config_overrides,
         )
         ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
 

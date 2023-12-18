@@ -1,12 +1,14 @@
 numpy>=1.16
-xarray>=0.19
+xarray>=0.21
+xesmf>=0.8.2
 dask[complete]
 cftime
 netcdf4
 elasticsearch>=8.0.1
-clisops>=0.9.1
+clisops>=0.12.0
 ## clisops @ git+https://github.com/roocs/clisops.git@master#egg=clisops
-roocs-utils>=0.6.2
+roocs-utils>=0.6.4
+roocs_grids>=0.1.2
 # logging
 loguru>=0.5.3
 # catalog
