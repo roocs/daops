@@ -130,8 +130,8 @@ def average_shape(
 
     Examples
     --------
-    | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
-    | dims: ["time", "lat"]
+    | collection: ("cmip6.cmip..cas.fgoals-g3.historical.r1i1p1fi.Amon.tas.gn.v20190818",)
+    | shape: "path_to_shape"
     | ignore_undetected_dims: (-5.,49.,10.,65)
     | output_type: "netcdf"
     | output_dir: "/cache/wps/procs/req0111"
