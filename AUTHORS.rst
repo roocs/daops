@@ -17,3 +17,4 @@ Contributors
 ------------
 
 * Trevor James Smith smith.trevorj@ouranos.ca
+* Charles Gauthier gauthier.charles@ouranos.ca
