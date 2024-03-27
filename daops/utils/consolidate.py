@@ -136,7 +136,7 @@ def consolidate(collection, **kwargs):
 
         # If dset looks like a Kerchunk file then pass it straight through
         if is_kerchunk_file(dset):
-            filtered_refs[dset] = dset 
+            filtered_refs[dset] = dset
 
         # If no intake catalog is being used to constrain the data access
         elif not catalog:
