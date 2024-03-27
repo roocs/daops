@@ -3,7 +3,7 @@ import collections
 import xarray as xr
 from elasticsearch import exceptions
 from loguru import logger
-from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
+from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset, is_kerchunk_file
 
 from .base_lookup import Lookup
 from daops import CONFIG
@@ -74,7 +74,7 @@ def open_dataset(ds_id, file_paths, apply_fixes=True):
     :param apply_fixes: Boolean. If True fixes will be applied to datasets if needed. Default is True.
     :return: xarray Dataset with fixes applied to the data.
     """
-    if apply_fixes:
+    if apply_fixes and not is_kerchunk_file(ds_id):
         fix = fixer.Fixer(ds_id)
         if fix.pre_processor:
             for pre_process in fix.pre_processors:

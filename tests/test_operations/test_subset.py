@@ -22,6 +22,7 @@ from tests._common import CMIP5_TAS_FPATH
 from tests._common import CMIP6_DAY
 from tests._common import CMIP6_MONTH
 from tests._common import MINI_ESGF_MASTER_DIR
+from tests._common import CMIP6_KERCHUNK_HTTPS_OPEN_JSON
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -91,6 +92,22 @@ def test_subset_t(tmpdir, load_esgf_test_data):
     _check_output_nc(result)
     ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
     assert ds.time.shape == (433,)
+
+
+@pytest.mark.online
+def test_subset_t_kerchunk(tmpdir):
+    result = subset(
+        CMIP6_KERCHUNK_HTTPS_OPEN_JSON,
+        time=time_interval("1948-01-16", "1952-12-16"),
+        area=(0, -10, 120, 40),
+        output_dir=tmpdir,
+        file_namer="simple",
+    )
+    _check_output_nc(result)
+    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    assert ds.time.shape == (60,)
+    assert ds.tasmax.shape == (60, 40, 64)
+    assert np.isclose(float(ds.tasmax.max()), 327.24411011)
 
 
 @pytest.mark.online
