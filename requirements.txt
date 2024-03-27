@@ -12,8 +12,8 @@ roocs_grids>=0.1.2
 # logging
 loguru>=0.5.3
 # catalog
-intake
-# kerchunk
+intake>=0.7.0,<2.0
+# to support kerchunk
 aiohttp
 fsspec
 zarr==2.13.3
