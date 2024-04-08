@@ -9,7 +9,7 @@ dependencies:
   - xarray >=0.21,<2023.3.0 # https://github.com/pydata/xarray/issues/7794
   - dask
   - netcdf4
-  - clisops >=0.12.0
+  - clisops >=0.12.1
   - roocs-grids >=0.1.2
   - xesmf >=0.8.2
   - elasticsearch>=7.9.1
