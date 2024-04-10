@@ -1,14 +1,18 @@
 Version History
 ===============
 
-v0.10.1 (unreleased)
--------------------
+v0.11.0 (2024-04-10)
+--------------------
+
+Breaking Changes
+^^^^^^^^^^^^^^^^
+
+* ``clisops``>=0.12.1 required.
 
 New Features
 ^^^^^^^^^^^^
 
 * Add clisops.ops.average_shape to daops.ops.average
-
 
 
 v0.10.0 (2023-11-27)
