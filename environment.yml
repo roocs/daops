@@ -18,5 +18,8 @@ dependencies:
   - loguru >=0.5.3
   # catalog
   - intake >=0.7.0,<2.0
+  # to support kerchunk
   - fsspec
   - aiohttp
+  - zarr==2.13.3
+  - zstandard

@@ -11,7 +11,7 @@ from roocs_utils.project_utils import dset_to_filepaths
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
 from roocs_utils.utils.file_utils import FileMapper
-from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
+from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file, open_xr_dataset
 
 from daops.catalog import get_catalog
 from daops.utils.core import _wrap_sequence
@@ -124,7 +124,7 @@ def consolidate(collection, **kwargs):
 
     collection = _wrap_sequence(collection.value)
 
-    if not isinstance(collection[0], FileMapper):
+    if not isinstance(collection[0], FileMapper) and not is_kerchunk_file(collection[0]):
         project = get_project_name(collection[0])
         catalog = get_catalog(project)
 
@@ -133,7 +133,13 @@ def consolidate(collection, **kwargs):
     time_param = kwargs.get("time")
 
     for dset in collection:
-        if not catalog:
+
+        # If dset looks like a Kerchunk file then pass it straight through
+        if is_kerchunk_file(dset):
+            filtered_refs[dset] = dset
+
+        # If no intake catalog is being used to constrain the data access
+        elif not catalog:
             file_paths = dset_to_filepaths(dset, force=True)
 
             if time_param:
@@ -145,6 +151,7 @@ def consolidate(collection, **kwargs):
 
             filtered_refs[dset] = file_paths
 
+        # If an intake catalog is being used to constrain the data access
         else:
             ds_id = derive_ds_id(dset)
             result = catalog.search(collection=ds_id, time=time_param)
