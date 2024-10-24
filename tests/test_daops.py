@@ -1,4 +1,5 @@
 """ Tests for daops library """
+
 # FutureWarning: In xarray version 0.15 the default behaviour of `open_mfdataset`
 # will change. To retain the existing behavior, pass
 # combine='nested'. To use future default behavior, pass

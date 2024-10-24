@@ -3,6 +3,8 @@ import os
 import numpy as np
 import pytest
 import xarray as xr
+from daops import CONFIG
+from daops.ops.subset import subset
 from roocs_utils.exceptions import InvalidParameterValue
 from roocs_utils.exceptions import MissingParameterValue
 from roocs_utils.parameter import area_parameter
@@ -15,14 +17,12 @@ from roocs_utils.parameter.param_utils import time_interval
 from roocs_utils.parameter.param_utils import time_series
 from roocs_utils.utils.file_utils import FileMapper
 
-from daops import CONFIG
-from daops.ops.subset import subset
 from tests._common import CMIP5_DAY
 from tests._common import CMIP5_TAS_FPATH
 from tests._common import CMIP6_DAY
+from tests._common import CMIP6_KERCHUNK_HTTPS_OPEN_JSON
 from tests._common import CMIP6_MONTH
 from tests._common import MINI_ESGF_MASTER_DIR
-from tests._common import CMIP6_KERCHUNK_HTTPS_OPEN_JSON
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",

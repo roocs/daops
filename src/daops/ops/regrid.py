@@ -1,8 +1,7 @@
 from clisops.ops.regrid import regrid as clisops_regrid
+from daops.ops.base import Operation
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import dimension_parameter
-
-from daops.ops.base import Operation
 
 __all__ = [
     "regrid",

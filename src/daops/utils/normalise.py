@@ -1,9 +1,8 @@
 import collections
 import os
 
-from loguru import logger
-
 from daops.utils.core import open_dataset
+from loguru import logger
 
 
 def normalise(collection, apply_fixes=True):
@@ -25,7 +24,7 @@ def normalise(collection, apply_fixes=True):
     return norm_collection
 
 
-class ResultSet(object):
+class ResultSet:
     """A class to hold the results from an operation e.g. subset"""
 
     def __init__(self, inputs=None):

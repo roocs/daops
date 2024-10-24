@@ -1,8 +1,8 @@
 import pytest
 import xarray as xr
-
 from daops.utils.core import Characterised
 from daops.utils.core import open_dataset
+
 from tests._common import MINI_ESGF_MASTER_DIR
 
 fpath = (

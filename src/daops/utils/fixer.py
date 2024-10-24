@@ -2,13 +2,13 @@ import json
 import os
 from pydoc import locate
 
+from daops import CONFIG
 from elasticsearch import exceptions
 
 from .base_lookup import Lookup
-from daops import CONFIG
 
 
-class FuncChainer(object):
+class FuncChainer:
     """Chains functions together to allow them to be executed in one call."""
 
     def __init__(self, funcs):

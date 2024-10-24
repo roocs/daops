@@ -1,9 +1,6 @@
 import os
-import shutil
 
-import numpy as np
 import pytest
-import xarray as xr
 from git import Repo
 
 from tests._common import MINI_ESGF_CACHE_DIR

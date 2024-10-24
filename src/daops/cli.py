@@ -8,7 +8,6 @@ __license__ = "BSD - see LICENSE file in top-level package directory"
 import os
 import sys
 import argparse
-import dateutil.parser
 import configparser
 
 from daops.ops.subset import subset

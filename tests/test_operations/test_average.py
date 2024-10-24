@@ -1,15 +1,16 @@
 import os
 
+import geopandas as gpd
 import pytest
 import xarray as xr
-import geopandas as gpd
-from shapely import Polygon, MultiPolygon
-from roocs_utils.exceptions import InvalidParameterValue
-
 from daops import CONFIG
 from daops.ops.average import average_over_dims
-from daops.ops.average import average_time
 from daops.ops.average import average_shape
+from daops.ops.average import average_time
+from roocs_utils.exceptions import InvalidParameterValue
+from shapely import MultiPolygon
+from shapely import Polygon
+
 from tests._common import CMIP5_DAY
 from tests._common import CMIP6_MONTH
 
@@ -18,17 +19,19 @@ CMIP5_IDS = [
     "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas",
     "cmip5.output1.MOHC.HadGEM2-ES.historical.mon.land.Lmon.r1i1p1.latest.rh",
 ]
-CMIP6_IDS = [
-    "CMIP6.CMIP.CAS.FGOALS-g3.historical.r1i1p1f1.Amon.tas.gn.v20190818"
-]
+CMIP6_IDS = ["CMIP6.CMIP.CAS.FGOALS-g3.historical.r1i1p1f1.Amon.tas.gn.v20190818"]
 
-POLY = Polygon([[5.8671874999999996, 57.326521225217064],
-                [-15.468749999999998, 48.45835188280866],
-                [-16.171875, 24.84656534821976],
-                [-3.8671874999999996, 13.581920900545844],
-                [21.796875, 25.799891182088334],
-                [22.8515625, 52.482780222078226],
-                [5.8671874999999996, 57.326521225217064]])
+POLY = Polygon(
+    [
+        [5.8671874999999996, 57.326521225217064],
+        [-15.468749999999998, 48.45835188280866],
+        [-16.171875, 24.84656534821976],
+        [-3.8671874999999996, 13.581920900545844],
+        [21.796875, 25.799891182088334],
+        [22.8515625, 52.482780222078226],
+        [5.8671874999999996, 57.326521225217064],
+    ]
+)
 
 
 def _check_output_nc(result, fname="output_001.nc"):
@@ -111,16 +114,16 @@ def test_average_level(tmpdir):
 @pytest.mark.online
 def test_average_shape(tmpdir):
     # Save POLY to tmpdir
-    tmp_poly_path = os.path.join(tmpdir,"tmppoly.json")
-    gpd.GeoDataFrame([{'geometry': POLY}]).to_file(tmp_poly_path)
+    tmp_poly_path = os.path.join(tmpdir, "tmppoly.json")
+    gpd.GeoDataFrame([{"geometry": POLY}]).to_file(tmp_poly_path)
 
     result = average_shape(
         CMIP6_IDS[0],
         shape=tmp_poly_path,
         variable=None,
         output_dir=tmpdir,
-        file_namer='simple',
-        apply_fixes=False
+        file_namer="simple",
+        apply_fixes=False,
     )
     _check_output_nc(result)
     ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
@@ -135,8 +138,9 @@ def test_average_shape_none(tmpdir):
             shape=None,
             variable=None,
             output_dir=tmpdir,
-            file_namer='simple',
-            apply_fixes=False)
+            file_namer="simple",
+            apply_fixes=False,
+        )
     assert str(exc.value) == "At least one area for averaging must be provided"
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Console script for daops."""
 
 __author__ = """Elle Smith"""

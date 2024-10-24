@@ -1,0 +1,122 @@
+[build-system]
+requires = ["flit-core >=3.9,<4.0"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "daops"
+authors = [
+    {name = "Elle Smith", email = "eleanor.smith@stfc.ac.uk"}
+]
+maintainers = [
+    {name = "Trevor James Smith", email = "smith.trevorj@ouranos.ca"}
+]
+license = {text = "BSD"}
+readme = {file = "README.rst", content-type = "text/x-rst"}
+keywords = ["daops"]
+homepage = "https://github.com/roocs/daops"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Internet",
+    "Topic :: Scientific/Engineering",
+    "Topic :: System :: Distributed Computing",
+    "Topic :: System :: Systems Administration :: Authentication/Directory",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dynamic = ["description", "version"]
+dependencies = [
+  "cftime",
+  "clisops>=0.14.0",
+  "dask[complete]",
+  "elasticsearch>=8.0.1",
+  "netcdf4",
+  "numpy>=1.23.0",
+  "roocs-utils>=0.6.4",
+  "roocs_grids>=0.1.2",
+  "xarray>=0.21,<2023.3.0", # https://github.com/pydata/xarray/issues/7794
+  "xesmf>=0.8.2",
+  # logging
+  "loguru>=0.5.3",
+  # catalog
+  "intake>=0.7.0,<2.0",
+  # to support kerchunk
+  "aiohttp",
+  "fsspec",
+  "zarr>=2.13.3",
+  "zstandard"
+]
+
+[project.optional-dependencies]
+dev = [
+  "black>=24.10.0",
+  "bump-my-version",
+  "coverage",
+  "flake8",
+  "jinja2",
+  "pre-commit>=3.0.0",
+  "pytest-loguru",
+  "pytest>=8.0",
+  "tox>=4.18.0",
+  "twine",
+  "watchdog>=4.0",
+  "wheel"
+]
+docs = [
+    "sphinx >=7.0",
+    "sphinx-rtd-theme >=1.0",
+    "nbsphinx",
+    "nbconvert",
+    "ipython>=8.5.0",
+    "ipykernel",
+    "jupyter_client",
+    "matplotlib >=3.5.0"
+]
+
+[project.scripts]
+daops = "daops.cli:main"
+
+[tool]
+
+[tool.black]
+target-version = [
+  "py39",
+  "py310",
+  "py311",
+  "py312"
+]
+
+[tool.flit.module]
+name = "daops"
+
+[tool.flit.sdist]
+include = [
+  "AUTHORS.rst",
+  "HISTORY.rst",
+  "LICENSE",
+  "Makefile",
+  "README.rst",
+  "docs/Makefile",
+  "docs/make.bat",
+  "docs/*.rst",
+  "docs/*.py",
+  "docs/_static/*.png",
+  "etc/*",
+  "src/daops",
+  "tox.ini"
+]

@@ -1,4 +1,5 @@
 from daops.utils.base_lookup import Lookup
+
 from tests._common import MINI_ESGF_MASTER_DIR
 
 

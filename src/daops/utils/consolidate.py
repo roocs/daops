@@ -4,6 +4,8 @@ import os
 import re
 
 import xarray as xr
+from daops.catalog import get_catalog
+from daops.utils.core import _wrap_sequence
 from loguru import logger
 from roocs_utils.exceptions import InvalidCollection
 from roocs_utils.project_utils import derive_ds_id
@@ -11,10 +13,8 @@ from roocs_utils.project_utils import dset_to_filepaths
 from roocs_utils.project_utils import get_project_base_dir
 from roocs_utils.project_utils import get_project_name
 from roocs_utils.utils.file_utils import FileMapper
-from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file, open_xr_dataset
-
-from daops.catalog import get_catalog
-from daops.utils.core import _wrap_sequence
+from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file
+from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
 
 def to_year(time_string):
@@ -124,7 +124,9 @@ def consolidate(collection, **kwargs):
 
     collection = _wrap_sequence(collection.value)
 
-    if not isinstance(collection[0], FileMapper) and not is_kerchunk_file(collection[0]):
+    if not isinstance(collection[0], FileMapper) and not is_kerchunk_file(
+        collection[0]
+    ):
         project = get_project_name(collection[0])
         catalog = get_catalog(project)
 

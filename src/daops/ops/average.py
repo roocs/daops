@@ -1,16 +1,11 @@
 from clisops.ops.average import average_over_dims as clisops_average_over_dims
 from clisops.ops.average import average_shape as clisops_average_shape
 from clisops.ops.average import average_time as clisops_average_time
+from daops.ops.base import Operation
 from roocs_utils.parameter import collection_parameter
 from roocs_utils.parameter import dimension_parameter
 
-from daops.ops.base import Operation
-
-__all__ = [
-    "average_over_dims",
-    "average_time",
-    "average_shape"
-]
+__all__ = ["average_over_dims", "average_time", "average_shape"]
 
 
 class Average(Operation):

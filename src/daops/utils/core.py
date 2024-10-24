@@ -1,13 +1,14 @@
 import collections
 
 import xarray as xr
-from elasticsearch import exceptions
-from loguru import logger
-from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset, is_kerchunk_file
-
-from .base_lookup import Lookup
 from daops import CONFIG
 from daops.utils import fixer
+from elasticsearch import exceptions
+from loguru import logger
+from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file
+from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
+
+from .base_lookup import Lookup
 
 
 def _wrap_sequence(obj):

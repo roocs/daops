@@ -8,17 +8,17 @@ are modified to allow for this.  Some tests have been removed where they are tes
 input types.
 """
 
-import os
-
-import numpy as np
-import pytest
-import xarray as xr
-import subprocess as sp
-import py.path
 import configparser
+import os
+import subprocess as sp
 import tempfile
 
+import numpy as np
+import py.path
+import pytest
+import xarray as xr
 from daops import CONFIG
+
 from tests._common import CMIP5_DAY
 from tests._common import CMIP5_TAS_FPATH
 from tests._common import CMIP6_DAY

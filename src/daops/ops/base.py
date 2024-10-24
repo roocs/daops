@@ -1,8 +1,7 @@
-from roocs_utils.parameter import collection_parameter
-
 from daops.processor import process
 from daops.utils import consolidate
 from daops.utils import normalise
+from roocs_utils.parameter import collection_parameter
 
 
 class Operation:

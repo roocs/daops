@@ -1,17 +1,15 @@
 import intake
+from daops import CONFIG
 
 from .base import Catalog
 from .util import MAX_DATETIME
 from .util import MIN_DATETIME
 from .util import parse_time
-from daops import CONFIG
-
-# from intake.config import conf as intake_config
 
 
 class IntakeCatalog(Catalog):
     def __init__(self, project, url=None):
-        super(IntakeCatalog, self).__init__(project)
+        super().__init__(project)
         self.url = url or CONFIG.get("catalog", None).get("intake_catalog_url", None)
         self._cat = None
         self._store = {}

@@ -1,7 +1,7 @@
+from daops import CONFIG
 from roocs_utils.exceptions import InvalidCollection
 
 from .intake import IntakeCatalog
-from daops import CONFIG
 
 
 def get_catalog(project):

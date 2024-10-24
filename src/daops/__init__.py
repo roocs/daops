@@ -1,10 +1,8 @@
-"""Top-level package for daops.
-daops - Dataset-Aware Operations"""
+"""Dataset-Aware Operations"""
 
 __author__ = """Elle Smith"""
 __contact__ = "eleanor.smith@stfc.ac.uk"
-__copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
-__license__ = "BSD"
+__copyright__ = "Copyright 2018-2024 United Kingdom Research and Innovation"
 __version__ = "0.11.0"
 
 from loguru import logger

@@ -1,14 +1,13 @@
 import hashlib
 import os
 
+from daops import CONFIG
 from elasticsearch import Elasticsearch
 from roocs_utils.exceptions import InvalidProject
 from roocs_utils.project_utils import derive_ds_id
 
-from daops import CONFIG
 
-
-class Lookup(object):
+class Lookup:
     """
     Base class used for looking up datasets in the elasticsearch indexes.
     """
