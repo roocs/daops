@@ -3,4 +3,3 @@ time: "2085-01-16/2188-12-16"
 file_namer: "simple"
 output_dir: "."
 collection: "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas"
-

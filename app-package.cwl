@@ -54,7 +54,7 @@ $graph:
             collection: collection
             file_namer: file_namer
             output_dir: output_dir
-        out: 
+        out:
           - results
 
   - class: CommandLineTool
@@ -62,7 +62,7 @@ $graph:
     requirements:
       InlineJavascriptRequirement: {}
       EnvVarRequirement:
-        envDef:  
+        envDef:
            ROOCS_CONFIG: /root/roocs.ini
 #          PATH: /srv/conda/envs/env_crop/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 #      ResourceRequirement:

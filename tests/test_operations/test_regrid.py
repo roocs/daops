@@ -3,7 +3,6 @@ import os
 import pytest
 import xarray as xr
 
-
 # from daops.ops.regrid import regrid
 
 # TODO: remove when upgraded to new clisops version

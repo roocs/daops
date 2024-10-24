@@ -123,6 +123,7 @@ Logging
 .. code-block:: python
 
     from loguru import logger
+
     logger.warning("This a warning message!")
 
 The mechanism for enabling log reporting in scripts/notebooks using ``loguru`` is as follows:
