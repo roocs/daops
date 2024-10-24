@@ -1,9 +1,11 @@
+"""Base class for catalog."""
 import os
 
 from daops import CONFIG
 
 
 def make_list(value):
+    """Make a list from a value."""
     if isinstance(value, list):
         val = value
     else:
@@ -11,8 +13,8 @@ def make_list(value):
     return val
 
 
-class Catalog:
-    def __init__(self, project):
+class Catalog:  # noqa: D101
+    def __init__(self, project):  # noqa: D107
         self.project = project
 
     def _query(self, collection, time=None, time_components=None):
@@ -27,8 +29,9 @@ class Catalog:
 
 class Result:
     def __init__(self, project, records):
-        """records are an OrderedDict of dataset ids with a list of files:
-        {'ds_id': [files]}
+        """Parse the records.
+
+        Records are an OrderedDict of dataset ids with a list of files: {'ds_id': [files]}.
         """
         self.base_dir = CONFIG.get(f"project:{project}", {}).get("base_dir")
         self.base_url = CONFIG.get(f"project:{project}", {}).get("data_node_root")

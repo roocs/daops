@@ -1,7 +1,7 @@
 from clisops.ops.regrid import regrid as clisops_regrid
-from daops.ops.base import Operation
 from roocs_utils.parameter import collection_parameter
-from roocs_utils.parameter import dimension_parameter
+
+from daops.ops.base import Operation
 
 __all__ = [
     "regrid",
@@ -10,10 +10,7 @@ __all__ = [
 
 class Regrid(Operation):
     def _resolve_params(self, collection, **params):
-        """
-        Resolve the input parameters to `self.params` and parameterise
-        collection parameter and set to `self.collection`.
-        """
+        """Resolve the input parameters to `self.params` and parameterise collection parameter and set to `self.collection`."""
         # need to verify method, grid and adaptive masking threshold are correct format - parameters?
         collection = collection_parameter.CollectionParameter(collection)
 
@@ -39,8 +36,8 @@ def regrid(
     file_namer="standard",
     apply_fixes=True,
 ):
-    """
-    Regrid input dataset according to specified method and output grid.
+    """Regrid input dataset according to specified method and output grid.
+
     The adaptive masking threshold can also be specified.
 
     Parameters
@@ -73,7 +70,6 @@ def regrid(
     | apply_fixes: True
 
     """
-
     result_set = Regrid(**locals()).calculate()
 
     return result_set

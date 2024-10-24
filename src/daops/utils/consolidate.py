@@ -1,37 +1,39 @@
 import collections
-import glob
 import os
 import re
 
-import xarray as xr
-from daops.catalog import get_catalog
-from daops.utils.core import _wrap_sequence
 from loguru import logger
 from roocs_utils.exceptions import InvalidCollection
-from roocs_utils.project_utils import derive_ds_id
-from roocs_utils.project_utils import dset_to_filepaths
-from roocs_utils.project_utils import get_project_base_dir
-from roocs_utils.project_utils import get_project_name
+from roocs_utils.project_utils import (
+    derive_ds_id,
+    dset_to_filepaths,
+    get_project_name,
+)
 from roocs_utils.utils.file_utils import FileMapper
-from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file
-from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
+from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file, open_xr_dataset
+
+from daops.catalog import get_catalog
+from daops.utils.core import _wrap_sequence
 
 
 def to_year(time_string):
-    "Returns the year in a time string as an integer."
+    """Returns the year in a time string as an integer."""
     return int(time_string.split("-")[0])
 
 
 def get_year(value, default):
-    """Gets a year from a datetime string. Defaults to the value of `default`
-    if not defined."""
+    """Get a year from a datetime string.
+
+    Defaults to the value of `default` if not defined.
+    """
     if value:
         return to_year(value)
     return default
 
 
 def get_years_from_file(fpath):
-    """Attempts to extract years from a file.
+    """Attempt to extract years from a file.
+
     First by examining the file name. If that doesn't work then it
     reads the file contents and looks at the time axis.
 
@@ -55,9 +57,9 @@ def get_years_from_file(fpath):
 
 
 def get_files_matching_time_range(time_param, file_paths):
-    """
-    Using the settings in `time_param`, examine each file to see if it contains
-    years that are in the requested range.
+    """Examine each file to see if it contains years that are in the requested range.
+
+    Uses the settings in `time_param`.
 
     The `time_param` can have three types:
         1. type: "interval":
@@ -68,14 +70,14 @@ def get_files_matching_time_range(time_param, file_paths):
            - undefined
 
     It attempts to filter out files that do not match the selected year.
-    For any file that we cannot do this with, the file will be read by
-    xarray.
+    For any file that we cannot do this with, the file will be read by xarray.
 
     Args:
         time_param (TimeParameter): time parameter of requested date/times
         file_paths (list): list of file paths
     Returns:
         file_paths (list): filtered list of file paths
+
     """
     # Return all file paths if no time inputs specified
     if time_param.type == "none":
@@ -110,9 +112,9 @@ def get_files_matching_time_range(time_param, file_paths):
 
 
 def consolidate(collection, **kwargs):
-    """
-    Finds the file paths relating to each input dataset. If a time range has been supplied then only the files
-    relating to this time range are recorded.
+    """Find the file paths relating to each input dataset.
+
+    If a time range has been supplied then only the files relating to this time range are recorded.
 
     :param collection: (roocs_utils.CollectionParameter) The collection of datasets to process.
     :param kwargs: Arguments of the operation taking place e.g. subset, average, or re-grid.
@@ -120,7 +122,7 @@ def consolidate(collection, **kwargs):
              relating to it.
     """
     catalog = None
-    time = None
+    # time = None
 
     collection = _wrap_sequence(collection.value)
 

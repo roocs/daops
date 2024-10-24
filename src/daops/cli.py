@@ -5,13 +5,14 @@ __contact__ = "alan.iwi@stfc.ac.uk"
 __copyright__ = "Copyright 2023 United Kingdom Research and Innovation"
 __license__ = "BSD - see LICENSE file in top-level package directory"
 
-import os
-import sys
 import argparse
 import configparser
+import os
+import sys
+
+from roocs_utils.utils.file_utils import FileMapper
 
 from daops.ops.subset import subset
-from roocs_utils.utils.file_utils import FileMapper
 
 
 def parse_args():
@@ -75,6 +76,7 @@ def parse_args():
 
 
 def get_params(args):
+    """Get the parameters."""
     collection = (
         args.collection if len(args.collection) == 1 else FileMapper(args.collection)
     )
@@ -93,8 +95,7 @@ def get_params(args):
 
 
 def check_env():
-    """
-    Check that ROOCS_CONFIG points to a valid config file
+    """Check that ROOCS_CONFIG points to a valid config file
     (although for certain types of invalid file, in fact main is never called,
     so exit might not always be graceful in these cases).
     Call this after get_params() so that 'help' still works even if this is not set.
@@ -113,6 +114,7 @@ def check_env():
 
 
 def main():
+    """Console script for daops."""
     args = parse_args()
     params = get_params(args)
     check_env()

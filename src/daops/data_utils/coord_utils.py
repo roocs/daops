@@ -1,3 +1,4 @@
+"""Coordinate operations."""
 import numpy as np
 from roocs_utils.xarray_utils import xarray_utils as xu
 
@@ -5,7 +6,8 @@ from .common_utils import handle_derive_str
 
 
 def squeeze_dims(ds_id, ds, **operands):
-    """
+    """Squeeze dimensions from dataset.
+
     :param ds: Xarray Dataset
     :param operands: (dict) Arguments for fix. Dims (list) to remove.
     :return: Xarray Dataset
@@ -18,7 +20,8 @@ def squeeze_dims(ds_id, ds, **operands):
 
 
 def add_scalar_coord(ds_id, ds, **operands):
-    """
+    """Add a scalar coordinate.
+
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
     :return: Xarray Dataset
@@ -50,7 +53,8 @@ def add_scalar_coord(ds_id, ds, **operands):
 
 
 def add_coord(ds_id, ds, **operands):
-    """
+    """Add a coordinate.
+
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
     :return: Xarray DataArray

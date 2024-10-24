@@ -1,4 +1,4 @@
-# conda env create -f environment.yml
+# conda env create -f environment-docs.yml
 name: daops
 channels:
   - conda-forge

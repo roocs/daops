@@ -1,7 +1,5 @@
-
 daops - data-aware operations
 =============================
-
 
 .. image:: https://img.shields.io/pypi/v/daops.svg
     :target: https://pypi.python.org/pypi/daops

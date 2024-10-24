@@ -1,4 +1,4 @@
-"""Dataset-Aware Operations"""
+"""Dataset-Aware Operations."""
 
 __author__ = """Elle Smith"""
 __contact__ = "eleanor.smith@stfc.ac.uk"
@@ -6,7 +6,6 @@ __copyright__ = "Copyright 2018-2024 United Kingdom Research and Innovation"
 __version__ = "0.11.0"
 
 from loguru import logger
-
 from roocs_utils.config import get_config
 
 import daops

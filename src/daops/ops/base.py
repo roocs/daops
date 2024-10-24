@@ -1,13 +1,12 @@
-from daops.processor import process
-from daops.utils import consolidate
-from daops.utils import normalise
 from roocs_utils.parameter import collection_parameter
+
+from daops.processor import process
+from daops.utils import consolidate, normalise
 
 
 class Operation:
-    """
-    Base class for all Operations.
-    """
+
+    """Base class for all Operations."""
 
     def __init__(
         self,
@@ -19,11 +18,10 @@ class Operation:
         apply_fixes=True,
         **params,
     ):
-        """
-        Constructor for each operation.
+        """Constructor for each operation.
         Sets common input parameters as attributes.
         Parameters that are specific to each operation are handled in:
-          self._resolve_params()
+          self._resolve_params().
         """
         self._file_namer = file_namer
         self._split_method = split_method
@@ -34,20 +32,16 @@ class Operation:
         self._consolidate_collection()
 
     def _resolve_params(self, collection, **params):
-        """
-        Resolve the operation-specific input parameters to `self.params` and parameterise
-        collection parameter and set to `self.collection`.
-        """
+        """Resolve the operation-specific input parameters to `self.params` and parameterise collection parameter and set to `self.collection`."""
         self.collection = collection_parameter.CollectionParameter(collection)
         self.params = params
 
     def _consolidate_collection(self):
-        """
-        Take in the collection object and finds the file paths relating to each input dataset.
-        If a time range has been supplied then then only the files relating to this time range are recorded.
+        """Take in the collection object and finds the file paths relating to each input dataset.
+
+        If a time range has been supplied then only the files relating to this time range are recorded.
         Set the result to `self.collection`.
         """
-
         if "time" in self.params:
             self.collection = consolidate.consolidate(
                 self.collection, time=self.params.get("time")
@@ -57,12 +51,13 @@ class Operation:
             self.collection = consolidate.consolidate(self.collection)
 
     def get_operation_callable(self):
+        """Return the operation callable from clisops."""
         raise NotImplementedError
 
     def calculate(self):
-        """
-        The `calculate()` method processes the input and calculates the result using clisops.
-        It then returns the result as a daops.normalise.ResultSet object
+        """Process the input and calculate the result using clisops.
+
+        It then returns the result as a daops.normalise.ResultSet object.
         """
         config = {
             "output_type": self._output_type,
@@ -79,12 +74,12 @@ class Operation:
         rs = normalise.ResultSet(vars())
 
         # change name of data ref here
-        for dset, norm_collection in norm_collection.items():
+        for dset, collection in norm_collection.items():
             # Process each input dataset (either in series or
             # parallel)
             rs.add(
                 dset,
-                process(self.get_operation_callable(), norm_collection, **self.params),
+                process(self.get_operation_callable(), collection, **self.params),
             )
 
         return rs

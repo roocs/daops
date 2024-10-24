@@ -45,7 +45,6 @@ dependencies = [
   "clisops>=0.14.0",
   "dask[complete]",
   "elasticsearch>=8.0.1",
-  "netcdf4",
   "numpy>=1.23.0",
   "roocs-utils>=0.6.4",
   "roocs_grids>=0.1.2",
@@ -65,27 +64,27 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "black>=24.10.0",
-  "bump-my-version",
+  "bump-my-version>=0.28.0",
   "coverage",
-  "flake8",
   "jinja2",
-  "pre-commit>=3.0.0",
+  "pre-commit>=3.5.0",
   "pytest-loguru",
   "pytest>=8.0",
+  "ruff>=0.5.7",
   "tox>=4.18.0",
-  "twine",
   "watchdog>=4.0",
   "wheel"
 ]
 docs = [
-    "sphinx >=7.0",
-    "sphinx-rtd-theme >=1.0",
-    "nbsphinx",
-    "nbconvert",
-    "ipython>=8.5.0",
-    "ipykernel",
-    "jupyter_client",
-    "matplotlib >=3.5.0"
+  "ipykernel",
+  "ipython>=8.5.0",
+  "jupyter_client",
+  "matplotlib >=3.5.0",
+  "nbconvert",
+  "nbsphinx",
+  "netcdf4",
+  "sphinx >=7.0",
+  "sphinx-rtd-theme >=1.0"
 ]
 
 [project.scripts]
@@ -100,6 +99,32 @@ target-version = [
   "py311",
   "py312"
 ]
+
+[tool.bumpversion]
+current_version = "0.11.0"
+commit = true
+commit_args = "--no-verify"
+tag = true
+allow_dirty = false
+
+[[tool.bumpversion.files]]
+filename = "src/daops/__init__.py"
+search = "__version__ = \"{current_version}\""
+replace = "__version__ = \"{new_version}\""
+
+[[tool.bumpversion.files]]
+filename = "docs/conf.py"
+search = "version = \"{current_version}\""
+replace = "version = \"{new_version}\""
+
+[tool.coverage.run]
+relative_files = true
+omit = ["tests/*.py"]
+
+[tool.deptry]
+extend_exclude = ["docs"]
+ignore_notebooks = true
+pep621_dev_dependency_groups = ["dev", "docs"]
 
 [tool.flit.module]
 name = "daops"
@@ -120,3 +145,59 @@ include = [
   "src/daops",
   "tox.ini"
 ]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+  "--verbose",
+  "--color=yes",
+  "--strict-config",
+  "--strict-markers"
+]
+log_cli_level = "INFO"
+filterwarnings = ["ignore::UserWarning"]
+testpaths = [
+  "tests"
+]
+markers = [
+  "online: mark tests that require internet access (deselect with '-m \"not requires_internet\"')"
+]
+xfail_strict = true
+
+[tool.ruff]
+src = ["src/daops"]
+exclude = [
+    ".git",
+    "build",
+    ".eggs",
+]
+line-length = 180
+extend-include = [
+  "*.ipynb" # Include notebooks
+]
+
+[tool.ruff.format]
+line-ending = "auto"
+
+[tool.ruff.lint]
+extend-select = [
+  "RUF022" # unsorted-dunder-all
+]
+ignore = [
+  "D211"  # no-blank-line-before-class
+]
+preview = true
+select = [
+  "B", # bugbear
+  "C90", # mccabe-complexity
+  "D", # docstrings
+  "E", # pycodestyle errors
+  "F", # pyflakes
+  "I", # imports
+  "N802", # invalid-function-name
+  "S", # bandit
+  "UP", # pyupgrade
+  "W" # pycodestyle warnings
+]
+[tool.ruff.lint.mccabe]
+max-complexity = 20

@@ -1,11 +1,10 @@
-from typing import List
-
+"""Common utilities for the daops package."""
 from clisops import enable_logging as _enable_logging
 from loguru import logger
 
 
 def _logging_examples() -> None:
-    """Testing module"""
+    """Enable testing module."""
     logger.trace("0")
     logger.debug("1")
     logger.info("2")
@@ -15,6 +14,7 @@ def _logging_examples() -> None:
     logger.critical("5")
 
 
-def enable_logging() -> List[int]:
+def enable_logging() -> list[int]:
+    """Enable logging for the daops package."""
     logger.enable("daops")
     return _enable_logging()

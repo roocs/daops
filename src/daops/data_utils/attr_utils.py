@@ -2,7 +2,8 @@ from .common_utils import handle_derive_str
 
 
 def edit_var_attrs(ds_id, ds, **operands):
-    """
+    """Edit the variable attrs.
+
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
     :return: Xarray Dataset
@@ -10,7 +11,7 @@ def edit_var_attrs(ds_id, ds, **operands):
     """
     var_id = operands.get("var_id")
 
-    attrs = operands.get("attrs")
+    operands.get("attrs")
     for k, v in operands.get("attrs").items():
         v = handle_derive_str(v, ds_id, ds)
         ds[var_id].attrs[k] = v
@@ -19,13 +20,14 @@ def edit_var_attrs(ds_id, ds, **operands):
 
 
 def edit_global_attrs(ds_id, ds, **operands):
-    """
+    """Edit the global attrs.
+
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
     :return: Xarray DataArray
     Change the gloabl attributes.
     """
-    attrs = operands.get("attrs")
+    operands.get("attrs")
 
     for k, v in operands.get("attrs").items():
         v = handle_derive_str(v, ds_id, ds)
@@ -35,14 +37,14 @@ def edit_global_attrs(ds_id, ds, **operands):
 
 
 def add_global_attrs_if_needed(ds_id, ds, **operands):
-    """
+    """Add the global attrs, if needed.
+
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
     :return: Xarray Dataset
     Add a global attribute if it doesn't already exist.
     """
-
-    attrs = operands.get("attrs")
+    operands.get("attrs")
     for k, v in operands.get("attrs").items():
         # check if the key already exists before setting it
         v = handle_derive_str(v, ds_id, ds)
@@ -53,7 +55,8 @@ def add_global_attrs_if_needed(ds_id, ds, **operands):
 
 
 def remove_coord_attr(ds_id, ds, **operands):
-    """
+    """Remove the coordinate attr from the dataset.
+
     :param ds: Xarray DataSet
     :param operands: sequence of arguments
     :return: Xarray Dataset

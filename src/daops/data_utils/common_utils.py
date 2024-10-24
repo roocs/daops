@@ -1,7 +1,9 @@
+"""Common utility functions for data operations."""
 from pydoc import locate
 
 
 def handle_derive_str(value, ds_id, ds):
+    """Handle the derive string."""
     if isinstance(value, str) and "derive" in value:
         components = value.split(":")
         func = locate(components[1].strip())

@@ -1,6 +1,8 @@
+"""Subset operation."""
 from clisops.ops.subset import subset as clisops_subset
-from daops.ops.base import Operation
 from roocs_utils.parameter import parameterise
+
+from daops.ops.base import Operation
 
 __all__ = [
     "subset",
@@ -9,10 +11,7 @@ __all__ = [
 
 class Subset(Operation):
     def _resolve_params(self, collection, **params):
-        """
-        Resolve the subset parameters to `self.params` and parameterise
-        collection parameter and set to self.collection.
-        """
+        """Resolve the subset parameters to `self.params` and parameterise collection parameter and set to self.collection."""
         parameters = parameterise(
             collection=collection,
             time=params.get("time"),
@@ -40,9 +39,9 @@ def subset(
     file_namer="standard",
     apply_fixes=True,
 ):
-    """
-    Subset input dataset according to parameters.
-    Can be subsetted by level, area and time.
+    """Subset input dataset according to parameters.
+
+    Can be subsetted by level, area, and time.
 
     Parameters
     ----------
@@ -80,7 +79,6 @@ def subset(
     | apply_fixes: True
 
     """
-
     result_set = Subset(**locals()).calculate()
 
     return result_set

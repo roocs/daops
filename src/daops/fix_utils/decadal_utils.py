@@ -2,7 +2,6 @@ import re
 from datetime import datetime
 
 import cftime
-import numpy as np
 
 model_specific_global_attrs = {
     "CMCC-CM2-SR5": {
@@ -13,7 +12,8 @@ model_specific_global_attrs = {
     "EC-Earth3": {
         "forcing_description": "f1, CMIP6 historical forcings",
         "physics_description": "physics from the standard model configuration, with no additional tuning or different parametrization",
-        "initialization_description": "Atmosphere initialization based on full-fields from ERA-Interim (s1979-s2018) or ERA-40 (s1960-s1978); ocean/sea-ice initialization based on full-fields from NEMO/LIM assimilation run nudged towards ORA-S4 (s1960-s2018)",
+        "initialization_description": "Atmosphere initialization based on full-fields from ERA-Interim (s1979-s2018) or ERA-40 (s1960-s1978);"
+                                      " ocean/sea-ice initialization based on full-fields from NEMO/LIM assimilation run nudged towards ORA-S4 (s1960-s2018)",
     },
     "HadGEM3-GC31-MM": {
         "forcing_description": "f2, CMIP6 v6.2.0 forcings; no ozone remapping",
@@ -126,7 +126,7 @@ def get_decadal_model_attr_from_dict(ds_id, ds, attr):
 
 
 def fix_further_info_url(ds_id, ds):
-    model = ds_id.split(".")[3]
+    ds_id.split(".")[3]
     further_info_url = ds.attrs.get("further_info_url", None)
 
     if "none" in further_info_url:

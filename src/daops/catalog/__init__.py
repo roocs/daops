@@ -1,5 +1,6 @@
-from daops import CONFIG
 from roocs_utils.exceptions import InvalidCollection
+
+from daops import CONFIG
 
 from .intake import IntakeCatalog
 
@@ -14,6 +15,6 @@ def get_catalog(project):
 
 
 __all__ = [
-    "get_catalog",
     "IntakeCatalog",
+    "get_catalog",
 ]

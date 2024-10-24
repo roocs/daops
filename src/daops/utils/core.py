@@ -1,12 +1,12 @@
+"""Utility functions for the DAOPS package."""
 import collections
 
-import xarray as xr
-from daops import CONFIG
-from daops.utils import fixer
 from elasticsearch import exceptions
 from loguru import logger
-from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file
-from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
+from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file, open_xr_dataset
+
+from daops import CONFIG
+from daops.utils import fixer
 
 from .base_lookup import Lookup
 
@@ -18,14 +18,13 @@ def _wrap_sequence(obj):
 
 
 class Characterised(Lookup):
-    """
-    Characterisation lookup class to look up whether a dataset has been characterised.
-    """
+
+    """Characterisation lookup class to look up whether a dataset has been characterised."""
 
     def lookup_characterisation(self):
-        """
-        Attempts to find datasets in the characterisation store. Returns True if they exist in the store,
-        returns False if not.
+        """Attempt to find datasets in the characterisation store.
+
+        Returns True if they exist in the store, returns False if not.
         """
         id = self._convert_id(self.dset)
 
@@ -37,8 +36,8 @@ class Characterised(Lookup):
 
 
 def is_characterised(collection, require_all=False):
-    """
-    Takes in a collection (an individual data reference or a sequence of them).
+    """Intake a collection (an individual data reference or a sequence of them).
+
     Returns an ordered dictionary of a collection of ids with a boolean value
     for each stating whether the dataset has been characterised.
 
@@ -63,8 +62,8 @@ def is_characterised(collection, require_all=False):
 
 
 def open_dataset(ds_id, file_paths, apply_fixes=True):
-    """
-    Opens an xarray Dataset and applies fixes if requested.
+    """Open an xarray Dataset and apply fixes if requested.
+
     Fixes are applied to the data either before or after the dataset is opened.
     Whether a fix is a 'pre-processor' or 'post-processor' is defined in the
     fix itself.
@@ -81,7 +80,7 @@ def open_dataset(ds_id, file_paths, apply_fixes=True):
             for pre_process in fix.pre_processors:
                 logger.info(f"Loading data with pre_processor: {pre_process.__name__}")
         else:
-            logger.info(f"Loading data")
+            logger.info("Loading data")
 
         ds = open_xr_dataset(file_paths, preprocess=fix.pre_processor)
 

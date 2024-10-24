@@ -1,10 +1,9 @@
 import intake
+
 from daops import CONFIG
 
 from .base import Catalog
-from .util import MAX_DATETIME
-from .util import MIN_DATETIME
-from .util import parse_time
+from .util import MAX_DATETIME, MIN_DATETIME, parse_time
 
 
 class IntakeCatalog(Catalog):
