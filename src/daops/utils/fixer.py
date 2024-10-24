@@ -1,3 +1,5 @@
+"""Apply fixes to input dataset from the elastic search index."""
+
 from pydoc import locate
 
 from elasticsearch import exceptions
@@ -8,13 +10,12 @@ from .base_lookup import Lookup
 
 
 class FuncChainer:
-
     """Chains functions together to allow them to be executed in one call."""
 
     def __init__(self, funcs):  # noqa: D107
         self.funcs = funcs
 
-    def __call__(self, inputs):
+    def __call__(self, inputs):  # noqa: D102
         result = inputs
         for f in self.funcs:
             result = f(result)
@@ -22,7 +23,6 @@ class FuncChainer:
 
 
 class Fixer(Lookup):
-
     """Fixer class to look up fixes to apply to input dataset from the elastic search index.
 
     Gathers fixes into pre- and post-processors.
@@ -48,7 +48,7 @@ class Fixer(Lookup):
             self.pre_processor = FuncChainer(self.pre_processors)
 
     def _lookup_fix(self):
-        """Looks up fixes on the elasticsearch index."""
+        """Look up fixes on the elasticsearch index."""
         id = self._convert_id(self.dset)
 
         self.pre_processor = None

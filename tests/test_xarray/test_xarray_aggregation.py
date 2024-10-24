@@ -1,5 +1,4 @@
-"""
-test_xarray_aggregation.py
+"""test_xarray_aggregation.py
 ==========================
 
 Set of tests to assert that Xarray behaves in ways we would expect when
@@ -15,15 +14,12 @@ These tests use 3 NetCDF files (reduced sized), referenced by variables:
 
 import itertools
 import os
-import pathlib
-import tempfile
 
 import numpy as np
 import pytest
 import xarray as xr
 
-from .._common import MINI_ESGF_MASTER_DIR
-from .._common import TESTS_OUTPUTS
+from .._common import MINI_ESGF_MASTER_DIR, TESTS_OUTPUTS
 
 file_base = (
     f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/"

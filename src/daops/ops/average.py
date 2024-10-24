@@ -1,3 +1,5 @@
+"""Operations for averaging data over dimensions, shape or time."""
+
 from clisops.ops.average import average_over_dims as clisops_average_over_dims
 from clisops.ops.average import average_shape as clisops_average_shape
 from clisops.ops.average import average_time as clisops_average_time
@@ -10,9 +12,7 @@ __all__ = ["average_over_dims", "average_shape", "average_time"]
 
 class Average(Operation):
     def _resolve_params(self, collection, **params):
-        """Resolve the input parameters to `self.params` and parameterise
-        collection parameter and set to `self.collection`.
-        """
+        """Resolve the input parameters to `self.params` and parameterise collection parameter and set to `self.collection`."""
         dims = dimension_parameter.DimensionParameter(params.get("dims"))
         collection = collection_parameter.CollectionParameter(collection)
 

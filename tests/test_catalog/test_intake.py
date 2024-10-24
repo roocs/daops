@@ -1,5 +1,4 @@
 from daops.catalog import IntakeCatalog
-
 from tests._common import MINI_ESGF_MASTER_DIR
 
 CMIP6_BASE_DIR = f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip6/data/CMIP6"

@@ -1,12 +1,11 @@
-import numpy as np
 import xarray as xr
-from daops.data_utils.attr_utils import add_global_attrs_if_needed
-from daops.data_utils.attr_utils import edit_global_attrs
-from daops.data_utils.attr_utils import edit_var_attrs
+from daops.data_utils.attr_utils import (
+    add_global_attrs_if_needed,
+    edit_global_attrs,
+    edit_var_attrs,
+)
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
-
-from tests._common import CMIP6_DECADAL
-from tests._common import MINI_ESGF_MASTER_DIR
+from tests._common import CMIP6_DECADAL, MINI_ESGF_MASTER_DIR
 
 
 def test_edit_var_attrs(load_esgf_test_data):

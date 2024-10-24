@@ -5,24 +5,24 @@ import pytest
 import xarray as xr
 from daops import CONFIG
 from daops.ops.subset import subset
-from roocs_utils.exceptions import InvalidParameterValue
-from roocs_utils.exceptions import MissingParameterValue
-from roocs_utils.parameter import area_parameter
-from roocs_utils.parameter import collection_parameter
-from roocs_utils.parameter import time_parameter
-from roocs_utils.parameter.param_utils import level_interval
-from roocs_utils.parameter.param_utils import level_series
-from roocs_utils.parameter.param_utils import time_components
-from roocs_utils.parameter.param_utils import time_interval
-from roocs_utils.parameter.param_utils import time_series
+from roocs_utils.exceptions import InvalidParameterValue, MissingParameterValue
+from roocs_utils.parameter import area_parameter, collection_parameter, time_parameter
+from roocs_utils.parameter.param_utils import (
+    level_interval,
+    level_series,
+    time_components,
+    time_interval,
+    time_series,
+)
 from roocs_utils.utils.file_utils import FileMapper
-
-from tests._common import CMIP5_DAY
-from tests._common import CMIP5_TAS_FPATH
-from tests._common import CMIP6_DAY
-from tests._common import CMIP6_KERCHUNK_HTTPS_OPEN_JSON
-from tests._common import CMIP6_MONTH
-from tests._common import MINI_ESGF_MASTER_DIR
+from tests._common import (
+    CMIP5_DAY,
+    CMIP5_TAS_FPATH,
+    CMIP6_DAY,
+    CMIP6_KERCHUNK_HTTPS_OPEN_JSON,
+    CMIP6_MONTH,
+    MINI_ESGF_MASTER_DIR,
+)
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -422,7 +422,7 @@ def test_subset_with_catalog(tmpdir, load_esgf_test_data):
 def test_subset_with_catalog_time_invariant(tmpdir, load_esgf_test_data):
     # c3s-cmip6 dataset so will use catalog in consolidate
     result = subset(
-        f"c3s-cmip6.ScenarioMIP.MPI-M.MPI-ESM1-2-LR.ssp370.r1i1p1f1.fx.mrsofc.gn.v20190815",
+        "c3s-cmip6.ScenarioMIP.MPI-M.MPI-ESM1-2-LR.ssp370.r1i1p1f1.fx.mrsofc.gn.v20190815",
         output_dir=tmpdir,
         output_type="nc",
         file_namer="standard",

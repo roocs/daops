@@ -1,3 +1,5 @@
+"""Base class for all Operations."""
+
 from roocs_utils.parameter import collection_parameter
 
 from daops.processor import process
@@ -5,7 +7,6 @@ from daops.utils import consolidate, normalise
 
 
 class Operation:
-
     """Base class for all Operations."""
 
     def __init__(
@@ -18,10 +19,10 @@ class Operation:
         apply_fixes=True,
         **params,
     ):
-        """Constructor for each operation.
+        """Construct operation.
+
         Sets common input parameters as attributes.
-        Parameters that are specific to each operation are handled in:
-          self._resolve_params().
+        Parameters that are specific to each operation are handled in: self._resolve_params().
         """
         self._file_namer = file_namer
         self._split_method = split_method

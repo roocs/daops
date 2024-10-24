@@ -1,13 +1,8 @@
-import cftime
 import numpy as np
 import xarray as xr
-from daops.data_utils.coord_utils import add_coord
-from daops.data_utils.coord_utils import add_scalar_coord
-from daops.data_utils.coord_utils import squeeze_dims
+from daops.data_utils.coord_utils import add_coord, add_scalar_coord, squeeze_dims
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
-
-from tests._common import CMIP6_DECADAL
-from tests._common import MINI_ESGF_MASTER_DIR
+from tests._common import CMIP6_DECADAL, MINI_ESGF_MASTER_DIR
 
 
 def test_squeeze_dims(load_esgf_test_data):

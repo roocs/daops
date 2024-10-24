@@ -4,15 +4,10 @@ import geopandas as gpd
 import pytest
 import xarray as xr
 from daops import CONFIG
-from daops.ops.average import average_over_dims
-from daops.ops.average import average_shape
-from daops.ops.average import average_time
+from daops.ops.average import average_over_dims, average_shape, average_time
 from roocs_utils.exceptions import InvalidParameterValue
-from shapely import MultiPolygon
 from shapely import Polygon
-
-from tests._common import CMIP5_DAY
-from tests._common import CMIP6_MONTH
+from tests._common import CMIP5_DAY, CMIP6_MONTH
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",

@@ -1,3 +1,5 @@
+"""Normalise datasets."""
+
 import collections
 import os
 
@@ -24,7 +26,6 @@ def normalise(collection, apply_fixes=True):
 
 
 class ResultSet:
-
     """A class to hold the results from an operation e.g. subset."""
 
     def __init__(self, inputs=None):  # noqa: D107
@@ -33,7 +34,7 @@ class ResultSet:
         self.file_uris = []
 
     def add(self, dset, result):
-        """Adds outputs to an ordered dictionary with the ds id as the key.
+        """Add outputs to an ordered dictionary with the ds id as the key.
 
         If the output is a file path this is also added to the file_paths variable
         so a list of file paths can be accessed independently.

@@ -1,8 +1,12 @@
+"""Module to add a data variable to a dataset."""
+
 import numpy as np
 
 
 def add_data_var(ds_id, ds, **operands):
-    """:param ds: Xarray DataSet
+    """Add a data variable.
+
+    :param ds: Xarray DataSet
     :param operands: sequence of arguments
     :return: Xarray Dataset
     Add a data variable.

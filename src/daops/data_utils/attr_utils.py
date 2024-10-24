@@ -1,3 +1,5 @@
+"""Module for editing the attributes of a dataset."""
+
 from .common_utils import handle_derive_str
 
 

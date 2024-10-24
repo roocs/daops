@@ -1,3 +1,5 @@
+"""Utilities for working with Intake catalogs."""
+
 import intake
 
 from daops import CONFIG
@@ -7,6 +9,8 @@ from .util import MAX_DATETIME, MIN_DATETIME, parse_time
 
 
 class IntakeCatalog(Catalog):
+    """Intake catalog class."""
+
     def __init__(self, project, url=None):
         super().__init__(project)
         self.url = url or CONFIG.get("catalog", None).get("intake_catalog_url", None)
@@ -16,11 +20,13 @@ class IntakeCatalog(Catalog):
 
     @property
     def catalog(self):
+        """Return the intake catalog."""
         if not self._cat:
             self._cat = intake.open_catalog(self.url)
         return self._cat
 
     def load(self):
+        """Load the catalog."""
         if self.project not in self._store:
             self._store[self.project] = self.catalog[self.project].read()
         return self._store[self.project]

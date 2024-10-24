@@ -1,4 +1,3 @@
-import math
 import os
 
 import cftime
@@ -7,8 +6,6 @@ import pytest
 import xarray as xr
 from daops import CONFIG
 from daops.ops.subset import subset
-
-from tests._common import MINI_ESGF_MASTER_DIR
 
 
 def _check_output_nc(result, fname="output_001.nc"):

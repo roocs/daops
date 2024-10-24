@@ -16,6 +16,7 @@ from daops.ops.subset import subset
 
 
 def parse_args():
+    """Parse the command line arguments."""
     parser = argparse.ArgumentParser()
     sub_parsers = parser.add_subparsers()
     sub_parsers.required = True
@@ -95,9 +96,9 @@ def get_params(args):
 
 
 def check_env():
-    """Check that ROOCS_CONFIG points to a valid config file
-    (although for certain types of invalid file, in fact main is never called,
-    so exit might not always be graceful in these cases).
+    """Check that ROOCS_CONFIG points to a valid config file.
+
+    Although for certain types of invalid file, in fact main is never called, so exit might not always be graceful in these cases.
     Call this after get_params() so that 'help' still works even if this is not set.
     """
     config_env_var = "ROOCS_CONFIG"

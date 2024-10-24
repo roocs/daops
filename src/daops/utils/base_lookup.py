@@ -1,4 +1,5 @@
 """Base class used for looking up datasets in the elasticsearch indexes."""
+
 import hashlib
 
 from elasticsearch import Elasticsearch
@@ -9,7 +10,6 @@ from daops import CONFIG
 
 
 class Lookup:
-
     """Base class used for looking up datasets in the elasticsearch indexes."""
 
     def __init__(self, dset):  # noqa: D107

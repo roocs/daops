@@ -1,9 +1,7 @@
 import sys
 
 import pytest
-from daops.utils.common import _logging_examples
-from daops.utils.common import enable_logging
-
+from daops.utils.common import _logging_examples, enable_logging
 from tests._common import ContextLogger
 
 

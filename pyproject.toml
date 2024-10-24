@@ -201,3 +201,9 @@ select = [
 ]
 [tool.ruff.lint.mccabe]
 max-complexity = 20
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 180
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"

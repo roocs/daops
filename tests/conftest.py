@@ -2,9 +2,7 @@ import os
 
 import pytest
 from git import Repo
-
-from tests._common import MINI_ESGF_CACHE_DIR
-from tests._common import write_roocs_cfg
+from tests._common import MINI_ESGF_CACHE_DIR, write_roocs_cfg
 
 write_roocs_cfg()
 
@@ -19,8 +17,7 @@ def tmp_netcdf_filename(tmp_path):
 # Fixture to load mini-esgf-data repository used by roocs tests
 @pytest.fixture
 def load_esgf_test_data():
-    """
-    This fixture ensures that the required test data repository
+    """This fixture ensures that the required test data repository
     has been cloned to the cache directory within the home directory.
     """
     branch = "master"

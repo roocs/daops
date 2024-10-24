@@ -1,4 +1,5 @@
 """Module to dispatch the processing operation to the correct mode (serial or parallel)."""
+
 from loguru import logger
 
 

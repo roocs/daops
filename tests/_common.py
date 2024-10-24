@@ -36,7 +36,6 @@ class ContextLogger:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """If test is supplying caplog, pytest will manage teardown."""
-
         self.logger.disable("daops")
         if not self.using_caplog:
             try:

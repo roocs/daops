@@ -1,4 +1,5 @@
 """Base class for catalog."""
+
 import os
 
 from daops import CONFIG
@@ -21,6 +22,7 @@ class Catalog:  # noqa: D101
         raise NotImplementedError
 
     def search(self, collection, time=None, time_components=None):
+        """Search the catalog for datasets."""
         cols = make_list(collection)
         records = self._query(cols, time, time_components)
         result = Result(self.project, records)
@@ -28,6 +30,8 @@ class Catalog:  # noqa: D101
 
 
 class Result:
+    """Class to hold the results of a catalog search."""
+
     def __init__(self, project, records):
         """Parse the records.
 
@@ -42,7 +46,7 @@ class Result:
         """Return number of matched records."""
         return len(self.records)
 
-    def __len__(self):
+    def __len__(self):  # noqa: D105
         return self.matches
 
     def _records(self, prefix):

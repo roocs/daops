@@ -1,3 +1,5 @@
+"""Consolidate file paths for each dataset in a collection."""
+
 import collections
 import os
 import re
@@ -17,7 +19,7 @@ from daops.utils.core import _wrap_sequence
 
 
 def to_year(time_string):
-    """Returns the year in a time string as an integer."""
+    """Return the year in a time string as an integer."""
     return int(time_string.split("-")[0])
 
 

@@ -1,6 +1,5 @@
 import xarray as xr
 from daops.data_utils.var_utils import add_data_var
-
 from tests._common import MINI_ESGF_MASTER_DIR
 
 

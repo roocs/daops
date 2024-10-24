@@ -1,3 +1,5 @@
+"""Catalog utility functions."""
+
 import datetime
 
 from roocs_utils.parameter.time_components_parameter import TimeComponentsParameter
@@ -8,6 +10,7 @@ MAX_DATETIME = datetime.datetime(datetime.MAXYEAR, 12, 30).isoformat()
 
 
 def parse_time(time=None, time_components=None):
+    """Parse the time coordinate."""
     start = end = None
     if time:
         if isinstance(time, TimeParameter):

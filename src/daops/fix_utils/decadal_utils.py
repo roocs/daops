@@ -1,3 +1,5 @@
+"""Utility functions for fixing decadal datasets."""
+
 import re
 from datetime import datetime
 
@@ -13,7 +15,7 @@ model_specific_global_attrs = {
         "forcing_description": "f1, CMIP6 historical forcings",
         "physics_description": "physics from the standard model configuration, with no additional tuning or different parametrization",
         "initialization_description": "Atmosphere initialization based on full-fields from ERA-Interim (s1979-s2018) or ERA-40 (s1960-s1978);"
-                                      " ocean/sea-ice initialization based on full-fields from NEMO/LIM assimilation run nudged towards ORA-S4 (s1960-s2018)",
+        " ocean/sea-ice initialization based on full-fields from NEMO/LIM assimilation run nudged towards ORA-S4 (s1960-s2018)",
     },
     "HadGEM3-GC31-MM": {
         "forcing_description": "f2, CMIP6 v6.2.0 forcings; no ozone remapping",
@@ -29,12 +31,14 @@ model_specific_global_attrs = {
 
 
 def get_time_calendar(ds_id, ds):
+    """Get the time calendar."""
     times = ds.time.values
     cal = times[0].calendar
     return cal
 
 
 def get_lead_times(ds_id, ds):
+    """Get the lead times."""
     start_date = datetime.fromisoformat(get_start_date(ds_id, ds))
 
     cal = get_time_calendar(ds_id, ds)
@@ -59,18 +63,21 @@ def get_lead_times(ds_id, ds):
 
 
 def get_start_date(ds_id, ds):
+    """Get the start date."""
     year = ds_id.split(".")[5].split("-")[0].lstrip("s")
     sd = datetime(int(year), 11, 1, 0, 0).isoformat()
     return sd
 
 
 def get_sub_experiment_id(ds_id, ds):
+    """Get the sub-experiment id."""
     sd = datetime.fromisoformat(get_start_date(ds_id, ds))
     se_id = f"s{sd.year}{sd.month}"
     return se_id
 
 
 def get_reftime(ds_id, ds):
+    """Get the reference time."""
     default_sd = get_start_date(ds_id, ds)
 
     start_date = ds.attrs.get("startdate", None)
@@ -79,7 +86,7 @@ def get_reftime(ds_id, ds):
         start_date = default_sd
 
     else:
-        #  attempt to get from startdate attribute - don't know if it will always be in sYYYYMM format?
+        # Attempt to get from startdate attribute - don't know if it will always be in sYYYYMM format?
         regex = re.compile(r"^s(\d{4})(\d{2})$")
         match = regex.match(start_date)
 
@@ -106,12 +113,14 @@ def get_reftime(ds_id, ds):
 
 
 def get_bnd_vars(ds_id, ds):
+    """Get the bounds variables."""
     bnd_vars = ["latitude", "longitude", "time"]
     bounds_list = [ds.cf.get_bounds(bv).name for bv in bnd_vars]
     return bounds_list
 
 
 def get_decadal_bnds_list(ds_id, ds):
+    """Get the bounds variables for decadal datasets."""
     bounds_list = get_bnd_vars(ds_id, ds)
     # coordinate attribute is always added to realization variable in decadal datasets
     bounds_list.append("realization")
@@ -119,6 +128,7 @@ def get_decadal_bnds_list(ds_id, ds):
 
 
 def get_decadal_model_attr_from_dict(ds_id, ds, attr):
+    """Get the model-specific global attribute."""
     # Add the model-specific global attr
     model = ds_id.split(".")[3]
     value = model_specific_global_attrs[model][attr]
@@ -126,6 +136,7 @@ def get_decadal_model_attr_from_dict(ds_id, ds, attr):
 
 
 def fix_further_info_url(ds_id, ds):
+    """Fix the further info url."""
     ds_id.split(".")[3]
     further_info_url = ds.attrs.get("further_info_url", None)
 

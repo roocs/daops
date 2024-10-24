@@ -1,4 +1,5 @@
 """Common utilities for the daops package."""
+
 from clisops import enable_logging as _enable_logging
 from loguru import logger
 

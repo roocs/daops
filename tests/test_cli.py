@@ -1,5 +1,4 @@
-"""
-Test the command line interface.
+"""Test the command line interface.
 
 This module is based on test_subset.py, but the tests are made to use the CLI instead of
 calling 'subset' directly.  String values are required by the CLI, and it is called
@@ -18,12 +17,13 @@ import py.path
 import pytest
 import xarray as xr
 from daops import CONFIG
-
-from tests._common import CMIP5_DAY
-from tests._common import CMIP5_TAS_FPATH
-from tests._common import CMIP6_DAY
-from tests._common import CMIP6_MONTH
-from tests._common import MINI_ESGF_MASTER_DIR
+from tests._common import (
+    CMIP5_DAY,
+    CMIP5_TAS_FPATH,
+    CMIP6_DAY,
+    CMIP6_MONTH,
+    MINI_ESGF_MASTER_DIR,
+)
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -69,8 +69,7 @@ class _SimpleSubsetReturn:
 
 
 def _make_tmp_config(config_file, config_overrides):
-    """
-    Given a config file path and a list of (section, item, value) 3-tuples,
+    """Given a config file path and a list of (section, item, value) 3-tuples,
     create a temporary config file and return the path
     """
     config = configparser.ConfigParser()
@@ -88,11 +87,9 @@ def _make_tmp_config(config_file, config_overrides):
 
 
 def _cli_subset(*args, config_overrides=None, **kwargs):
-    """
-    A function that behaves somewhat similarly to calling subset directly,
+    """A function that behaves somewhat similarly to calling subset directly,
     but instead wraps the CLI using subprocess.
     """
-
     config_env_var = "ROOCS_CONFIG"
 
     collections = args
@@ -432,7 +429,7 @@ def test_cli_subset_with_catalog(tmpdir, load_esgf_test_data):
 def test_cli_subset_with_catalog_time_invariant(tmpdir, load_esgf_test_data):
     # c3s-cmip6 dataset so will use catalog in consolidate
     result = _cli_subset(
-        f"c3s-cmip6.ScenarioMIP.MPI-M.MPI-ESM1-2-LR.ssp370.r1i1p1f1.fx.mrsofc.gn.v20190815",
+        "c3s-cmip6.ScenarioMIP.MPI-M.MPI-ESM1-2-LR.ssp370.r1i1p1f1.fx.mrsofc.gn.v20190815",
         output_dir=tmpdir,
         output_type="nc",
         file_namer="standard",

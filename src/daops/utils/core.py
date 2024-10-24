@@ -1,4 +1,5 @@
 """Utility functions for the DAOPS package."""
+
 import collections
 
 from elasticsearch import exceptions
@@ -18,7 +19,6 @@ def _wrap_sequence(obj):
 
 
 class Characterised(Lookup):
-
     """Characterisation lookup class to look up whether a dataset has been characterised."""
 
     def lookup_characterisation(self):
