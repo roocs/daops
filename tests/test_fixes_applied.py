@@ -13,7 +13,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 
 
 @pytest.mark.online
-def test_fixes_applied_decadal_MOHC_mon(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_MOHC_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
@@ -88,7 +88,7 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_fixes_applied_decadal_MOHC_day(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_MOHC_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
@@ -164,7 +164,7 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_fixes_applied_decadal_EC_Earth_mon(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_EC_Earth_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
@@ -239,7 +239,7 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_fixes_applied_decadal_EC_Earth_day(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_EC_Earth_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
@@ -314,7 +314,7 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
@@ -389,7 +389,7 @@ def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_fixes_applied_decadal_MPI_M_mon(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_MPI_M_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
@@ -465,7 +465,7 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_fixes_applied_decadal_MPI_M_day(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_MPI_M_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
@@ -541,7 +541,7 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_fixes_applied_decadal_CMCC_mon(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_CMCC_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
@@ -618,7 +618,7 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir, load_esgf_test_data):
 
 @pytest.mark.skip(reason="no CMCC day datasets on c3s fix index")
 @pytest.mark.online
-def test_fixes_applied_decadal_CMCC_day(tmpdir, load_esgf_test_data):
+def test_fixes_applied_decadal_CMCC_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = CONFIG["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"

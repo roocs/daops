@@ -3,11 +3,6 @@ import os
 import pytest
 import xarray as xr
 
-# from daops.ops.regrid import regrid
-
-# TODO: remove when upgraded to new clisops version
-# pytestmark = pytest.mark.xfail(reason="needs clisops>=0.12 with regrid operator")
-
 CMIP6_IDS = ["CMIP6.CMIP.MPI-M.MPI-ESM1-2-HR.historical.r1i1p1f1.Omon.tos.gn.v20190710"]
 
 
@@ -16,7 +11,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 
 
 @pytest.mark.online
-def test_regrid(tmpdir, load_esgf_test_data):
+def test_regrid(tmpdir):
     from daops.ops.regrid import regrid
 
     result = regrid(

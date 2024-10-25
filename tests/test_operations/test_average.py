@@ -7,7 +7,6 @@ from daops import CONFIG
 from daops.ops.average import average_over_dims, average_shape, average_time
 from roocs_utils.exceptions import InvalidParameterValue
 from shapely import Polygon
-from tests._common import CMIP5_DAY, CMIP6_MONTH
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -140,15 +139,17 @@ def test_average_shape_none(tmpdir):
 
 
 @pytest.mark.online
-def test_average_time_month(tmpdir):
-    ds = xr.open_mfdataset(CMIP5_DAY, use_cftime=True, combine="by_coords")
+def test_average_time_month(tmpdir, mini_esgf_data):
+    ds = xr.open_mfdataset(
+        mini_esgf_data["CMIP5_DAY"], use_cftime=True, combine="by_coords"
+    )
 
     assert ds.time.shape == (3600,)
     assert ds.time.values[0].isoformat() == "2005-12-01T12:00:00"
     assert ds.time.values[-1].isoformat() == "2015-11-30T12:00:00"
 
     result = average_time(
-        CMIP5_DAY,
+        mini_esgf_data["CMIP5_DAY"],
         freq="month",
         output_dir=tmpdir,
         file_namer="simple",
@@ -170,17 +171,19 @@ def test_average_time_month(tmpdir):
 
 
 @pytest.mark.online
-def test_average_time_year(tmpdir):
+def test_average_time_year(tmpdir, mini_esgf_data):
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
     CONFIG["project:c3s-cmip6"]["use_catalog"] = False
-    ds = xr.open_mfdataset(CMIP6_MONTH, use_cftime=True, combine="by_coords")
+    ds = xr.open_mfdataset(
+        mini_esgf_data["CMIP6_MONTH"], use_cftime=True, combine="by_coords"
+    )
 
     assert ds.time.shape == (1980,)
     assert ds.time.values[0].isoformat() == "1850-01-16T12:00:00"
     assert ds.time.values[-1].isoformat() == "2014-12-16T12:00:00"
 
     result = average_time(
-        CMIP6_MONTH,
+        mini_esgf_data["CMIP6_MONTH"],
         freq="year",
         output_dir=tmpdir,
         file_namer="simple",
@@ -201,10 +204,10 @@ def test_average_time_year(tmpdir):
 
 
 @pytest.mark.online
-def test_average_time_incorrect_freq(tmpdir):
+def test_average_time_incorrect_freq(tmpdir, mini_esgf_data):
     with pytest.raises(InvalidParameterValue) as exc:
         average_time(
-            CMIP5_DAY,
+            mini_esgf_data["CMIP5_DAY"],
             freq="week",
             output_dir=tmpdir,
             file_namer="simple",
@@ -218,10 +221,10 @@ def test_average_time_incorrect_freq(tmpdir):
 
 
 @pytest.mark.online
-def test_average_time_no_freq(tmpdir):
+def test_average_time_no_freq(tmpdir, mini_esgf_data):
     with pytest.raises(InvalidParameterValue) as exc:
         average_time(
-            CMIP5_DAY,
+            mini_esgf_data["CMIP5_DAY"],
             freq=None,
             output_dir=tmpdir,
             file_namer="simple",

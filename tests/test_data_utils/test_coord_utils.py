@@ -2,12 +2,11 @@ import numpy as np
 import xarray as xr
 from daops.data_utils.coord_utils import add_coord, add_scalar_coord, squeeze_dims
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
-from tests._common import CMIP6_DECADAL, MINI_ESGF_MASTER_DIR
 
 
-def test_squeeze_dims(load_esgf_test_data):
+def test_squeeze_dims(stratus):
     ds = xr.open_mfdataset(
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/INM/"
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/INM/"
         "inmcm4/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc",
         combine="by_coords",
         use_cftime=True,
@@ -22,16 +21,16 @@ def test_squeeze_dims(load_esgf_test_data):
     assert "lev" not in ds_squeeze.dims
 
 
-def test_add_scalar_coord(load_esgf_test_data):
+def test_add_scalar_coord(stratus):
     ds_no_height = xr.open_mfdataset(
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         combine="by_coords",
         use_cftime=True,
     )
     ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
 
     ds_with_height = xr.open_mfdataset(
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/INM/inmcm4/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/INM/inmcm4/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         combine="by_coords",
         use_cftime=True,
     )
@@ -52,8 +51,8 @@ def test_add_scalar_coord(load_esgf_test_data):
     assert ds_no_height.height.attrs == ds_with_height.height.attrs
 
 
-def test_add_scalar_coord_with_derive(load_esgf_test_data):
-    ds_no_reftime = open_xr_dataset(CMIP6_DECADAL)
+def test_add_scalar_coord_with_derive(mini_esgf_data):
+    ds_no_reftime = open_xr_dataset(mini_esgf_data["CMIP6_DECADAL"])
     ds_id = "CMIP6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417"
 
     operands = {
@@ -77,9 +76,9 @@ def test_add_scalar_coord_with_derive(load_esgf_test_data):
     assert value == "2004-11-01T00:00:00"
 
 
-def test_add_coord(load_esgf_test_data):
+def test_add_coord(stratus):
     ds_no_leadtime = xr.open_mfdataset(
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
         use_cftime=True,
     )
@@ -106,8 +105,8 @@ def test_add_coord(load_esgf_test_data):
     )
 
 
-def test_add_coord_with_derive(load_esgf_test_data):
-    ds_no_leadtime = open_xr_dataset(CMIP6_DECADAL)
+def test_add_coord_with_derive(mini_esgf_data):
+    ds_no_leadtime = open_xr_dataset(mini_esgf_data["CMIP6_DECADAL"])
     ds_id = "CMIP6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417"
 
     operands = {

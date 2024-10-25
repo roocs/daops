@@ -15,14 +15,6 @@ from roocs_utils.parameter.param_utils import (
     time_series,
 )
 from roocs_utils.utils.file_utils import FileMapper
-from tests._common import (
-    CMIP5_DAY,
-    CMIP5_TAS_FPATH,
-    CMIP6_DAY,
-    CMIP6_KERCHUNK_HTTPS_OPEN_JSON,
-    CMIP6_MONTH,
-    MINI_ESGF_MASTER_DIR,
-)
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -51,7 +43,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 
 
 @pytest.mark.online
-def test_subset_zostoga_with_fix(tmpdir, load_esgf_test_data):
+def test_subset_zostoga_with_fix(tmpdir):
     result = subset(
         CMIP5_IDS[0],
         time=time_interval("2085-01-16", "2120-12-16"),
@@ -95,9 +87,9 @@ def test_subset_t(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_t_kerchunk(tmpdir):
+def test_subset_t_kerchunk(tmpdir, cmip6_kerchunk_https_open_json):
     result = subset(
-        CMIP6_KERCHUNK_HTTPS_OPEN_JSON,
+        cmip6_kerchunk_https_open_json,
         time=time_interval("1948-01-16", "1952-12-16"),
         area=(0, -10, 120, 40),
         output_dir=tmpdir,
@@ -143,12 +135,8 @@ def test_subset_collection_as_empty_string(tmpdir):
 
 
 @pytest.mark.online
-def test_subset_t_y_x(tmpdir, load_esgf_test_data):
-    fpath = (
-        f"{MINI_ESGF_MASTER_DIR}/"
-        "test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/"
-        "atmos/Amon/r1i1p1/latest/tas/*.nc"
-    )
+def test_subset_t_y_x(tmpdir, stratus):
+    fpath = f"{stratus.path}/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc"
 
     ds = xr.open_mfdataset(
         fpath,
@@ -171,10 +159,9 @@ def test_subset_t_y_x(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_t_z_y_x(tmpdir, load_esgf_test_data):
+def test_subset_t_z_y_x(tmpdir, stratus):
     fpath = (
-        f"{MINI_ESGF_MASTER_DIR}/"
-        "test_data/badc/cmip6/data/CMIP6/CMIP/NOAA-GFDL/"
+        f"{stratus.path}/badc/cmip6/data/CMIP6/CMIP/NOAA-GFDL/"
         "GFDL-ESM4/historical/r1i1p1f1/Amon/o3/gr1/v20190726/"
         "o3_Amon_GFDL-ESM4_historical_r1i1p1f1_gr1_185001-194912.nc"
     )
@@ -381,11 +368,11 @@ def test_time_invariant_subset_standard_name(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_with_file_mapper(tmpdir, load_esgf_test_data):
+def test_subset_with_file_mapper(tmpdir, stratus):
     file_paths = [
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES"
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES"
         f"/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_200512-203011.nc",
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES"
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/MOHC/HadGEM2-ES"
         f"/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_HadGEM2-ES_rcp85_r1i1p1_203012-205511.nc",
     ]
 
@@ -432,13 +419,16 @@ def test_subset_with_catalog_time_invariant(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_by_time_components_year_month(tmpdir, load_esgf_test_data):
+def test_subset_by_time_components_year_month(tmpdir, mini_esgf_data):
     tc1 = time_components(year=(2021, 2022), month=["dec", "jan", "feb"])
     tc2 = time_components(year=(2021, 2022), month=[12, 1, 2])
 
     for tc in (tc1, tc2):
         result = subset(
-            CMIP5_TAS_FPATH, time_components=tc, output_dir=tmpdir, file_namer="simple"
+            mini_esgf_data["CMIP5_TAS_FPATH"],
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
         )
 
         ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
@@ -456,7 +446,10 @@ def test_subset_by_time_components_month_day(tmpdir, load_esgf_test_data):
 
     for tc in (tc1, tc2):
         result = subset(
-            CMIP5_DAY, time_components=tc, output_dir=tmpdir, file_namer="simple"
+            mini_esgf_data["CMIP5_DAY"],
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
         )
 
         ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
@@ -468,7 +461,7 @@ def test_subset_by_time_components_month_day(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_by_time_interval_and_components_month_day(tmpdir, load_esgf_test_data):
+def test_subset_by_time_interval_and_components_month_day(tmpdir, mini_esgf_data):
     # 20051201-20151130
     ys, ye = 2007, 2010
     ti = time_interval(f"{ys}-12-01T00:00:00", f"{ye}-11-30T23:59:59")
@@ -481,7 +474,7 @@ def test_subset_by_time_interval_and_components_month_day(tmpdir, load_esgf_test
 
     for tc in (tc1, tc2):
         result = subset(
-            CMIP5_DAY,
+            mini_esgf_data["CMIP5_DAY"],
             time=ti,
             time_components=tc,
             output_dir=tmpdir,
@@ -522,9 +515,7 @@ def test_subset_by_time_interval_and_components_month_day(tmpdir, load_esgf_test
 
 
 @pytest.mark.online
-def test_subset_by_time_series_and_components_month_day_cmip6(
-    tmpdir, load_esgf_test_data
-):
+def test_subset_by_time_series_and_components_month_day_cmip6(tmpdir, mini_esgf_data):
     # 18500101-20141231
 
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
@@ -533,7 +524,7 @@ def test_subset_by_time_series_and_components_month_day_cmip6(
     ys, ye = 1998, 2010
     req_times = [
         tm.isoformat()
-        for tm in xr.open_dataset(CMIP6_DAY).time.values
+        for tm in xr.open_dataset(mini_esgf_data["CMIP6_DAY"]).time.values
         if ys <= tm.year <= ye
     ]
 
@@ -546,7 +537,7 @@ def test_subset_by_time_series_and_components_month_day_cmip6(
 
     for tc in (tc1, tc2):
         result = subset(
-            CMIP6_DAY,
+            mini_esgf_data["CMIP6_DAY"],
             time=ts,
             time_components=tc,
             output_dir=tmpdir,
@@ -561,8 +552,8 @@ def test_subset_by_time_series_and_components_month_day_cmip6(
 
 
 @pytest.mark.online
-def test_subset_components_day_monthly_dataset(tmpdir, load_esgf_test_data):
-    #  tests key error is raised when trying to select a non existent day on a monthly dataset
+def test_subset_components_day_monthly_dataset(tmpdir, mini_esgf_data):
+    # tests key error is raised when trying to select a nonexistent day on a monthly dataset
     # 18500101-20141231
 
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
@@ -570,7 +561,7 @@ def test_subset_components_day_monthly_dataset(tmpdir, load_esgf_test_data):
     ys, ye = 1998, 2010
     req_times = [
         tm.isoformat()
-        for tm in xr.open_dataset(CMIP6_MONTH).time.values
+        for tm in xr.open_dataset(mini_esgf_data["CMIP6_MONTH"]).time.values
         if ys <= tm.year <= ye
     ]
 
@@ -582,7 +573,7 @@ def test_subset_components_day_monthly_dataset(tmpdir, load_esgf_test_data):
 
     with pytest.raises(KeyError) as exc:
         subset(
-            CMIP6_MONTH,
+            mini_esgf_data["CMIP6_MONTH"],
             time=ts,
             time_components=tc,
             output_dir=tmpdir,
@@ -591,12 +582,14 @@ def test_subset_components_day_monthly_dataset(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_by_time_series(tmpdir, load_esgf_test_data):
-    t = [str(tm) for tm in xr.open_dataset(CMIP5_TAS_FPATH).time.values]
+def test_subset_by_time_series(tmpdir, mini_esgf_data):
+    t = [
+        str(tm) for tm in xr.open_dataset(mini_esgf_data["CMIP5_TAS_FPATH"]).time.values
+    ]
     some_times = [t[0], t[100], t[4], t[33], t[9]]
 
     result = subset(
-        CMIP5_TAS_FPATH,
+        mini_esgf_data["CMIP5_TAS_FPATH"],
         time=time_series(some_times),
         output_dir=tmpdir,
         file_namer="simple",
