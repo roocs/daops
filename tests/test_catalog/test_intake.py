@@ -29,7 +29,7 @@ def test_intake_catalog_c3s_cmip6_mon():
     # check download url
     urls = result.download_urls()[C3S_CMIP6_MON_COLLECTION]
     expected_url = (
-        "https://data.mips.copernicus-climate.eu/thredds/fileServer/esg_c3s-cmip6/"
+        "https://data.mips.climate.copernicus.eu/thredds/fileServer/esg_c3s-cmip6/"
         "ScenarioMIP/INM/INM-CM5-0/ssp245/r1i1p1f1/Amon/rlds/gr1/v20190619/"
         "rlds_Amon_INM-CM5-0_ssp245_r1i1p1f1_gr1_201501-210012.nc"
     )
