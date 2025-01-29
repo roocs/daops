@@ -2,18 +2,17 @@
 name: daops
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - pip
   - numpy >=1.16
   - xarray >=0.21,<2023.3.0 # https://github.com/pydata/xarray/issues/7794
   - dask
   - netcdf4
-  - clisops >=0.12.1
+  - clisops >=0.12.1,<0.15.0
   - roocs-grids >=0.1.2
   - xesmf >=0.8.2
   - elasticsearch>=7.9.1
-  - roocs-utils>=0.6.2
+  - roocs-utils>=0.6.4
   # logging
   - loguru >=0.5.3
   # catalog
