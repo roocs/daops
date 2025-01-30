@@ -6,7 +6,7 @@ from elasticsearch import exceptions
 from loguru import logger
 from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file, open_xr_dataset
 
-from daops import CONFIG
+from daops import config_
 from daops.utils import fixer
 
 from .base_lookup import Lookup
@@ -29,7 +29,7 @@ class Characterised(Lookup):
         id = self._convert_id(self.dset)
 
         try:
-            self.es.get(index=CONFIG["elasticsearch"]["character_store"], id=id)
+            self.es.get(index=config_()["elasticsearch"]["character_store"], id=id)
             return True
         except exceptions.NotFoundError:
             return False
