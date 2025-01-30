@@ -2,11 +2,10 @@
 name: daops
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - pip
   - cftime
-  - clisops >=0.14.0
+  - clisops >=0.14.0,<0.15.0
   - dask
   - elasticsearch>=8.0.1
   - netcdf4

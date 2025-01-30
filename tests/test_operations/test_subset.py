@@ -86,6 +86,7 @@ def test_subset_t(tmpdir, load_esgf_test_data):
     assert ds.time.shape == (433,)
 
 
+@pytest.mark.skip(reason="test service is not available")
 @pytest.mark.online
 def test_subset_t_kerchunk(tmpdir, cmip6_kerchunk_https_open_json):
     result = subset(

@@ -1,6 +1,20 @@
 Version History
 ===============
 
+v0.12.0 (2025-01-29)
+--------------------
+
+New Features
+^^^^^^^^^^^^
+
+* Added support for opening `kerchunk` files.
+* Updated `Dockerfile` and `app-package.cwl` file for use with ADES.
+
+Other Changes
+^^^^^^^^^^^^^
+
+* only ``clisops``<0.15.0 supported.
+
 v0.11.0 (2024-04-10)
 --------------------
 
@@ -13,8 +27,6 @@ New Features
 ^^^^^^^^^^^^
 
 * Add clisops.ops.average_shape to daops.ops.average
-* Added support for opening `kerchunk` files.
-* Updated `Dockerfile` and `app-package.cwl` file for use with ADES.
 
 v0.10.0 (2023-11-27)
 -------------------
