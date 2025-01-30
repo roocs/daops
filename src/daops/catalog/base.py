@@ -2,7 +2,7 @@
 
 import os
 
-from daops import CONFIG
+from daops import config_
 
 
 def make_list(value):
@@ -37,8 +37,8 @@ class Result:
 
         Records are an OrderedDict of dataset ids with a list of files: {'ds_id': [files]}.
         """
-        self.base_dir = CONFIG.get(f"project:{project}", {}).get("base_dir")
-        self.base_url = CONFIG.get(f"project:{project}", {}).get("data_node_root")
+        self.base_dir = config_().get(f"project:{project}", {}).get("base_dir")
+        self.base_url = config_().get(f"project:{project}", {}).get("data_node_root")
         self.records = records
 
     @property
