@@ -50,8 +50,9 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
-lint: ## check style with flake8
-	flake8 daops tests
+lint: ## check style with ruff
+	@echo "Running code style checks ..."
+	@bash -c 'ruff check src'
 
 test: ## run tests quickly with the default Python
 	py.test

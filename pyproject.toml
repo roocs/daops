@@ -184,7 +184,10 @@ extend-select = [
   "RUF022" # unsorted-dunder-all
 ]
 ignore = [
-  "D211"  # no-blank-line-before-class
+  "D100",  # Missing docstring in public module
+  "D103",  # Missing docstring in public function
+  "D105",  # Missing docstring in magic method
+  "D211",  # no-blank-line-before-class
 ]
 preview = true
 select = [
