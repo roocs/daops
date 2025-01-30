@@ -3,7 +3,7 @@ import os
 import numpy as np
 import pytest
 import xarray as xr
-from daops import CONFIG
+from daops import config_
 from daops.ops.subset import subset
 from roocs_utils.exceptions import InvalidParameterValue, MissingParameterValue
 from roocs_utils.parameter import area_parameter, collection_parameter, time_parameter
@@ -286,7 +286,7 @@ def test_time_is_none(tmpdir, load_esgf_test_data):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
         use_cftime=True,
@@ -314,7 +314,7 @@ def test_end_time_is_none(tmpdir, load_esgf_test_data):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc",
         ),
         use_cftime=True,
@@ -340,7 +340,7 @@ def test_start_time_is_none(tmpdir, load_esgf_test_data):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
         use_cftime=True,
@@ -520,7 +520,7 @@ def test_subset_by_time_series_and_components_month_day_cmip6(tmpdir, mini_esgf_
     # 18500101-20141231
 
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     ys, ye = 1998, 2010
     req_times = [
@@ -558,7 +558,7 @@ def test_subset_components_day_monthly_dataset(tmpdir, mini_esgf_data):
     # 18500101-20141231
 
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
     ys, ye = 1998, 2010
     req_times = [
         tm.isoformat()

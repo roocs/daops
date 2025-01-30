@@ -4,7 +4,7 @@ import cftime
 import numpy as np
 import pytest
 import xarray as xr
-from daops import CONFIG
+from daops import config_
 from daops.ops.subset import subset
 
 
@@ -15,12 +15,12 @@ def _check_output_nc(result, fname="output_001.nc"):
 @pytest.mark.online
 def test_fixes_applied_decadal_MOHC_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417",
@@ -84,18 +84,18 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
 def test_fixes_applied_decadal_MOHC_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s1960-r2i1p1f2.day.tasmin.gn.v20200417",
@@ -160,18 +160,18 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
 def test_fixes_applied_decadal_EC_Earth_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.EC-Earth-Consortium.EC-Earth3.dcppA-hindcast.s1960-r6i2p1f1.Amon.tas.gr.v20200508",
@@ -235,18 +235,18 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
 def test_fixes_applied_decadal_EC_Earth_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.EC-Earth-Consortium.EC-Earth3.dcppA-hindcast.s1961-r6i2p1f1.day.pr.gr.v20200508",
@@ -310,18 +310,18 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
 def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.EC-Earth-Consortium.EC-Earth3.dcppA-hindcast.s1960-r2i1p1f1.Amon.tas.gr.v20201215",
@@ -385,18 +385,18 @@ def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
 def test_fixes_applied_decadal_MPI_M_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.MPI-M.MPI-ESM1-2-HR.dcppA-hindcast.s1960-r10i1p1f1.Amon.tas.gn.v20200908",
@@ -461,18 +461,18 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
 def test_fixes_applied_decadal_MPI_M_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.MPI-M.MPI-ESM1-2-HR.dcppA-hindcast.s1960-r2i1p1f1.day.pr.gn.v20190929",
@@ -537,18 +537,18 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.online
 def test_fixes_applied_decadal_CMCC_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.CMCC.CMCC-CM2-SR5.dcppA-hindcast.s1960-r10i1p1f1.Amon.pr.gn.v20210719",
@@ -613,19 +613,19 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index
 
 
 @pytest.mark.skip(reason="no CMCC day datasets on c3s fix index")
 @pytest.mark.online
 def test_fixes_applied_decadal_CMCC_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
-    fix_index = CONFIG["elasticsearch"]["fix_store"]
+    fix_index = config_()["elasticsearch"]["fix_store"]
     test_fix_index = "c3s-roocs-fix"
-    CONFIG["elasticsearch"]["fix_store"] = test_fix_index
+    config_()["elasticsearch"]["fix_store"] = test_fix_index
 
     # don't use catalog - decadal datasets not in current catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     result = subset(
         "c3s-cmip6.DCPP.CMCC.CMCC-CM2-SR5.dcppA-hindcast.s1960-r1i1p1f1.day.tas.gn.v20210806",
@@ -690,4 +690,4 @@ def test_fixes_applied_decadal_CMCC_day(tmpdir):
     assert ds.time_bnds.encoding.get("coordinates") is None
 
     # change fix index back
-    CONFIG["elasticsearch"]["fix_store"] = fix_index
+    config_()["elasticsearch"]["fix_store"] = fix_index

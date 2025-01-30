@@ -12,7 +12,7 @@ from roocs_utils.config import get_config as _get_config
 
 import daops
 
-CONFIG = _get_config(daops)
+# CONFIG = _get_config(daops)
 
 
 @lru_cache(maxsize=1)

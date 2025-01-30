@@ -3,7 +3,7 @@ import os
 import geopandas as gpd
 import pytest
 import xarray as xr
-from daops import CONFIG
+from daops import config_
 from daops.ops.average import average_over_dims, average_shape, average_time
 from roocs_utils.exceptions import InvalidParameterValue
 from shapely import Polygon
@@ -173,7 +173,7 @@ def test_average_time_month(tmpdir, mini_esgf_data):
 @pytest.mark.online
 def test_average_time_year(tmpdir, mini_esgf_data):
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
     ds = xr.open_mfdataset(
         mini_esgf_data["CMIP6_MONTH"], use_cftime=True, combine="by_coords"
     )
@@ -200,7 +200,7 @@ def test_average_time_year(tmpdir, mini_esgf_data):
     assert ds_res.time.shape == (time_length,)
     assert ds_res.time.values[0].isoformat() == "1850-01-01T00:00:00"
     assert ds_res.time.values[-1].isoformat() == "2014-01-01T00:00:00"
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = True
+    config_()["project:c3s-cmip6"]["use_catalog"] = True
 
 
 @pytest.mark.online
