@@ -64,7 +64,7 @@ def get_esgf_file_paths(esgf_cache_dir: Union[str, os.PathLike[str]]):
 
 
 class ContextLogger:
-    """Helper function for safe logging management in pytests"""
+    """Helper function for safe logging management in pytests."""
 
     def __init__(self, caplog: Optional[LogCaptureFixture] = False):
         from loguru import logger
