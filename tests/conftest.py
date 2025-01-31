@@ -23,6 +23,18 @@ def cmip6_kerchunk_https_open_json():
 @pytest.fixture(scope="session", autouse=True)
 def write_roocs_cfg(stratus):
     _write_roocs_cfg(stratus.path)
+    # TODO: reload configs in clisops and roocs_utils
+    # workaround ... fix code in new clisops.
+    import roocs_utils
+    import clisops
+    from roocs_utils.config import get_config as _get_config
+
+    roocs_utils.project_utils.CONFIG = _get_config(roocs_utils)
+    roocs_utils.CONFIG = _get_config(roocs_utils)
+    clisops.CONFIG = _get_config(clisops)
+    clisops.core.regrid.CONFIG = _get_config(clisops)
+    clisops.utils.file_namers.CONFIG = _get_config(clisops)
+    clisops.utils.output_utils.CONFIG = _get_config(clisops)
 
 
 @pytest.fixture
