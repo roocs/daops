@@ -33,7 +33,7 @@ def test_edit_var_attrs(stratus):
 
 def test_edit_global_attrs(stratus):
     ds = xr.open_mfdataset(
-        f"{stratus.path}/test_data/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
         use_cftime=True,
     )
