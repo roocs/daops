@@ -106,6 +106,7 @@ def test_average_level(tmpdir):
 
 
 @pytest.mark.online
+@pytest.mark.xfail(reason="Package xESMF >= 0.8.2 is required")
 def test_average_shape(tmpdir):
     # Save POLY to tmpdir
     tmp_poly_path = os.path.join(tmpdir, "tmppoly.json")

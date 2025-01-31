@@ -11,6 +11,7 @@ def _check_output_nc(result, fname="output_001.nc"):
 
 
 @pytest.mark.online
+@pytest.mark.xfail(reason="Package xESMF >= 0.8.2 is required")
 def test_regrid(tmpdir):
     from daops.ops.regrid import regrid
 
