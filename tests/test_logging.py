@@ -6,9 +6,9 @@ from daops.utils.testing import ContextLogger
 
 
 class TestLoggingFuncs:
-    @pytest.mark.xfail(
-        reason="pytest-loguru does not implement logging levels for caplog yet."
-    )
+    # @pytest.mark.xfail(
+    #    reason="pytest-loguru does not implement logging levels for caplog yet."
+    # )
     def test_logging_configuration(self, caplog):
         with ContextLogger(caplog):
             caplog.set_level("WARNING", logger="daops")
