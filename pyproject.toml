@@ -48,12 +48,13 @@ dependencies = [
   "numpy>=1.23.0,<2.0.0",
   "roocs-utils>=0.6.4",
   "roocs_grids>=0.1.2",
-  "xarray>=0.21,<2023.3.0", # https://github.com/pydata/xarray/issues/7794
+  "xarray>=2022.12.0,<2023.3.0", # https://github.com/pydata/xarray/issues/7794
   "xesmf>=0.8.2",
   # logging
   "loguru>=0.5.3",
   # catalog
   "intake>=0.7.0,<2.0",
+  "pandas<2.0",
   # to support kerchunk
   "aiohttp",
   "fsspec",
