@@ -32,9 +32,9 @@ def write_roocs_cfg(stratus):
     roocs_utils.project_utils.CONFIG = _get_config(roocs_utils)
     roocs_utils.CONFIG = _get_config(roocs_utils)
     clisops.CONFIG = _get_config(clisops)
-    clisops.core.regrid.CONFIG = _get_config(clisops)
-    clisops.utils.file_namers.CONFIG = _get_config(clisops)
-    clisops.utils.output_utils.CONFIG = _get_config(clisops)
+    # clisops.core.regrid.CONFIG = _get_config(clisops)
+    # clisops.utils.file_namers.CONFIG = _get_config(clisops)
+    # clisops.utils.output_utils.CONFIG = _get_config(clisops)
 
 
 @pytest.fixture
