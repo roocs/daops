@@ -63,7 +63,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "daops"
-copyright = "2020, Elle Smith"
+copyright = "2020-2025, Elle Smith"
 author = "Elle Smith"
 
 # The version info for the project you're documenting, acts as replacement
