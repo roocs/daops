@@ -10,7 +10,7 @@ def test_add_data_var(stratus):
         use_cftime=True,
     )
 
-    # ds_id = "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga"
+    ds_id = "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga"
 
     assert "realization" not in ds.data_vars
 
@@ -21,5 +21,5 @@ def test_add_data_var(stratus):
         "attrs": {"long_name": "realization", "comment": "example"},
     }
 
-    ds = add_data_var(ds, **operands)
+    ds = add_data_var(ds_id, ds, **operands)
     assert "realization" in ds.data_vars

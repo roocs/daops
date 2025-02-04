@@ -3,12 +3,15 @@
 import numpy as np
 
 
-def add_data_var(ds, **operands):
+def add_data_var(ds_id, ds, **operands):
     """
     Add a data variable.
 
     Parameters
     ----------
+    ds_id : str
+        Dataset ID.
+        Unused in this function.
     ds : xarray.Dataset
         A Dataset.
     operands : dict

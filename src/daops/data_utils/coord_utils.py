@@ -6,11 +6,14 @@ from roocs_utils.xarray_utils import xarray_utils as xu
 from .common_utils import handle_derive_str
 
 
-def squeeze_dims(ds, **operands):
+def squeeze_dims(ds_id, ds, **operands):
     """Squeeze dimensions from dataset.
 
     Parameters
     ----------
+    ds_id : str
+        Dataset ID.
+        Unused in this function.
     ds : xarray.Dataset
         A Dataset.
     operands : dict
