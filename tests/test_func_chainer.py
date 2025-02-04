@@ -46,4 +46,3 @@ def test_pre_process_fix_only():
     ds_test = ds.rename({"lat": "silly_lat"})
     ds_code = utils.core.open_dataset(CMIP5_IDS[2], CMIP5_FPATHS[2])
     assert ds_test.dims == ds_code.dims
-

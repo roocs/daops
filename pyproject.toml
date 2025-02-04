@@ -1,5 +1,5 @@
 [build-system]
-requires = ["flit-core >=3.9,<4.0"]
+requires = ["flit-core >=3.10.1,<4.0"]
 build-backend = "flit_core.buildapi"
 
 [project]
@@ -42,49 +42,49 @@ classifiers = [
 dynamic = ["description", "version"]
 dependencies = [
   "cftime",
-  "clisops>=0.14.0,<0.15.0",
+  "clisops >=0.14.0,<0.15.0",
   "dask[complete]",
-  "elasticsearch>=8.0.1",
-  "numpy>=1.23.0,<2.0.0",
-  "roocs-utils>=0.6.4",
-  "roocs_grids>=0.1.2",
-  "xarray>=2022.12.0,<2023.3.0", # https://github.com/pydata/xarray/issues/7794
-  "xesmf>=0.8.2",
+  "elasticsearch >=8.0.1",
+  "numpy >=1.23.0,<2.0.0",
+  "roocs-utils >=0.6.4",
+  "roocs_grids >=0.1.2",
+  "xarray >=2022.12.0,<2023.3.0", # https://github.com/pydata/xarray/issues/7794
+  "xesmf >=0.8.2",
   # logging
-  "loguru>=0.5.3",
+  "loguru >=0.5.3",
   # catalog
-  "intake>=0.7.0,<2.0",
-  "pandas<2.0",
+  "intake >=0.7.0,<2.0",
+  "pandas <2.0",
   # to support kerchunk
   "aiohttp",
   "fsspec",
-  "zarr>=2.13.3",
+  "zarr >=2.13.3",
   "zstandard"
 ]
 
 [project.optional-dependencies]
 dev = [
-  "black>=24.10.0",
-  "bump-my-version>=0.28.0",
-  "coverage",
+  "black >=25.1.0",
+  "bump-my-version >=0.28.0",
+  "coverage >=7.6.0",
   "jinja2",
-  "pre-commit>=3.5.0",
-  "pytest-loguru",
-  "pytest>=8.0",
-  "ruff>=0.5.7",
-  "tox>=4.18.0",
-  "watchdog>=4.0",
-  "wheel"
+  "pre-commit >=3.5.0",
+  "pytest-loguru >=0.3.0",
+  "pytest >=8.0.0",
+  "pytest-cov >=6.0.0",
+  "ruff >=0.9.0",
+  "tox >=4.18.1",
+  "watchdog >=4.0",
 ]
 docs = [
   "ipykernel",
-  "ipython>=8.5.0",
+  "ipython >=8.5.0",
   "jupyter_client",
   "matplotlib >=3.5.0",
   "nbconvert",
   "nbsphinx",
   "netcdf4",
-  "sphinx >=7.0",
+  "sphinx >=7.1.0",
   "sphinx-rtd-theme >=1.0"
 ]
 
@@ -148,7 +148,7 @@ include = [
 ]
 
 [tool.pytest.ini_options]
-minversion = "7.0"
+minversion = "8.0"
 addopts = [
   "--verbose",
   "--color=yes",
@@ -168,9 +168,11 @@ xfail_strict = true
 [tool.ruff]
 src = ["src/daops"]
 exclude = [
+    ".eggs",
     ".git",
     "build",
-    ".eggs",
+    "docs",
+    "tests",
 ]
 line-length = 180
 extend-include = [

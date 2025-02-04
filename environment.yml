@@ -9,7 +9,7 @@ dependencies:
   - dask
   - elasticsearch>=8.0.1
   - netcdf4
-  - numpy >=1.23.0
+  - numpy >=1.23.0,<2.0.0
   - roocs-grids >=0.1.2
   - roocs-utils >=0.6.4
   - xarray >=2022.12.0,<2023.3.0 # https://github.com/pydata/xarray/issues/7794
@@ -22,5 +22,5 @@ dependencies:
   # to support kerchunk
   - fsspec
   - aiohttp
-  - zarr==2.13.3
+  - zarr >=2.13.3
   - zstandard
