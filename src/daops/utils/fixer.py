@@ -4,7 +4,7 @@ from pydoc import locate
 
 from elasticsearch import exceptions
 
-from daops import CONFIG
+from daops import config_
 
 from .base_lookup import Lookup
 
@@ -56,7 +56,7 @@ class Fixer(Lookup):
         self.post_processors = []
 
         try:
-            content = self.es.get(index=CONFIG["elasticsearch"]["fix_store"], id=id)
+            content = self.es.get(index=config_()["elasticsearch"]["fix_store"], id=id)
             self._gather_fixes(content)
         except exceptions.NotFoundError:
             pass

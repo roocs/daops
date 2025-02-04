@@ -16,7 +16,7 @@ import numpy as np
 import py.path
 import pytest
 import xarray as xr
-from daops import CONFIG
+from daops import config_
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -213,27 +213,30 @@ def test_cli_subset_t_z_y_x(tmpdir, stratus):
     )
 
     assert ds.o3.shape == (1200, 19, 2, 3)
-    np.testing.assert_array_equal(ds.o3.coords["plev"], [
-        100000.0,
-        92500.0,
-        85000.0,
-        70000.0,
-        60000.0,
-        50000.0,
-        40000.0,
-        30000.0,
-        25000.0,
-        20000.0,
-        15000.0,
-        10000.0,
-        7000.0,
-        5000.0,
-        3000.0,
-        2000.0,
-        1000.0,
-        500.0,
-        100.0,
-    ])
+    np.testing.assert_array_equal(
+        ds.o3.coords["plev"],
+        [
+            100000.0,
+            92500.0,
+            85000.0,
+            70000.0,
+            60000.0,
+            50000.0,
+            40000.0,
+            30000.0,
+            25000.0,
+            20000.0,
+            15000.0,
+            10000.0,
+            7000.0,
+            5000.0,
+            3000.0,
+            2000.0,
+            1000.0,
+            500.0,
+            100.0,
+        ],
+    )
 
     result = _cli_subset(
         CMIP6_IDS[0],
@@ -294,7 +297,7 @@ def test_time_is_none(tmpdir):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
         use_cftime=True,
@@ -322,7 +325,7 @@ def test_end_time_is_none(tmpdir):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc",
         ),
         use_cftime=True,
@@ -348,7 +351,7 @@ def test_start_time_is_none(tmpdir):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
         use_cftime=True,
@@ -432,7 +435,10 @@ def test_cli_subset_by_time_components_year_month(tmpdir, mini_esgf_data):
 
     for tc in (tc1, tc2):
         result = _cli_subset(
-            mini_esgf_data["CMIP5_TAS_FPATH"], time_components=tc, output_dir=tmpdir, file_namer="simple"
+            mini_esgf_data["CMIP5_TAS_FPATH"],
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
         )
 
         ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
@@ -450,7 +456,10 @@ def test_cli_subset_by_time_components_month_day(tmpdir, mini_esgf_data):
 
     for tc in (tc1, tc2):
         result = _cli_subset(
-            mini_esgf_data["CMIP5_DAY"], time_components=tc, output_dir=tmpdir, file_namer="simple"
+            mini_esgf_data["CMIP5_DAY"],
+            time_components=tc,
+            output_dir=tmpdir,
+            file_namer="simple",
         )
 
         ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
@@ -462,9 +471,7 @@ def test_cli_subset_by_time_components_month_day(tmpdir, mini_esgf_data):
 
 
 @pytest.mark.online
-def test_cli_subset_by_time_interval_and_components_month_day(
-    tmpdir, mini_esgf_data
-):
+def test_cli_subset_by_time_interval_and_components_month_day(tmpdir, mini_esgf_data):
     # 20051201-20151130
     ys, ye = 2007, 2010
     ti = f"{ys}-12-01T00:00:00/{ye}-11-30T23:59:59"
@@ -565,7 +572,7 @@ def test_cli_subset_components_day_monthly_dataset(tmpdir, mini_esgf_data):
     # 18500101-20141231
 
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
     ys, ye = 1998, 2010
     req_times = [
         tm.isoformat()
@@ -591,7 +598,9 @@ def test_cli_subset_components_day_monthly_dataset(tmpdir, mini_esgf_data):
 
 @pytest.mark.online
 def test_cli_subset_by_time_series(tmpdir, mini_esgf_data):
-    t = [str(tm) for tm in xr.open_dataset(mini_esgf_data["CMIP5_TAS_FPATH"]).time.values]
+    t = [
+        str(tm) for tm in xr.open_dataset(mini_esgf_data["CMIP5_TAS_FPATH"]).time.values
+    ]
     some_times = [t[0], t[100], t[4], t[33], t[9]]
 
     result = _cli_subset(

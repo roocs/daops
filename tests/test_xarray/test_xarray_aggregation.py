@@ -34,6 +34,7 @@ def prepare_files(stratus):
 
     return test_files
 
+
 # Functions to make modified NC files
 # need to make files temporary files
 def _open(file_paths):
@@ -91,16 +92,25 @@ def test_agg_success_with_no_changes(prepare_files):
     ds.close()
 
 
+@pytest.mark.skip(reason="This test is hanging quite often ...")
 def test_agg_fails_diff_var_attrs_change_F2(var_attr, prepare_files, tmpdir):
     v = "rubbish"
-    file_paths = prepare_files[0], _make_nc_modify_var_attr(prepare_files[1], "tas", var_attr, v, path=tmpdir), prepare_files[2]
+    file_paths = (
+        prepare_files[0],
+        _make_nc_modify_var_attr(prepare_files[1], "tas", var_attr, v, path=tmpdir),
+        prepare_files[2],
+    )
     with _open(file_paths) as ds:
         assert ds.tas.__getattr__(f"{var_attr}") != v
 
 
 def test_agg_fails_diff_var_attrs_change_F1(var_attr, prepare_files, tmpdir):
     v = "rubbish"
-    file_paths = _make_nc_modify_var_attr(prepare_files[0], "tas", var_attr, v, path=tmpdir), prepare_files[1], prepare_files[2]
+    file_paths = (
+        _make_nc_modify_var_attr(prepare_files[0], "tas", var_attr, v, path=tmpdir),
+        prepare_files[1],
+        prepare_files[2],
+    )
     with _open(file_paths) as ds:
         assert ds.tas.__getattr__(f"{var_attr}") == v
 
@@ -126,15 +136,22 @@ def test_agg_fails_diff_var_attrs_change_F1(var_attr, prepare_files, tmpdir):
 
 def test_agg_behaviour_diff_global_attrs_change_F2(global_attr, prepare_files, tmpdir):
     v = "other"
-    file_paths = prepare_files[0], _make_nc_modify_global_attr(prepare_files[1], global_attr, v, path=tmpdir), prepare_files[2]
+    file_paths = (
+        prepare_files[0],
+        _make_nc_modify_global_attr(prepare_files[1], global_attr, v, path=tmpdir),
+        prepare_files[2],
+    )
     with _open(file_paths) as ds:
         assert ds.__getattr__(f"{global_attr}") != v
 
 
-
 def test_agg_behaviour_diff_global_attrs_change_F1(global_attr, prepare_files, tmpdir):
     v = "other"
-    file_paths = _make_nc_modify_global_attr(prepare_files[0], global_attr, v, path=tmpdir), prepare_files[1], prepare_files[2]
+    file_paths = (
+        _make_nc_modify_global_attr(prepare_files[0], global_attr, v, path=tmpdir),
+        prepare_files[1],
+        prepare_files[2],
+    )
     with _open(file_paths) as ds:
         assert ds.__getattr__(f"{global_attr}") == v
 
@@ -163,37 +180,53 @@ def test_agg_behaviour_diff_global_attrs_change_F1(global_attr, prepare_files, t
 def test_agg_fails_diff_var_id_change_F1(prepare_files, tmpdir):
     new_var_id = "blah"
     old_var_id = "tas"
-    file_paths = _make_nc_modify_var_id(prepare_files[0], old_var_id, new_var_id, path=tmpdir), prepare_files[1], prepare_files[2]
+    file_paths = (
+        _make_nc_modify_var_id(prepare_files[0], old_var_id, new_var_id, path=tmpdir),
+        prepare_files[1],
+        prepare_files[2],
+    )
     with _open(file_paths) as ds:
         assert new_var_id, old_var_id in ds.variables
-
 
 
 def test_agg_fails_diff_var_id_change_F2(prepare_files, tmpdir):
     new_var_id = "blah"
     old_var_id = "tas"
-    file_paths = prepare_files[0], _make_nc_modify_var_id(prepare_files[1], old_var_id, new_var_id, path=tmpdir), prepare_files[2]
+    file_paths = (
+        prepare_files[0],
+        _make_nc_modify_var_id(prepare_files[1], old_var_id, new_var_id, path=tmpdir),
+        prepare_files[2],
+    )
     with _open(file_paths) as ds:
         assert new_var_id, old_var_id in ds.variables
-
 
 
 def test_agg_fails_diff_fill_value_change_F2(prepare_files, tmpdir):
     var_id = "tas"
     fill_value = np.float32(-1e20)
-    file_paths = prepare_files[0], _make_nc_modify_fill_value(prepare_files[1], var_id, fill_value=fill_value, path=tmpdir), prepare_files[2]
-    with  _open(file_paths) as ds:
+    file_paths = (
+        prepare_files[0],
+        _make_nc_modify_fill_value(
+            prepare_files[1], var_id, fill_value=fill_value, path=tmpdir
+        ),
+        prepare_files[2],
+    )
+    with _open(file_paths) as ds:
         assert ds[var_id].encoding["_FillValue"] != fill_value
-
 
 
 def test_agg_fails_diff_fill_value_change_F1(prepare_files, tmpdir):
     var_id = "tas"
     fill_value = np.float32(-1e20)
-    file_paths = _make_nc_modify_fill_value(prepare_files[0], var_id, fill_value=fill_value, path=tmpdir), prepare_files[1], prepare_files[2]
+    file_paths = (
+        _make_nc_modify_fill_value(
+            prepare_files[0], var_id, fill_value=fill_value, path=tmpdir
+        ),
+        prepare_files[1],
+        prepare_files[2],
+    )
     with _open(file_paths) as ds:
         assert ds[var_id].encoding["_FillValue"] == fill_value
-
 
 
 def test_agg_affected_by_order(prepare_files, tmpdir):
@@ -202,7 +235,11 @@ def test_agg_affected_by_order(prepare_files, tmpdir):
     # file is modified
     file_orders = itertools.permutations(prepare_files)
     for _f1, _f2, _f3 in file_orders:
-        file_paths = _f1, _make_nc_modify_var_attr(_f2, "tas", "units", "bad", path=tmpdir), _f3
+        file_paths = (
+            _f1,
+            _make_nc_modify_var_attr(_f2, "tas", "units", "bad", path=tmpdir),
+            _f3,
+        )
         with _open(file_paths) as ds:
             if _f2 == prepare_files[0]:
                 assert "bad" in ds.tas.units

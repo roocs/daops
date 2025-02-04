@@ -3,7 +3,7 @@ import os
 import numpy as np
 import pytest
 import xarray as xr
-from daops import CONFIG
+from daops import config_
 from daops.ops.subset import subset
 from roocs_utils.exceptions import InvalidParameterValue, MissingParameterValue
 from roocs_utils.parameter import area_parameter, collection_parameter, time_parameter
@@ -57,7 +57,7 @@ def test_subset_zostoga_with_fix(tmpdir):
     assert "lev" not in ds.dims
 
 
-def test_subset_zostoga_with_apply_fixes_false(tmpdir, load_esgf_test_data):
+def test_subset_zostoga_with_apply_fixes_false(tmpdir, load_test_data):
     result = subset(
         CMIP5_IDS[0],
         time=time_interval("2085-01-16", "2120-12-16"),
@@ -74,7 +74,7 @@ def test_subset_zostoga_with_apply_fixes_false(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_t(tmpdir, load_esgf_test_data):
+def test_subset_t(tmpdir, load_test_data):
     result = subset(
         CMIP5_IDS[1],
         time=time_interval("2085-01-16", "2120-12-16"),
@@ -211,7 +211,7 @@ def test_subset_t_z_y_x(tmpdir, stratus):
 
 
 @pytest.mark.online
-def test_subset_t_with_invalid_date(tmpdir, load_esgf_test_data):
+def test_subset_t_with_invalid_date(tmpdir, load_test_data):
     with pytest.raises(Exception) as exc:
         subset(
             CMIP5_IDS[1],
@@ -258,7 +258,7 @@ def test_subset_with_fix_and_multiple_ids(zostoga_id, tmpdir):
 
 
 @pytest.mark.online
-def test_parameter_classes_as_args(tmpdir, load_esgf_test_data):
+def test_parameter_classes_as_args(tmpdir, load_test_data):
     collection = collection_parameter.CollectionParameter(CMIP5_IDS[1])
     time = time_parameter.TimeParameter(time_interval("2085-01-16", "2120-12-16"))
     area = area_parameter.AreaParameter((0, -10, 120, 40))
@@ -273,7 +273,7 @@ def test_parameter_classes_as_args(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_time_is_none(tmpdir, load_esgf_test_data):
+def test_time_is_none(tmpdir, load_test_data):
     result = subset(
         CMIP5_IDS[1],
         time=None,
@@ -286,7 +286,7 @@ def test_time_is_none(tmpdir, load_esgf_test_data):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
         use_cftime=True,
@@ -302,7 +302,7 @@ def test_time_is_none(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_end_time_is_none(tmpdir, load_esgf_test_data):
+def test_end_time_is_none(tmpdir, load_test_data):
     result = subset(
         CMIP5_IDS[2],
         time=time_interval("1940-10-14/"),
@@ -314,7 +314,7 @@ def test_end_time_is_none(tmpdir, load_esgf_test_data):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc",
         ),
         use_cftime=True,
@@ -328,7 +328,7 @@ def test_end_time_is_none(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_start_time_is_none(tmpdir, load_esgf_test_data):
+def test_start_time_is_none(tmpdir, load_test_data):
     result = subset(
         CMIP5_IDS[1],
         time=time_interval("/2120-12-16"),
@@ -340,7 +340,7 @@ def test_start_time_is_none(tmpdir, load_esgf_test_data):
 
     ds = xr.open_mfdataset(
         os.path.join(
-            CONFIG["project:cmip5"]["base_dir"],
+            config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
         use_cftime=True,
@@ -354,7 +354,7 @@ def test_start_time_is_none(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_time_invariant_subset_standard_name(tmpdir, load_esgf_test_data):
+def test_time_invariant_subset_standard_name(tmpdir, load_test_data):
     dset = "CMIP6.ScenarioMIP.IPSL.IPSL-CM6A-LR.ssp119.r1i1p1f1.fx.mrsofc.gr.v20190410"
 
     result = subset(
@@ -391,7 +391,7 @@ def test_subset_with_file_mapper(tmpdir, stratus):
 
 
 @pytest.mark.online
-def test_subset_with_catalog(tmpdir, load_esgf_test_data):
+def test_subset_with_catalog(tmpdir, load_test_data):
     # c3s-cmip6 dataset so will use catalog in consolidate
     result = subset(
         "c3s-cmip6.ScenarioMIP.INM.INM-CM5-0.ssp245.r1i1p1f1.Amon.rlds.gr1.v20190619",
@@ -407,7 +407,7 @@ def test_subset_with_catalog(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_with_catalog_time_invariant(tmpdir, load_esgf_test_data):
+def test_subset_with_catalog_time_invariant(tmpdir, load_test_data):
     # c3s-cmip6 dataset so will use catalog in consolidate
     result = subset(
         "c3s-cmip6.ScenarioMIP.MPI-M.MPI-ESM1-2-LR.ssp370.r1i1p1f1.fx.mrsofc.gn.v20190815",
@@ -440,7 +440,7 @@ def test_subset_by_time_components_year_month(tmpdir, mini_esgf_data):
 
 
 @pytest.mark.online
-def test_subset_by_time_components_month_day(tmpdir, load_esgf_test_data):
+def test_subset_by_time_components_month_day(tmpdir, mini_esgf_data):
     # 20051201-20151130
     tc1 = time_components(month=["jul"], day=[1, 11, 21])
     tc2 = time_components(month=[7], day=[1, 11, 21])
@@ -490,7 +490,7 @@ def test_subset_by_time_interval_and_components_month_day(tmpdir, mini_esgf_data
 
 
 # @pytest.mark.online
-# def test_subset_by_time_series_and_components_month_day_cmip5(tmpdir, load_esgf_test_data):
+# def test_subset_by_time_series_and_components_month_day_cmip5(tmpdir, load_test_data):
 #     # 20051201-20151130
 #     ys, ye = 2007, 2010
 #     req_times = [tm.isoformat() for tm in xr.open_dataset(CMIP5_DAY).time.values
@@ -520,7 +520,7 @@ def test_subset_by_time_series_and_components_month_day_cmip6(tmpdir, mini_esgf_
     # 18500101-20141231
 
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
 
     ys, ye = 1998, 2010
     req_times = [
@@ -558,7 +558,7 @@ def test_subset_components_day_monthly_dataset(tmpdir, mini_esgf_data):
     # 18500101-20141231
 
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
-    CONFIG["project:c3s-cmip6"]["use_catalog"] = False
+    config_()["project:c3s-cmip6"]["use_catalog"] = False
     ys, ye = 1998, 2010
     req_times = [
         tm.isoformat()
@@ -607,7 +607,7 @@ def test_subset_by_time_series(tmpdir, mini_esgf_data):
 
 
 @pytest.mark.online
-def test_subset_by_level_series(tmpdir, load_esgf_test_data):
+def test_subset_by_level_series(tmpdir, load_test_data):
     some_levels = [60000.0, 15000.0, 40000.0, 1000.0, 92500.0]
 
     result = subset(
@@ -628,7 +628,7 @@ def test_subset_by_level_series(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_cmip6_nc_consistent_bounds(tmpdir, load_esgf_test_data):
+def test_subset_cmip6_nc_consistent_bounds(tmpdir, load_test_data):
     """Test daops subset to check consistent bounds in metadata."""
     result = subset(
         CMIP6_IDS[0],
@@ -653,7 +653,7 @@ def test_subset_cmip6_nc_consistent_bounds(tmpdir, load_esgf_test_data):
 
 
 @pytest.mark.online
-def test_subset_c3s_cmip6_nc_consistent_bounds(tmpdir, load_esgf_test_data):
+def test_subset_c3s_cmip6_nc_consistent_bounds(tmpdir, load_test_data):
     """Test daops subset to check consistent bounds in metadata."""
     result = subset(
         C3S_CMIP6_IDS[0],

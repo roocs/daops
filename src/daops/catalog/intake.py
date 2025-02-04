@@ -2,7 +2,7 @@
 
 import intake
 
-from daops import CONFIG
+from daops import config_
 
 from .base import Catalog
 from .util import MAX_DATETIME, MIN_DATETIME, parse_time
@@ -13,7 +13,7 @@ class IntakeCatalog(Catalog):
 
     def __init__(self, project, url=None):
         super().__init__(project)
-        self.url = url or CONFIG.get("catalog", None).get("intake_catalog_url", None)
+        self.url = url or config_().get("catalog", None).get("intake_catalog_url", None)
         self._cat = None
         self._store = {}
         # intake_config["cache_dir"] = "/tmp/inventory_cache"

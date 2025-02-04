@@ -6,7 +6,7 @@ from elasticsearch import Elasticsearch
 from roocs_utils.exceptions import InvalidProject
 from roocs_utils.project_utils import derive_ds_id
 
-from daops import CONFIG
+from daops import config_
 
 
 class Lookup:
@@ -16,9 +16,9 @@ class Lookup:
         self.dset = dset
         self.es = Elasticsearch(
             "https://"
-            + CONFIG["elasticsearch"]["endpoint"]
+            + config_()["elasticsearch"]["endpoint"]
             + ":"
-            + CONFIG["elasticsearch"]["port"],
+            + config_()["elasticsearch"]["port"],
         )
 
     def convert_to_ds_id(self):
