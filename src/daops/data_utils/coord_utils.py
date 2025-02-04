@@ -6,6 +6,27 @@ from roocs_utils.xarray_utils import xarray_utils as xu
 from .common_utils import handle_derive_str
 
 
+def squeeze_dims(ds, **operands):
+    """Squeeze dimensions from dataset.
+
+    Parameters
+    ----------
+    ds : xarray.Dataset
+        A Dataset.
+    operands : dict
+        Dictionary containing the dimensions to remove.
+
+    Returns
+    -------
+    xarray.Dataset
+    """
+    dims = operands.get("dims")
+    for dim in dims:
+        ds = ds.squeeze(dim)
+
+    return ds
+
+
 def add_scalar_coord(ds_id, ds, **operands):
     """
     Add a scalar coordinate.
