@@ -11,12 +11,13 @@ def test_squeeze_dims(stratus):
         combine="by_coords",
         use_cftime=True,
     )
+    ds_id = "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga"
 
     assert "lev" in ds.dims
 
     operands = {"dims": ["lev"]}
 
-    ds_squeeze = squeeze_dims(ds, **operands)
+    ds_squeeze = squeeze_dims(ds_id, ds, **operands)
     assert "lev" not in ds_squeeze.dims
 
 
