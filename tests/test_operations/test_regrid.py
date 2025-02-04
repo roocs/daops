@@ -1,7 +1,9 @@
 import os
 
+from packaging.version import Version
 import pytest
 import xarray as xr
+
 
 CMIP6_IDS = ["CMIP6.CMIP.MPI-M.MPI-ESM1-2-HR.historical.r1i1p1f1.Omon.tos.gn.v20190710"]
 
@@ -11,8 +13,11 @@ def _check_output_nc(result, fname="output_001.nc"):
 
 
 @pytest.mark.online
-@pytest.mark.xfail(reason="Package xESMF >= 0.8.2 is required")
 def test_regrid(tmpdir):
+    xesmf = pytest.importorskip("xesmf")
+    if Version(xesmf.__version__) < Version("0.8.2"):
+        pytest.skip("Package xESMF >= 0.8.2 is required")
+
     from daops.ops.regrid import regrid
 
     result = regrid(

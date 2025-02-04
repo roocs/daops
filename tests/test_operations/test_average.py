@@ -1,5 +1,6 @@
 import os
 
+from packaging.version import Version
 import geopandas as gpd
 import pytest
 import xarray as xr
@@ -7,6 +8,7 @@ from daops import config_
 from daops.ops.average import average_over_dims, average_shape, average_time
 from roocs_utils.exceptions import InvalidParameterValue
 from shapely import Polygon
+
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -106,8 +108,11 @@ def test_average_level(tmpdir):
 
 
 @pytest.mark.online
-@pytest.mark.xfail(reason="Package xESMF >= 0.8.2 is required")
 def test_average_shape(tmpdir):
+    xesmf = pytest.importorskip("xesmf")
+    if Version(xesmf.__version__) < Version("0.8.2"):
+        pytest.skip("Package xESMF >= 0.8.2 is required")
+
     # Save POLY to tmpdir
     tmp_poly_path = os.path.join(tmpdir, "tmppoly.json")
     gpd.GeoDataFrame([{"geometry": POLY}]).to_file(tmp_poly_path)
