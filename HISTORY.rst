@@ -1,32 +1,52 @@
 Version History
 ===============
 
+v0.13.0 (unreleased)
+--------------------
+
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.14.0,<0.15 is now required.
+* Replaced ``bump2version`` with ``bump-my-version``>=0.28.0.
+* The source code structure has been reorganized to use a `src` directory layout.
+* Testing structure no longer uses `__init__.py` files in test directories, instead using `conftest.py` with fixtures.\
+* Tests now use ``pooch`` for testing data retrieval and for safer testing setup and teardown.
+* ``roocs-utils``-based `roocs.ini` configurations used within the code base are now handled by a function to fetch the cached configuration. This will be adjusted in a future release to use `clisops`.
+* Obsolete GitLab CI/CD configurations have been removed.
+
+New Features
+^^^^^^^^^^^^
+* Added official support for Python3.12.
+* ``daops`` is now PEP 561 and PEP 621 compatible (``pyproject.toml``).
+* Several docstring improvements to all modules, classes, their methods, and functions.
+* ``flake8`` has been replaced with ``ruff`` and ``black``-style formatting.
+* ``pre-commit`` hooks have been adjusted to perform Python 3.9+ code style checks and to catch minor security issues.
+
+
 v0.12.0 (2025-01-29)
 --------------------
 
 New Features
 ^^^^^^^^^^^^
-
 * Added support for opening `kerchunk` files.
 * Updated `Dockerfile` and `app-package.cwl` file for use with ADES.
 
 Other Changes
 ^^^^^^^^^^^^^
-
 * only ``clisops``<0.15.0 supported.
+
 
 v0.11.0 (2024-04-10)
 --------------------
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
-
 * ``clisops``>=0.12.1 required.
 
 New Features
 ^^^^^^^^^^^^
-
 * Add clisops.ops.average_shape to daops.ops.average
+
 
 v0.10.0 (2023-11-27)
 -------------------
@@ -37,7 +57,6 @@ Breaking Changes
 
 New Features
 ^^^^^^^^^^^^
-
 * Added regridding operator (#111)
 
 
@@ -70,6 +89,7 @@ Other Changes
 
 v0.8.0 (2022-04-13)
 -------------------
+
 Breaking Changes
 ^^^^^^^^^^^^^^^^
 * ``clisops``>=0.9.0 required.
@@ -82,6 +102,7 @@ New Features
 
 v0.7.0 (2021-10-28)
 -------------------
+
 Breaking Changes
 ^^^^^^^^^^^^^^^^
 * ``clisops``>=0.7.0 and ``roocs-utils``>=0.5.0 required.
@@ -100,6 +121,7 @@ Other Changes
 
 v0.6.0 (2021-05-19)
 -------------------
+
 Breaking Changes
 ^^^^^^^^^^^^^^^^
 * intake, fsspec<0.9 and aiohttp are new dependencies in order to use the intake catalog search functionality.
@@ -148,8 +170,6 @@ Other Changes
 v0.3.0 (2020-11-19)
 -------------------
 
-Updating doc strings and documentation.
-
 Breaking Changes
 ^^^^^^^^^^^^^^^^
 * ``clisops``>=0.4.0 and ``roocs-utils``>=0.1.4 used.
@@ -164,6 +184,7 @@ Breaking Changes
 
 New Features
 ^^^^^^^^^^^^
+* Updated docstrings and documentation.
 * Added notebook with example usage.
 * Config file now exists at ``daops.etc.roocs.ini``. This can be overwritten by setting the environment variable
   ``ROOCS_CONFIG`` to the file path of a config file.
