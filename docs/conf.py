@@ -31,14 +31,21 @@ sys.path.insert(0, os.path.abspath(".."))
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.viewcode",
+    "sphinx.ext.autosectionlabel",
+    "sphinx.ext.coverage",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
-    "sphinx.ext.coverage",
     "sphinx.ext.todo",
-    "sphinx.ext.autosectionlabel",
+    "sphinx.ext.viewcode",
     "nbsphinx",
     "IPython.sphinxext.ipython_console_highlighting",
+]
+
+autosectionlabel_prefix_document = True
+autosectionlabel_maxdepth = 2
+
+autodoc_mock_imports = [
+    "_pytest",
 ]
 
 napoleon_numpy_docstring = True
@@ -53,10 +60,9 @@ nbsphinx_timeout = 300
 templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
-#
-# source_suffix = ['.rst', '.md']
-source_suffix = [".rst", ".ipynb"]
+# You can specify multiple suffix as a dictionary:
+source_suffix = {".rst": "restructuredtext"}
+# note: do not add .ipynb when nbsphinx is enabled, otherwise you get the "missing title" error
 
 # The master toctree document.
 master_doc = "index"

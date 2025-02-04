@@ -9,9 +9,9 @@ Breaking Changes
 * ``clisops``>=0.14.0,<0.15 is now required.
 * Replaced ``bump2version`` with ``bump-my-version``>=0.28.0.
 * The source code structure has been reorganized to use a `src` directory layout.
-* Testing structure no longer uses `__init__.py` files in test directories, instead using `conftest.py` with fixtures.\
+* Testing structure no longer uses `__init__.py` files in test directories, instead using `conftest.py` with fixtures.
 * Tests now use ``pooch`` for testing data retrieval and for safer testing setup and teardown.
-* ``roocs-utils``-based `roocs.ini` configurations used within the code base are now handled by a function to fetch the cached configuration. This will be adjusted in a future release to use `clisops`.
+* ``roocs-utils``-based `roocs.ini` configurations used within the code base are now handled by a function to fetch the cached configuration. This will be adjusted in a future release to use ``clisops``.
 * Obsolete GitLab CI/CD configurations have been removed.
 
 New Features
@@ -33,7 +33,7 @@ New Features
 
 Other Changes
 ^^^^^^^^^^^^^
-* only ``clisops``<0.15.0 supported.
+* Only ``clisops``\<0.15.0 supported.
 
 
 v0.11.0 (2024-04-10)
@@ -49,7 +49,7 @@ New Features
 
 
 v0.10.0 (2023-11-27)
--------------------
+--------------------
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^

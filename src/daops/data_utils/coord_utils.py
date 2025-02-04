@@ -6,27 +6,22 @@ from roocs_utils.xarray_utils import xarray_utils as xu
 from .common_utils import handle_derive_str
 
 
-def squeeze_dims(ds_id, ds, **operands):
-    """Squeeze dimensions from dataset.
-
-    :param ds: Xarray Dataset
-    :param operands: (dict) Arguments for fix. Dims (list) to remove.
-    :return: Xarray Dataset
-    """
-    dims = operands.get("dims")
-    for dim in dims:
-        ds = ds.squeeze(dim)
-
-    return ds
-
-
 def add_scalar_coord(ds_id, ds, **operands):
-    """Add a scalar coordinate.
-
-    :param ds: Xarray DataSet
-    :param operands: sequence of arguments
-    :return: Xarray Dataset
+    """
     Add a scalar coordinate.
+
+    Parameters
+    ----------
+    ds_id : str
+        Dataset ID.
+    ds : xarray.Dataset
+        A Dataset.
+    operands : dict
+        Dictionary containing the new coordinate.
+
+    Returns
+    -------
+    xarray.Dataset
     """
     var_id = operands.get("var_id")
     value = operands.get("value")
@@ -54,12 +49,21 @@ def add_scalar_coord(ds_id, ds, **operands):
 
 
 def add_coord(ds_id, ds, **operands):
-    """Add a coordinate.
-
-    :param ds: Xarray DataSet
-    :param operands: sequence of arguments
-    :return: Xarray DataArray
+    """
     Add a coordinate.
+
+    Parameters
+    ----------
+    ds_id : str
+        Dataset ID.
+    ds : xarray.Dataset
+        A Dataset.
+    operands : dict
+        Dictionary containing the new coordinate.
+
+    Returns
+    -------
+    xarray.Dataset
     """
     var_id = operands.get("var_id")
     dim = operands.get("dim")

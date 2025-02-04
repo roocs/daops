@@ -56,10 +56,9 @@ def average_over_dims(
     -------
     List of outputs in the selected type: a list of xarray Datasets or file paths.
 
-
     Examples
     --------
-    | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
+    | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101")
     | dims: ["time", "lat"]
     | ignore_undetected_dims: (-5.,49.,10.,65)
     | output_type: "netcdf"
@@ -67,7 +66,6 @@ def average_over_dims(
     | split_method: "time:auto"
     | file_namer: "standard"
     | apply_fixes: True
-
     """
     result_set = Average(**locals()).calculate()
     return result_set
@@ -119,7 +117,7 @@ def average_shape(
 
     Examples
     --------
-    | collection: ("cmip6.cmip..cas.fgoals-g3.historical.r1i1p1fi.Amon.tas.gn.v20190818",)
+    | collection: ("cmip6.cmip.cas.fgoals-g3.historical.r1i1p1fi.Amon.tas.gn.v20190818")
     | shape: "path_to_shape"
     | ignore_undetected_dims: (-5.,49.,10.,65)
     | output_type: "netcdf"
@@ -127,7 +125,6 @@ def average_shape(
     | split_method: "time:auto"
     | file_namer: "standard"
     | apply_fixes: True
-
     """
     a = AverageShape(**locals())
     result_set = AverageShape(**locals()).calculate()
@@ -174,7 +171,6 @@ def average_time(
     -------
     List of outputs in the selected type: a list of xarray Datasets or file paths.
 
-
     Examples
     --------
     | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)
@@ -184,7 +180,6 @@ def average_time(
     | split_method: "time:auto"
     | file_namer: "standard"
     | apply_fixes: True
-
     """
     result_set = AverageTime(**locals()).calculate()
 

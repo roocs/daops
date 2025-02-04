@@ -4,12 +4,21 @@ from .common_utils import handle_derive_str
 
 
 def edit_var_attrs(ds_id, ds, **operands):
-    """Edit the variable attrs.
+    """
+    Edit the variable attrs.
 
-    :param ds: Xarray DataSet
-    :param operands: sequence of arguments
-    :return: Xarray Dataset
-    Change the attributes of a variable.
+    Parameters
+    ----------
+    ds_id : str
+        Dataset ID.
+    ds : xarray.Dataset
+        A Dataset.
+    operands : dict
+        Dictionary containing the new attributes for the variable.
+
+    Returns
+    -------
+    xarray.Dataset
     """
     var_id = operands.get("var_id")
 
@@ -22,12 +31,21 @@ def edit_var_attrs(ds_id, ds, **operands):
 
 
 def edit_global_attrs(ds_id, ds, **operands):
-    """Edit the global attrs.
+    """
+    Edit the global attrs.
 
-    :param ds: Xarray DataSet
-    :param operands: sequence of arguments
-    :return: Xarray DataArray
-    Change the gloabl attributes.
+    Parameters
+    ----------
+    ds_id : str
+        Dataset ID.
+    ds : xarray.Dataset
+        A Dataset.
+    operands : dict
+        Dictionary containing the new attributes for the dataset.
+
+    Returns
+    -------
+    xarray.Dataset
     """
     operands.get("attrs")
 
@@ -39,12 +57,21 @@ def edit_global_attrs(ds_id, ds, **operands):
 
 
 def add_global_attrs_if_needed(ds_id, ds, **operands):
-    """Add the global attrs, if needed.
+    """
+    Add the global attrs, if needed.
 
-    :param ds: Xarray DataSet
-    :param operands: sequence of arguments
-    :return: Xarray Dataset
-    Add a global attribute if it doesn't already exist.
+    Parameters
+    ----------
+    ds_id : str
+        Dataset ID.
+    ds : xarray.Dataset
+        A Dataset.
+    operands : dict
+        Dictionary containing the new attributes for the dataset.
+
+    Returns
+    -------
+    xarray.Dataset
     """
     operands.get("attrs")
     for k, v in operands.get("attrs").items():
@@ -57,13 +84,21 @@ def add_global_attrs_if_needed(ds_id, ds, **operands):
 
 
 def remove_coord_attr(ds_id, ds, **operands):
-    """Remove the coordinate attr from the dataset.
+    """
+    Remove the coordinate attr from the dataset.
 
-    :param ds: Xarray DataSet
-    :param operands: sequence of arguments
-    :return: Xarray Dataset
+    Parameters
+    ----------
+    ds_id : str
+        Dataset ID.
+    ds : xarray.Dataset
+        A Dataset.
+    operands : dict
+        Dictionary containing the new attributes for the dataset.
 
-    Remove coordinate attribute that is added by xarray, for specified variables.
+    Returns
+    -------
+    xarray.Dataset
     """
     var_ids = handle_derive_str(operands.get("var_ids"), ds_id, ds)
 

@@ -3,13 +3,20 @@
 import numpy as np
 
 
-def add_data_var(ds_id, ds, **operands):
-    """Add a data variable.
-
-    :param ds: Xarray DataSet
-    :param operands: sequence of arguments
-    :return: Xarray Dataset
+def add_data_var(ds, **operands):
+    """
     Add a data variable.
+
+    Parameters
+    ----------
+    ds : xarray.Dataset
+        A Dataset.
+    operands : dict
+        Dictionary containing the new data variable.
+
+    Returns
+    -------
+    xarray.Dataset
     """
     var_id = operands.get("var_id")
     value = operands.get("value")
