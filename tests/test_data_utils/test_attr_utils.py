@@ -1,17 +1,15 @@
-import numpy as np
 import xarray as xr
+from daops.data_utils.attr_utils import (
+    add_global_attrs_if_needed,
+    edit_global_attrs,
+    edit_var_attrs,
+)
 from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
 
-from daops.data_utils.attr_utils import add_global_attrs_if_needed
-from daops.data_utils.attr_utils import edit_global_attrs
-from daops.data_utils.attr_utils import edit_var_attrs
-from tests._common import CMIP6_DECADAL
-from tests._common import MINI_ESGF_MASTER_DIR
 
-
-def test_edit_var_attrs(load_esgf_test_data):
+def test_edit_var_attrs(stratus):
     ds = xr.open_mfdataset(
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
         use_cftime=True,
     )
@@ -33,9 +31,9 @@ def test_edit_var_attrs(load_esgf_test_data):
     assert ds_change_var_attrs.lat.attrs["long_name"] == "False long name"
 
 
-def test_edit_global_attrs(load_esgf_test_data):
+def test_edit_global_attrs(stratus):
     ds = xr.open_mfdataset(
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
         use_cftime=True,
     )
@@ -62,8 +60,8 @@ def test_edit_global_attrs(load_esgf_test_data):
     assert ds_change_global_attrs.attrs["test"] == "this is a new test attribute"
 
 
-def test_edit_global_attrs_with_derive(load_esgf_test_data):
-    ds = open_xr_dataset(CMIP6_DECADAL)
+def test_edit_global_attrs_with_derive(mini_esgf_data):
+    ds = open_xr_dataset(mini_esgf_data["CMIP6_DECADAL"])
     ds_id = "CMIP6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417"
 
     assert ds.attrs.get("startdate") is None
@@ -81,8 +79,8 @@ def test_edit_global_attrs_with_derive(load_esgf_test_data):
     assert ds_change_global_attrs.attrs["sub_experiment_id"] == "s200411"
 
 
-def test_edit_global_attrs_with_derive_and_arg(load_esgf_test_data):
-    ds = open_xr_dataset(CMIP6_DECADAL)
+def test_edit_global_attrs_with_derive_and_arg(mini_esgf_data):
+    ds = open_xr_dataset(mini_esgf_data["CMIP6_DECADAL"])
     ds_id = "CMIP6.DCPP.MOHC.HadGEM3-GC31-MM.dcppA-hindcast.s2004-r3i1p1f2.Amon.pr.gn.v20200417"
 
     assert ds.attrs.get("forcing_description") is None
@@ -100,9 +98,9 @@ def test_edit_global_attrs_with_derive_and_arg(load_esgf_test_data):
     )
 
 
-def test_add_global_attrs_if_needed(load_esgf_test_data):
+def test_add_global_attrs_if_needed(stratus):
     ds = xr.open_mfdataset(
-        f"{MINI_ESGF_MASTER_DIR}/test_data/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
+        f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
         use_cftime=True,
     )

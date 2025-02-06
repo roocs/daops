@@ -13,6 +13,12 @@ Welcome to daops's documentation!
    authors
    history
 
+.. toctree::
+   :maxdepth: 1
+   :caption: All Modules
+
+   modules
+
 Indices and tables
 ==================
 * :ref:`genindex`

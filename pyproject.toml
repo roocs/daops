@@ -1,0 +1,216 @@
+[build-system]
+requires = ["flit-core >=3.10.1,<4.0"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "daops"
+authors = [
+    {name = "Elle Smith", email = "eleanor.smith@stfc.ac.uk"}
+]
+maintainers = [
+    {name = "Trevor James Smith", email = "smith.trevorj@ouranos.ca"}
+]
+license = {text = "BSD"}
+readme = {file = "README.rst", content-type = "text/x-rst"}
+keywords = ["daops"]
+homepage = "https://github.com/roocs/daops"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Internet",
+    "Topic :: Scientific/Engineering",
+    "Topic :: System :: Distributed Computing",
+    "Topic :: System :: Systems Administration :: Authentication/Directory",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dynamic = ["description", "version"]
+dependencies = [
+  "cftime",
+  "clisops >=0.14.0,<0.15.0",
+  "dask[complete]",
+  "elasticsearch >=8.0.1",
+  "numpy >=1.23.0,<2.0.0",
+  "roocs-utils >=0.6.4",
+  "roocs_grids >=0.1.2",
+  "xarray >=2022.12.0,<2023.3.0", # https://github.com/pydata/xarray/issues/7794
+  "xesmf >=0.8.2",
+  # logging
+  "loguru >=0.5.3",
+  # catalog
+  "intake >=0.7.0,<2.0",
+  "pandas <2.0",
+  # to support kerchunk
+  "aiohttp",
+  "fsspec",
+  "zarr >=2.13.3",
+  "zstandard"
+]
+
+[project.optional-dependencies]
+dev = [
+  "black >=25.1.0",
+  "bump-my-version >=0.28.0",
+  "coverage >=7.6.0",
+  "jinja2",
+  "packaging >=24.2",
+  "pre-commit >=3.5.0",
+  "pytest-loguru >=0.3.0",
+  "pytest >=8.0.0",
+  "pytest-cov >=6.0.0",
+  "ruff >=0.9.0",
+  "tox >=4.18.1",
+  "watchdog >=4.0",
+]
+docs = [
+  "ipykernel",
+  "ipython >=8.5.0",
+  "jupyter_client",
+  "matplotlib >=3.5.0",
+  "nbconvert",
+  "nbsphinx",
+  "netcdf4",
+  "sphinx >=7.1.0",
+  "sphinx-rtd-theme >=1.0"
+]
+
+[project.scripts]
+daops = "daops.cli:main"
+
+[tool]
+
+[tool.black]
+target-version = [
+  "py39",
+  "py310",
+  "py311",
+  "py312"
+]
+
+[tool.bumpversion]
+current_version = "0.11.0"
+commit = true
+commit_args = "--no-verify"
+tag = true
+allow_dirty = false
+
+[[tool.bumpversion.files]]
+filename = "src/daops/__init__.py"
+search = "__version__ = \"{current_version}\""
+replace = "__version__ = \"{new_version}\""
+
+[[tool.bumpversion.files]]
+filename = "docs/conf.py"
+search = "version = \"{current_version}\""
+replace = "version = \"{new_version}\""
+
+[tool.coverage.run]
+relative_files = true
+omit = ["tests/*.py"]
+
+[tool.deptry]
+extend_exclude = ["docs"]
+ignore_notebooks = true
+pep621_dev_dependency_groups = ["dev", "docs"]
+
+[tool.flit.module]
+name = "daops"
+
+[tool.flit.sdist]
+include = [
+  "AUTHORS.rst",
+  "HISTORY.rst",
+  "LICENSE",
+  "Makefile",
+  "README.rst",
+  "docs/Makefile",
+  "docs/make.bat",
+  "docs/*.rst",
+  "docs/*.py",
+  "docs/_static/*.png",
+  "etc/*",
+  "src/daops",
+  "tox.ini"
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+  "--verbose",
+  "--color=yes",
+  "--strict-config",
+  "--strict-markers"
+]
+log_cli_level = "INFO"
+filterwarnings = ["ignore::UserWarning"]
+testpaths = [
+  "tests"
+]
+markers = [
+  "online: mark tests that require internet access (deselect with '-m \"not requires_internet\"')"
+]
+xfail_strict = true
+
+[tool.ruff]
+src = ["src/daops"]
+exclude = [
+    ".eggs",
+    ".git",
+    "build",
+    "docs",
+    "tests",
+]
+line-length = 180
+extend-include = [
+  "*.ipynb" # Include notebooks
+]
+
+[tool.ruff.format]
+line-ending = "auto"
+
+[tool.ruff.lint]
+extend-select = [
+  "RUF022" # unsorted-dunder-all
+]
+ignore = [
+  "D100",  # Missing docstring in public module
+  "D103",  # Missing docstring in public function
+  "D105",  # Missing docstring in magic method
+  "D211",  # no-blank-line-before-class
+]
+preview = true
+select = [
+  "B", # bugbear
+  "C90", # mccabe-complexity
+  "D", # docstrings
+  "E", # pycodestyle errors
+  "F", # pyflakes
+  "I", # imports
+  "N802", # invalid-function-name
+  "S", # bandit
+  "UP", # pyupgrade
+  "W" # pycodestyle warnings
+]
+[tool.ruff.lint.mccabe]
+max-complexity = 20
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 180
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"

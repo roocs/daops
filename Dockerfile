@@ -1,7 +1,7 @@
 ##=================================================================================
 ##
 ##    EXAMPLE USAGE
-##    
+##
 ##    $ docker build -t daops .
 ##    $ mkdir ~/container-outputs
 ##    $ docker run -it \
@@ -48,7 +48,7 @@ RUN apt-get update                                                          && \
 ARG mconda=Miniconda3-py311_23.10.0-1-Linux-x86_64.sh
 RUN wget https://repo.anaconda.com/miniconda/$mconda    && \
     bash ./$mconda -b -p $MINICONDA_PREFIX              && \
-    apt-get clean autoremove --yes                      && \ 
+    apt-get clean autoremove --yes                      && \
     rm -fr $MINICONDA_PREFIX/pkgs
 
 #    wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1  && \
@@ -115,5 +115,3 @@ RUN rm -fr /var/lib/{apt,dpkg,cache,log}
 #RUN ROOCS_CONFIG=$config_file $MINICONDA_PREFIX/envs/daops/bin/daops subset --area 0,-10,120,40 \
 #  --time 2085-01-16/2120-12-16 --levels / --time-components year:2090,2091,2092 \
 #  --output-dir /tmp --file-namer simple cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas
-
- 

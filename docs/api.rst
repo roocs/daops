@@ -6,6 +6,7 @@ Subset operation
 =================
 
 .. automodule:: daops.ops.subset
+   :noindex:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,6 +16,7 @@ Average operation
 =================
 
 .. automodule:: daops.ops.average
+   :noindex:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -57,13 +59,13 @@ Utilities
 Data Utilities
 ================
 
-.. automodule:: daops.data_utils.array_utils
+.. automodule:: daops.data_utils.attr_utils
    :noindex:
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: daops.data_utils.attr_utils
+.. automodule:: daops.data_utils.common_utils
    :noindex:
    :members:
    :undoc-members:

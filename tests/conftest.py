@@ -1,17 +1,40 @@
-import os
-import shutil
+from clisops.utils.testing import stratus as _stratus
 
-import numpy as np
+from clisops.utils.testing import (
+    ESGF_TEST_DATA_CACHE_DIR,
+    ESGF_TEST_DATA_REPO_URL,
+    ESGF_TEST_DATA_VERSION,
+    gather_testing_data,
+)
+
 import pytest
-import xarray as xr
-from git import Repo
 
-from tests._common import MINI_ESGF_CACHE_DIR
-from tests._common import write_roocs_cfg
+from daops.utils.testing import write_roocs_cfg as _write_roocs_cfg, get_esgf_file_paths
 
-write_roocs_cfg()
 
-ESGF_TEST_DATA_REPO_URL = "https://github.com/roocs/mini-esgf-data"
+@pytest.fixture
+def cmip6_kerchunk_https_open_json():
+    return (
+        "https://gws-access.jasmin.ac.uk/public/cmip6_prep/eodh-eocis/kc-indexes-cmip6-http-v1/"
+        "CMIP6.CMIP.MOHC.UKESM1-1-LL.1pctCO2.r1i1p1f2.Amon.tasmax.gn.v20220513.json"
+    )
+
+
+@pytest.fixture(scope="session", autouse=True)
+def write_roocs_cfg(stratus):
+    _write_roocs_cfg(stratus.path)
+    # TODO: reload configs in clisops and roocs_utils
+    # workaround ... fix code in new clisops.
+    import roocs_utils
+    import clisops
+    from roocs_utils.config import get_config as _get_config
+
+    roocs_utils.project_utils.CONFIG = _get_config(roocs_utils)
+    roocs_utils.CONFIG = _get_config(roocs_utils)
+    clisops.CONFIG = _get_config(clisops)
+    # clisops.core.regrid.CONFIG = _get_config(clisops)
+    # clisops.utils.file_namers.CONFIG = _get_config(clisops)
+    # clisops.utils.output_utils.CONFIG = _get_config(clisops)
 
 
 @pytest.fixture
@@ -19,24 +42,34 @@ def tmp_netcdf_filename(tmp_path):
     return tmp_path.joinpath("testfile.nc")
 
 
-# Fixture to load mini-esgf-data repository used by roocs tests
-@pytest.fixture
-def load_esgf_test_data():
+@pytest.fixture(scope="session")
+def stratus():
+    return _stratus(
+        repo=ESGF_TEST_DATA_REPO_URL,
+        branch=ESGF_TEST_DATA_VERSION,
+        cache_dir=(ESGF_TEST_DATA_CACHE_DIR),
+    )
+
+
+@pytest.fixture(scope="session", autouse=True)
+def load_test_data(stratus):
     """
     This fixture ensures that the required test data repository
     has been cloned to the cache directory within the home directory.
     """
-    branch = "master"
-    target = os.path.join(MINI_ESGF_CACHE_DIR, branch)
+    repositories = {
+        "stratus": {
+            "worker_cache_dir": stratus.path,
+            "repo": ESGF_TEST_DATA_REPO_URL,
+            "branch": ESGF_TEST_DATA_VERSION,
+            "cache_dir": ESGF_TEST_DATA_CACHE_DIR,
+        },
+    }
 
-    if not os.path.isdir(MINI_ESGF_CACHE_DIR):
-        os.makedirs(MINI_ESGF_CACHE_DIR)
+    for name, repo in repositories.items():
+        gather_testing_data(worker_id="master", **repo)
 
-    if not os.path.isdir(target):
-        repo = Repo.clone_from(ESGF_TEST_DATA_REPO_URL, target)
-        repo.git.checkout(branch)
 
-    elif os.environ.get("ROOCS_AUTO_UPDATE_TEST_DATA", "true").lower() != "false":
-        repo = Repo(target)
-        repo.git.checkout(branch)
-        repo.remotes[0].pull()
+@pytest.fixture(scope="session", autouse=True)
+def mini_esgf_data(stratus):
+    return get_esgf_file_paths(stratus.path)
