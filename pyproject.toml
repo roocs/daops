@@ -8,7 +8,8 @@ authors = [
     {name = "Elle Smith", email = "eleanor.smith@stfc.ac.uk"}
 ]
 maintainers = [
-    {name = "Trevor James Smith", email = "smith.trevorj@ouranos.ca"}
+    {name = "Trevor James Smith", email = "smith.trevorj@ouranos.ca"},
+    {name = "Carsten Ehbrecht", email = "ehbrecht@dkrz.de"}
 ]
 license = {text = "BSD"}
 readme = {file = "README.rst", content-type = "text/x-rst"}
