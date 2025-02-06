@@ -1,7 +1,7 @@
 Version History
 ===============
 
-v0.13.0 (unreleased)
+v0.13.0 (2025-02-07)
 --------------------
 
 Breaking Changes
