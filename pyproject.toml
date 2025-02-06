@@ -106,7 +106,7 @@ target-version = [
 current_version = "0.13.0"
 commit = true
 commit_args = "--no-verify"
-tag = true
+tag = false
 allow_dirty = false
 
 [[tool.bumpversion.files]]
