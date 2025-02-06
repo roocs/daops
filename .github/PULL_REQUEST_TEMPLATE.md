@@ -7,10 +7,10 @@
 - [ ] HISTORY.rst has been updated (with summary of main changes)
 - [ ] I have added my relevant user information to `AUTHORS.md`
 
-* **What kind of change does this PR introduce?:** <!--(Bug fix, feature, docs update, etc.)-->
+### What kind of change does this PR introduce? <!--(Bug fix, feature, docs update, etc.)-->
 
 
-* **Does this PR introduce a breaking change?:** <!--(Has there been an API change? New dependencies?)-->
+### Does this PR introduce a breaking change? <!--(Has there been an API change? New dependencies?)-->
 
 
-* **Other information:** <!--(Relevant discussion threads? Outside documentation pages?)-->
+### Other information <!--(Relevant discussion threads? Outside documentation pages?)-->
