@@ -3,7 +3,7 @@
 __author__ = """Elle Smith"""
 __contact__ = "eleanor.smith@stfc.ac.uk"
 __copyright__ = "Copyright 2018-2025 United Kingdom Research and Innovation"
-__version__ = "0.12.0"
+__version__ = "0.13.0"
 
 from functools import lru_cache
 
