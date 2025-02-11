@@ -27,7 +27,6 @@ def write_roocs_cfg(stratus):
     # workaround ... fix code in new clisops.
     import daops
     import clisops
-    from clisops import config
 
     cfg = daops.config_()
     clisops.CONFIG = cfg
