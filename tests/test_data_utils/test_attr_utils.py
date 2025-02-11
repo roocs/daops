@@ -4,7 +4,7 @@ from daops.data_utils.attr_utils import (
     edit_global_attrs,
     edit_var_attrs,
 )
-from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
+from clisops.utils.dataset_utils import open_xr_dataset
 
 
 def test_edit_var_attrs(stratus):

@@ -1,6 +1,6 @@
 """Catalog module for the daops package."""
 
-from roocs_utils.exceptions import InvalidCollection
+from clisops.exceptions import InvalidCollection
 
 from daops import config_
 

@@ -10,7 +10,7 @@ import configparser
 import os
 import sys
 
-from roocs_utils.utils.file_utils import FileMapper
+from clisops.utils.file_utils import FileMapper
 
 from daops.ops.subset import subset
 

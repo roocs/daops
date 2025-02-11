@@ -4,7 +4,7 @@ import collections
 
 from elasticsearch import exceptions
 from loguru import logger
-from roocs_utils.xarray_utils.xarray_utils import is_kerchunk_file, open_xr_dataset
+from clisops.utils.dataset_utils import is_kerchunk_file, open_xr_dataset
 
 from daops import config_
 from daops.utils import fixer

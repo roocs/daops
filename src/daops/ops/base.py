@@ -1,6 +1,6 @@
 """Base class for all Operations."""
 
-from roocs_utils.parameter import collection_parameter
+from clisops.parameter import collection_parameter
 
 from daops.processor import process
 from daops.utils import consolidate, normalise

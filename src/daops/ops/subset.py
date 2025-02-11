@@ -1,7 +1,7 @@
 """Subset operation."""
 
 from clisops.ops.subset import subset as clisops_subset
-from roocs_utils.parameter import parameterise
+from clisops.parameter import parameterise
 
 from daops.ops.base import Operation
 

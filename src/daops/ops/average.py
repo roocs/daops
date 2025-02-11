@@ -3,7 +3,7 @@
 from clisops.ops.average import average_over_dims as clisops_average_over_dims
 from clisops.ops.average import average_shape as clisops_average_shape
 from clisops.ops.average import average_time as clisops_average_time
-from roocs_utils.parameter import collection_parameter, dimension_parameter
+from clisops.parameter import collection_parameter, dimension_parameter
 
 from daops.ops.base import Operation
 

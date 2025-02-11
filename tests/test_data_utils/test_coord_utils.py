@@ -1,7 +1,7 @@
 import numpy as np
 import xarray as xr
 from daops.data_utils.coord_utils import add_coord, add_scalar_coord, squeeze_dims
-from roocs_utils.xarray_utils.xarray_utils import open_xr_dataset
+from clisops.utils.dataset_utils import open_xr_dataset
 
 
 def test_squeeze_dims(stratus):

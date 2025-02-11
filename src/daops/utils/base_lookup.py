@@ -3,8 +3,8 @@
 import hashlib
 
 from elasticsearch import Elasticsearch
-from roocs_utils.exceptions import InvalidProject
-from roocs_utils.project_utils import derive_ds_id
+from clisops.exceptions import InvalidProject
+from clisops.project_utils import derive_ds_id
 
 from daops import config_
 

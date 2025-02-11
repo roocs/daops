@@ -6,7 +6,7 @@ import pytest
 import xarray as xr
 from daops import config_
 from daops.ops.average import average_over_dims, average_shape, average_time
-from roocs_utils.exceptions import InvalidParameterValue
+from clisops.exceptions import InvalidParameterValue
 from shapely import Polygon
 
 
