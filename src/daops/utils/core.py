@@ -2,9 +2,9 @@
 
 import collections
 
+from clisops.utils.dataset_utils import is_kerchunk_file, open_xr_dataset
 from elasticsearch import exceptions
 from loguru import logger
-from clisops.utils.dataset_utils import is_kerchunk_file, open_xr_dataset
 
 from daops import config_
 from daops.utils import fixer

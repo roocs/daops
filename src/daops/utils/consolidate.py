@@ -4,15 +4,15 @@ import collections
 import os
 import re
 
-from loguru import logger
 from clisops.exceptions import InvalidCollection
 from clisops.project_utils import (
     derive_ds_id,
     dset_to_filepaths,
     get_project_name,
 )
-from clisops.utils.file_utils import FileMapper
 from clisops.utils.dataset_utils import is_kerchunk_file, open_xr_dataset
+from clisops.utils.file_utils import FileMapper
+from loguru import logger
 
 from daops.catalog import get_catalog
 from daops.utils.core import _wrap_sequence

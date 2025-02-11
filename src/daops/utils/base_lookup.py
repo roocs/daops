@@ -2,9 +2,9 @@
 
 import hashlib
 
-from elasticsearch import Elasticsearch
 from clisops.exceptions import InvalidProject
 from clisops.project_utils import derive_ds_id
+from elasticsearch import Elasticsearch
 
 from daops import config_
 

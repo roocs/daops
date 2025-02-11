@@ -7,8 +7,8 @@ __version__ = "0.13.0"
 
 from functools import lru_cache
 
-from loguru import logger
 from clisops import config
+from loguru import logger
 
 
 @lru_cache(maxsize=1)
