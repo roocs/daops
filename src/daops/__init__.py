@@ -21,7 +21,6 @@ def _config_cached():
 
 def config_():
     cfg = _config_cached()
-    # print(cfg["project:cmip5"]["base_dir"])
     return cfg
 
 
