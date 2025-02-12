@@ -1,6 +1,14 @@
 Version History
 ===============
 
+v0.14.0 (2025-02-13)
+--------------------
+
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.15.0 is now required.
+* ``roocs-utils`` is obsolete and has been removed form the dependencies.
+
 v0.13.0 (2025-02-07)
 --------------------
 
