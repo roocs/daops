@@ -1,7 +1,7 @@
 """Coordinate operations."""
 
 import numpy as np
-from roocs_utils.xarray_utils import xarray_utils as xu
+from clisops.utils import dataset_utils as xu
 
 from .common_utils import handle_derive_str
 

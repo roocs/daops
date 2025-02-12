@@ -2,8 +2,8 @@
 
 import datetime
 
-from roocs_utils.parameter.time_components_parameter import TimeComponentsParameter
-from roocs_utils.parameter.time_parameter import TimeParameter
+from clisops.parameter.time_components_parameter import TimeComponentsParameter
+from clisops.parameter.time_parameter import TimeParameter
 
 MIN_DATETIME = datetime.datetime(datetime.MINYEAR, 1, 1).isoformat()
 MAX_DATETIME = datetime.datetime(datetime.MAXYEAR, 12, 30).isoformat()

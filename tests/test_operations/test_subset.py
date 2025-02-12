@@ -5,16 +5,16 @@ import pytest
 import xarray as xr
 from daops import config_
 from daops.ops.subset import subset
-from roocs_utils.exceptions import InvalidParameterValue, MissingParameterValue
-from roocs_utils.parameter import area_parameter, collection_parameter, time_parameter
-from roocs_utils.parameter.param_utils import (
+from clisops.exceptions import InvalidParameterValue, MissingParameterValue
+from clisops.parameter import area_parameter, collection_parameter, time_parameter
+from clisops.parameter import (
     level_interval,
     level_series,
     time_components,
     time_interval,
     time_series,
 )
-from roocs_utils.utils.file_utils import FileMapper
+from clisops.utils.file_utils import FileMapper
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",

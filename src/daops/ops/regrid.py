@@ -1,7 +1,7 @@
 """Regrid operation."""
 
 from clisops.ops.regrid import regrid as clisops_regrid
-from roocs_utils.parameter import collection_parameter
+from clisops.parameter import collection_parameter
 
 from daops.ops.base import Operation
 

@@ -58,7 +58,8 @@ class _CliFail(Exception):
 
 class _SimpleSubsetReturn:
     def __init__(self, file_uris):
-        self.file_uris = file_uris
+        # TODO: check if this is ok
+        self.file_uris = [file_uris[-1]]
 
 
 def _make_tmp_config(config_file, config_overrides):
