@@ -96,9 +96,6 @@ RUN    cd $tmp_install_dir                                 && \
 
 #RUN source activate $MINICONDA_PREFIX/bin/conda                          && \
 #    conda activate daops                                                 && \
-RUN $MINICONDA_PREFIX/envs/daops/bin/pip uninstall roocs_utils -y         && \
-    $MINICONDA_PREFIX/envs/daops/bin/pip install \
-    roocs-utils@git+https://github.com/roocs/roocs-utils.git@master#egg=roocs_utils
 
 # ==== Create a directory that we can bind-mount ====
 RUN mkdir /outputs
