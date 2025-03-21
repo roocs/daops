@@ -1,13 +1,13 @@
 import os
 from pathlib import Path
-from typing import Optional, Union
+from typing import Optional
 
 from _pytest.logging import LogCaptureFixture  # noqa
 from clisops.utils.testing import ESGF_TEST_DATA_CACHE_DIR, ESGF_TEST_DATA_VERSION
 from jinja2 import Template
 
 
-def write_roocs_cfg(cache_dir: Union[str, Path]):
+def write_roocs_cfg(cache_dir: str | Path):
     cfg_templ = """
     [project:cmip5]
     base_dir = {{ base_dir }}/badc/cmip5/data/cmip5
@@ -38,7 +38,7 @@ def write_roocs_cfg(cache_dir: Union[str, Path]):
     os.environ["ROOCS_CONFIG"] = roocs_config.as_posix()
 
 
-def get_esgf_file_paths(esgf_cache_dir: Union[str, os.PathLike[str]]):
+def get_esgf_file_paths(esgf_cache_dir: str | os.PathLike[str]):
     return {
         "CMIP5_TAS_FPATH": Path(
             esgf_cache_dir,
@@ -66,7 +66,7 @@ def get_esgf_file_paths(esgf_cache_dir: Union[str, os.PathLike[str]]):
 class ContextLogger:
     """Helper function for safe logging management in pytests."""
 
-    def __init__(self, caplog: Optional[LogCaptureFixture] = False):
+    def __init__(self, caplog: Optional[LogCaptureFixture] = None):  # noqa: UP045
         from loguru import logger
 
         self.logger = logger

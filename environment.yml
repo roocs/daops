@@ -3,21 +3,22 @@ name: daops
 channels:
   - conda-forge
 dependencies:
-  - pip
+  - python >=3.10,<3.13
+  - pip >=25.0
   - cftime
-  - clisops >=0.15.0
+  - clisops >=0.16.1
   - dask
   - elasticsearch>=8.0.1
   - netcdf4
-  - numpy >=1.23.0,<2.0.0
+  - numpy >=1.24.0,<2.0.0
   - roocs-grids >=0.1.2
-  - xarray >=2022.12.0,<2023.3.0 # https://github.com/pydata/xarray/issues/7794
+  - xarray >=2025.1.1,<2025.3.0
   - xesmf >=0.8.2
   # logging
   - loguru >=0.5.3
   # catalog
   - intake >=0.7.0,<2.0
-  - pandas <2.0
+  - pandas >=2.1
   # to support kerchunk
   - fsspec
   - aiohttp
