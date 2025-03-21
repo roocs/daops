@@ -7,6 +7,7 @@ v0.15.0 (2025-03-21)
 Breaking Changes
 ^^^^^^^^^^^^^^^^
 * ``clisops``>=0.16.1 and ``pandas``>=2.1 are now required.
+* Dropped support for Python3.9.
 
 v0.14.0 (2025-02-13)
 --------------------
