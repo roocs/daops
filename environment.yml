@@ -3,7 +3,8 @@ name: daops
 channels:
   - conda-forge
 dependencies:
-  - pip
+  - python >=3.10,<3.13
+  - pip >=25.0
   - cftime
   - clisops >=0.16.1
   - dask
