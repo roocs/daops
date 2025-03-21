@@ -14,7 +14,6 @@ maintainers = [
 license = {text = "BSD"}
 readme = {file = "README.rst", content-type = "text/x-rst"}
 keywords = ["daops"]
-homepage = "https://github.com/roocs/daops"
 requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -90,6 +89,12 @@ docs = [
 
 [project.scripts]
 daops = "daops.cli:main"
+
+[project.urls]
+"Changelog" = "https://daops.readthedocs.io/en/stable/history.html"
+"Homepage" = "https://daops.readthedocs.io/"
+"Issue tracker" = "https://github.com/roocs/daops/issues"
+"Source" = "https://github.com/roocs/daops"
 
 [tool]
 
