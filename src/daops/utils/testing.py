@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Optional
 
 from _pytest.logging import LogCaptureFixture  # noqa
 from clisops.utils.testing import ESGF_TEST_DATA_CACHE_DIR, ESGF_TEST_DATA_VERSION
@@ -65,7 +66,7 @@ def get_esgf_file_paths(esgf_cache_dir: str | os.PathLike[str]):
 class ContextLogger:
     """Helper function for safe logging management in pytests."""
 
-    def __init__(self, caplog: LogCaptureFixture | None = None):
+    def __init__(self, caplog: Optional[LogCaptureFixture] = None):  # noqa: UP045
         from loguru import logger
 
         self.logger = logger
