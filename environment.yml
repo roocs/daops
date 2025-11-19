@@ -3,16 +3,16 @@ name: daops
 channels:
   - conda-forge
 dependencies:
-  - python >=3.10,<3.13
+  - python >=3.10
   - pip >=25.0
   - cftime
-  - clisops >=0.16.1
+  - clisops >=0.16.2
   - dask
   - elasticsearch>=8.0.1
   - netcdf4
-  - numpy >=1.24.0,<2.0.0
+  - numpy >=1.25.0
   - roocs-grids >=0.1.2
-  - xarray >=2025.1.1,<2025.3.0
+  - xarray >=2025.6.0
   - xesmf >=0.8.2
   # logging
   - loguru >=0.5.3

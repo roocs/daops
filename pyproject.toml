@@ -31,6 +31,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Security",
     "Topic :: Internet",
     "Topic :: Scientific/Engineering",
@@ -41,12 +42,12 @@ classifiers = [
 dynamic = ["description", "version"]
 dependencies = [
   "cftime",
-  "clisops >=0.16.1",
+  "clisops >=0.16.2",
   "dask[complete]",
   "elasticsearch >=8.0.1",
-  "numpy >=1.24.0,<2.0.0",
+  "numpy >=1.25.0",
   "roocs_grids >=0.1.2",
-  "xarray >=2025.1.1,<2025.3.0",
+  "xarray >=2025.6.0",
   "xesmf >=0.8.2",
   # logging
   "loguru >=0.5.3",
@@ -103,7 +104,8 @@ target-version = [
   "py39",
   "py310",
   "py311",
-  "py312"
+  "py312",
+  "py313"
 ]
 
 [tool.bumpversion]
