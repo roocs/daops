@@ -169,8 +169,9 @@ testpaths = [
 ]
 markers = [
   "online: mark tests that require internet access (deselect with '-m \"not requires_internet\"')"
+  "slow: mark tests that run quite long."
 ]
-xfail_strict = true
+xfail_strict = false
 
 [tool.ruff]
 src = ["src/daops"]

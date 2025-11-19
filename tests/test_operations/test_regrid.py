@@ -12,8 +12,7 @@ def _check_output_nc(result, fname="output_001.nc"):
     assert fname in [os.path.basename(_) for _ in result.file_uris]
 
 
-@pytest.mark.online
-@pytest.mark.xfail(reason="xarray needs to be fixed for regrid operation.")
+@pytest.mark.slow
 def test_regrid(tmpdir):
     xesmf = pytest.importorskip("xesmf")
     if Version(xesmf.__version__) < Version("0.8.2"):

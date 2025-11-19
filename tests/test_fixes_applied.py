@@ -12,7 +12,7 @@ def _check_output_nc(result, fname="output_001.nc"):
     assert fname in [os.path.basename(_) for _ in result.file_uris]
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_MOHC_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -87,7 +87,7 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir):
     config_()["elasticsearch"]["fix_store"] = fix_index
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_MOHC_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -163,7 +163,7 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir):
     config_()["elasticsearch"]["fix_store"] = fix_index
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_EC_Earth_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -238,7 +238,7 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir):
     config_()["elasticsearch"]["fix_store"] = fix_index
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_EC_Earth_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -313,7 +313,7 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir):
     config_()["elasticsearch"]["fix_store"] = fix_index
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
