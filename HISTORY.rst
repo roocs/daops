@@ -1,6 +1,14 @@
 Version History
 ===============
 
+v0.16.0 (2025-12-05)
+--------------------
+
+Breaking Changes
+^^^^^^^^^^^^^^^^
+* ``clisops``>=0.16.2 and ``pandas``>=2.1 are now required.
+* Dropped support for Python3.10.
+
 v0.15.0 (2025-03-24)
 --------------------
 
