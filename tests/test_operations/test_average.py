@@ -8,7 +8,9 @@ from daops import config_
 from daops.ops.average import average_over_dims, average_shape, average_time
 from clisops.exceptions import InvalidParameterValue
 from shapely import Polygon
+from xarray.coders import CFDatetimeCoder
 
+TIME_CODER = CFDatetimeCoder(use_cftime=True)
 
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
@@ -44,7 +46,7 @@ def test_average_dims_time(tmpdir):
         apply_fixes=False,
     )
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     assert "time" not in ds.dims
 
 
@@ -58,7 +60,7 @@ def test_average_time_lat(tmpdir):
         apply_fixes=False,
     )
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     assert "time" not in ds.dims
     assert "lat" not in ds.dims
 
@@ -73,7 +75,7 @@ def test_average_time_lon(tmpdir):
         apply_fixes=False,
     )
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     assert "time" not in ds.dims
     assert "lon" not in ds.dims
 
@@ -126,7 +128,7 @@ def test_average_shape(tmpdir):
         apply_fixes=False,
     )
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     assert "geom" in ds.dims
 
 
@@ -147,7 +149,7 @@ def test_average_shape_none(tmpdir):
 @pytest.mark.online
 def test_average_time_month(tmpdir, mini_esgf_data):
     ds = xr.open_mfdataset(
-        mini_esgf_data["CMIP5_DAY"], use_cftime=True, combine="by_coords"
+        mini_esgf_data["CMIP5_DAY"], decode_times=TIME_CODER, combine="by_coords"
     )
 
     assert ds.time.shape == (3600,)
@@ -169,7 +171,7 @@ def test_average_time_month(tmpdir, mini_esgf_data):
 
     # check only one output file
     assert len(result.file_uris) == 1
-    ds_res = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds_res = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
     assert ds_res.time.shape == (time_length,)
     assert ds_res.time.values[0].isoformat() == "2005-12-01T00:00:00"
@@ -181,7 +183,7 @@ def test_average_time_year(tmpdir, mini_esgf_data):
     # allow use of dataset - defaults to c3s-cmip6 and this is not in the catalog
     config_()["project:c3s-cmip6"]["use_catalog"] = False
     ds = xr.open_mfdataset(
-        mini_esgf_data["CMIP6_MONTH"], use_cftime=True, combine="by_coords"
+        mini_esgf_data["CMIP6_MONTH"], decode_times=TIME_CODER, combine="by_coords"
     )
 
     assert ds.time.shape == (1980,)
@@ -201,7 +203,7 @@ def test_average_time_year(tmpdir, mini_esgf_data):
 
     # check only one output file
     assert len(result.file_uris) == 1
-    ds_res = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds_res = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
     assert ds_res.time.shape == (time_length,)
     assert ds_res.time.values[0].isoformat() == "1850-01-01T00:00:00"

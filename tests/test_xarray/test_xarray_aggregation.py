@@ -38,7 +38,15 @@ def prepare_files(stratus):
 # Functions to make modified NC files
 # need to make files temporary files
 def _open(file_paths):
-    return xr.open_mfdataset(file_paths, use_cftime=True, combine="by_coords")
+    time_coder = xr.coders.CFDatetimeCoder(use_cftime=True)
+    return xr.open_mfdataset(
+        file_paths,
+        combine="by_coords",
+        data_vars="all",
+        decode_times=time_coder,
+        join="outer",
+        compat="no_conflicts",
+    )
 
 
 def _make_nc_modify_var_attr(nc_path, var_id, attr, value, path):
@@ -92,7 +100,7 @@ def test_agg_success_with_no_changes(prepare_files):
     ds.close()
 
 
-@pytest.mark.skip(reason="This test is hanging quite often ...")
+@pytest.mark.timeout(30)
 def test_agg_fails_diff_var_attrs_change_F2(var_attr, prepare_files, tmpdir):
     v = "rubbish"
     file_paths = (
@@ -104,6 +112,7 @@ def test_agg_fails_diff_var_attrs_change_F2(var_attr, prepare_files, tmpdir):
         assert ds.tas.__getattr__(f"{var_attr}") != v
 
 
+@pytest.mark.timeout(30)
 def test_agg_fails_diff_var_attrs_change_F1(var_attr, prepare_files, tmpdir):
     v = "rubbish"
     file_paths = (

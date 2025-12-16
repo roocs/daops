@@ -13,7 +13,7 @@ class TestLoggingFuncs:
         with ContextLogger(caplog):
             caplog.set_level("WARNING", logger="daops")
 
-            _logging_examples()  # noqa
+            _logging_examples()
 
             assert ("daops.utils.common", 10, "1") not in caplog.record_tuples
             assert ("daops.utils.common", 40, "4") in caplog.record_tuples
@@ -26,7 +26,7 @@ class TestLoggingFuncs:
             _logger.add(sys.stderr, level="WARNING")
             _logger.add(sys.stdout, level="INFO")
 
-            _logging_examples()  # noqa
+            _logging_examples()
 
             captured = capsys.readouterr()
             assert "WARNING" not in captured.err
@@ -35,7 +35,7 @@ class TestLoggingFuncs:
             # re-enable DAOPS logging
             _logger.enable("daops")
 
-            _logging_examples()  # noqa
+            _logging_examples()
 
             captured = capsys.readouterr()
             assert "INFO" not in captured.err
@@ -44,7 +44,7 @@ class TestLoggingFuncs:
 
     def test_logging_enabler(self, capsys):
         with ContextLogger():
-            _logging_examples()  # noqa
+            _logging_examples()
 
             captured = capsys.readouterr()
             assert "WARNING" not in captured.err
@@ -52,7 +52,7 @@ class TestLoggingFuncs:
 
             enable_logging()
 
-            _logging_examples()  # noqa
+            _logging_examples()
 
             captured = capsys.readouterr()
             assert "INFO" not in captured.err

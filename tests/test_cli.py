@@ -18,6 +18,10 @@ import pytest
 import xarray as xr
 from daops import config_
 
+from xarray.coders import CFDatetimeCoder
+
+TIME_CODER = CFDatetimeCoder(use_cftime=True)
+
 CMIP5_IDS = [
     "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga",
     "cmip5.output1.MOHC.HadGEM2-ES.rcp85.mon.atmos.Amon.r1i1p1.latest.tas",
@@ -141,7 +145,7 @@ def test_cli_subset_zostoga(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     assert ds.time.shape == (192,)
 
     # lev should still be in ds.dims because fix hasn't been applied
@@ -157,7 +161,7 @@ def test_cli_subset_t(tmpdir):
         file_namer="simple",
     )
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     assert ds.time.shape == (433,)
 
 
@@ -181,7 +185,7 @@ def test_cli_subset_t_y_x(tmpdir, stratus):
 
     ds = xr.open_mfdataset(
         fpath,
-        use_cftime=True,
+        decode_times=TIME_CODER,
         combine="by_coords",
     )
     assert ds.tas.shape == (3530, 2, 2)
@@ -195,7 +199,7 @@ def test_cli_subset_t_y_x(tmpdir, stratus):
     )
     _check_output_nc(result)
 
-    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     assert ds_subset.tas.shape == (433, 1, 1)
 
 
@@ -209,7 +213,7 @@ def test_cli_subset_t_z_y_x(tmpdir, stratus):
 
     ds = xr.open_mfdataset(
         fpath,
-        use_cftime=True,
+        decode_times=TIME_CODER,
         combine="by_coords",
     )
 
@@ -249,7 +253,7 @@ def test_cli_subset_t_z_y_x(tmpdir, stratus):
     )
     _check_output_nc(result)
 
-    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     assert ds_subset.o3.shape == (12, 6, 1, 1)
 
 
@@ -301,9 +305,9 @@ def test_time_is_none(tmpdir):
             config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
-    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
     assert ds_subset.time.values.min().strftime(
         "%Y-%m-%d"
@@ -329,9 +333,9 @@ def test_end_time_is_none(tmpdir):
             config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/historical/mon/land/Lmon/r1i1p1/latest/rh/*.nc",
         ),
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
-    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
     assert ds_subset.time.values.min().strftime("%Y-%m-%d") == "1940-10-16"
     assert ds_subset.time.values.max().strftime(
@@ -355,9 +359,9 @@ def test_start_time_is_none(tmpdir):
             config_()["project:cmip5"]["base_dir"],
             "output1/MOHC/HadGEM2-ES/rcp85/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         ),
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
-    ds_subset = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds_subset = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
     assert ds_subset.time.values.min().strftime(
         "%Y-%m-%d"
@@ -442,7 +446,7 @@ def test_cli_subset_by_time_components_year_month(tmpdir, mini_esgf_data):
             file_namer="simple",
         )
 
-        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+        ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
         assert set(ds.time.dt.year.values) == {2021, 2022}
         assert set(ds.time.dt.month.values) == {12, 1, 2}
@@ -463,7 +467,7 @@ def test_cli_subset_by_time_components_month_day(tmpdir, mini_esgf_data):
             file_namer="simple",
         )
 
-        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+        ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
         assert set(ds.time.dt.month.values) == {7}
         assert set(ds.time.dt.day.values) == {1, 11, 21}
@@ -491,7 +495,7 @@ def test_cli_subset_by_time_interval_and_components_month_day(tmpdir, mini_esgf_
             output_dir=tmpdir,
             file_namer="simple",
         )
-        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+        ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
         assert set(ds.time.dt.month.values) == set(months)
         assert set(ds.time.dt.day.values) == set(days)
@@ -517,7 +521,7 @@ def test_cli_subset_by_time_interval_and_components_month_day(tmpdir, mini_esgf_
 #         result = _cli_subset(
 #             CMIP5_DAY, time=ts, _time_components_str=tc, output_dir=tmpdir, file_namer="simple"
 #         )
-#         ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+#         ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
 #         assert set(ds.time.dt.month.values) == set(months)
 #         assert set(ds.time.dt.day.values) == set(days)
@@ -559,7 +563,7 @@ def test_cli_subset_by_time_series_and_components_month_day_cmip6(
             file_namer="simple",
             config_overrides=config_overrides,
         )
-        ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+        ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
         assert set(ds.time.dt.month.values) == set(months)
         assert set(ds.time.dt.day.values) == set(days)
@@ -612,7 +616,7 @@ def test_cli_subset_by_time_series(tmpdir, mini_esgf_data):
     )
     _check_output_nc(result)
 
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
     assert len(ds.time) == 5
     assert [str(t) for t in ds.time.values] == sorted(some_times)
@@ -633,7 +637,7 @@ def test_cli_subset_by_level_series(tmpdir):
     )
     _check_output_nc(result)
 
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
 
     assert len(ds.plev) == 5
     np.testing.assert_array_equal(ds.plev.values, sorted(some_levels, reverse=True))
@@ -651,7 +655,7 @@ def test_cli_subset_cmip6_nc_consistent_bounds(tmpdir):
         output_dir=tmpdir,
         file_namer="simple",
     )
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     # check fill value in bounds
     assert "_FillValue" not in ds.lat_bnds.encoding
     assert "_FillValue" not in ds.lon_bnds.encoding
@@ -676,7 +680,7 @@ def test_cli_subset_c3s_cmip6_nc_consistent_bounds(tmpdir):
         output_dir=tmpdir,
         file_namer="simple",
     )
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=TIME_CODER)
     # check fill value in bounds
     assert "_FillValue" not in ds.lat_bnds.encoding
     assert "_FillValue" not in ds.lon_bnds.encoding

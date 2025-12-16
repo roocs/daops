@@ -5,13 +5,16 @@ from daops.data_utils.attr_utils import (
     edit_var_attrs,
 )
 from clisops.utils.dataset_utils import open_xr_dataset
+from xarray.coders import CFDatetimeCoder
+
+TIME_CODER = CFDatetimeCoder(use_cftime=True)
 
 
 def test_edit_var_attrs(stratus):
     ds = xr.open_mfdataset(
         f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
 
     ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
@@ -35,7 +38,7 @@ def test_edit_global_attrs(stratus):
     ds = xr.open_mfdataset(
         f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
     ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
 
@@ -102,7 +105,7 @@ def test_add_global_attrs_if_needed(stratus):
     ds = xr.open_mfdataset(
         f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
 
     ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"

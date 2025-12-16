@@ -6,6 +6,10 @@ import pytest
 import xarray as xr
 from daops import config_
 from daops.ops.subset import subset
+from xarray.coders import CFDatetimeCoder
+
+
+TIME_CODER = CFDatetimeCoder(use_cftime=True)
 
 
 def _check_output_nc(result, fname="output_001.nc"):
@@ -405,7 +409,9 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True, decode_timedelta=False)
+    ds = xr.open_dataset(
+        result.file_uris[0], decode_times=TIME_CODER, decode_timedelta=False
+    )
 
     # check VarAttrFix is applied
     assert ds.time.long_name == "valid_time"
@@ -481,7 +487,9 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True, decode_timedelta=False)
+    ds = xr.open_dataset(
+        result.file_uris[0], decode_times=TIME_CODER, decode_timedelta=False
+    )
 
     # check VarAttrFix is applied
     assert ds.time.long_name == "valid_time"
@@ -557,7 +565,9 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True, decode_timedelta=False)
+    ds = xr.open_dataset(
+        result.file_uris[0], decode_times=TIME_CODER, decode_timedelta=False
+    )
 
     # check VarAttrFix is applied
     assert ds.time.long_name == "valid_time"

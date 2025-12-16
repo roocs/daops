@@ -31,6 +31,7 @@ def test_regrid(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    time_coder = xr.coders.CFDatetimeCoder(use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=time_coder)
     assert "time" in ds.dims
     assert "tos" in ds

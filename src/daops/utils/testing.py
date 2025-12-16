@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from typing import Optional
 
-from _pytest.logging import LogCaptureFixture  # noqa
+from _pytest.logging import LogCaptureFixture
 from clisops.utils.testing import ESGF_TEST_DATA_CACHE_DIR, ESGF_TEST_DATA_VERSION
 from jinja2 import Template
 
