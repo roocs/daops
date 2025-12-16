@@ -7,6 +7,7 @@ dependencies:
   - pip >=25.0
   - cftime
   - clisops >=0.17.0
+  - h5netcdf
   - dask
   - elasticsearch>=8.0.1,<9.0
   - netcdf4
