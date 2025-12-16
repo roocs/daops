@@ -41,7 +41,7 @@ classifiers = [
 dynamic = ["description", "version"]
 dependencies = [
   "cftime",
-  "clisops >=0.16.2",
+  "clisops >=0.17.0",
   "dask[complete]",
   "elasticsearch >=8.0.1,<9.0",
   "numpy >=1.25.0",
