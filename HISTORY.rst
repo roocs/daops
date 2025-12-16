@@ -1,13 +1,17 @@
 Version History
 ===============
 
-v0.16.0 (2025-12-05)
+v0.16.0 (2025-12-16)
 --------------------
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
-* ``clisops``>=0.16.2 and ``pandas``>=2.1 are now required.
-* Dropped support for Python3.10.
+* ``clisops``>=0.16.2, ``numpy``>=1.26, and ``xesmf``>=0.9.2 are now required.
+* Dropped support for Python3.10. Added support for Python3.13.
+
+Fixes
+^^^^^
+* Addressed thousands of `DeprecationWarning` messages emitted from ``xarray`` in the testing suite.
 
 v0.15.0 (2025-03-24)
 --------------------
@@ -24,6 +28,7 @@ Breaking Changes
 ^^^^^^^^^^^^^^^^
 * ``clisops``>=0.15.0 is now required.
 * ``roocs-utils`` has been rendered obsolete and removed from the dependencies (``roocs-utils`` functionality is now provided by ``clisops``).
+
 
 v0.13.0 (2025-02-07)
 --------------------
@@ -57,7 +62,7 @@ New Features
 
 Other Changes
 ^^^^^^^^^^^^^
-* Only ``clisops``\<0.15.0 supported.
+* Only ``clisops``<0.15.0 supported.
 
 
 v0.11.0 (2024-04-10)
