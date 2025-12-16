@@ -1,5 +1,5 @@
 [build-system]
-requires = ["flit-core >=3.10.1,<4.0"]
+requires = ["flit-core >=3.11.0,<4.0"]
 build-backend = "flit_core.buildapi"
 
 [project]
@@ -11,7 +11,8 @@ maintainers = [
     {name = "Trevor James Smith", email = "smith.trevorj@ouranos.ca"},
     {name = "Carsten Ehbrecht", email = "ehbrecht@dkrz.de"}
 ]
-license = {text = "BSD"}
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 readme = {file = "README.rst", content-type = "text/x-rst"}
 keywords = ["daops"]
 requires-python = ">=3.11"
@@ -23,7 +24,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: BSD License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
@@ -43,12 +43,12 @@ dependencies = [
   "cftime",
   "clisops >=0.17.0",
   "h5netcdf",
-  "dask[complete]",
+  "dask[complete] >=2024.12.0",
   "elasticsearch >=8.0.1,<9.0",
-  "numpy >=1.25.0",
+  "numpy >=1.26.0",
   "roocs_grids >=0.1.2",
   "xarray >=2025.6.0",
-  "xesmf >=0.8.2",
+  "xesmf >=0.9.2",
   # logging
   "loguru >=0.5.3",
   # catalog
@@ -63,16 +63,19 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "black >=25.1.0",
-  "bump-my-version >=0.28.0",
-  "coverage >=7.6.0",
+  "black >=25.12.0",
+  "bump-my-version >=1.2.0",
+  "coverage[toml] >=7.6.0",
+  "h5netcdf >=1.5.0",
   "jinja2",
   "packaging >=24.2",
+  "pip >=25.2",
   "pre-commit >=3.5.0",
   "pytest-loguru >=0.3.0",
   "pytest >=8.0.0",
   "pytest-cov >=6.0.0",
-  "ruff >=0.9.0",
+  "pytest-timeout >=2.4.0",
+  "ruff >=0.14.9",
   "tox >=4.18.1",
   "watchdog >=4.0",
 ]
@@ -157,6 +160,7 @@ minversion = "8.0"
 addopts = [
   "--verbose",
   "--color=yes",
+  "--timeout=300",
   "--strict-config",
   "--strict-markers"
 ]
