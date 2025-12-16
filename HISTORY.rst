@@ -62,7 +62,7 @@ New Features
 
 Other Changes
 ^^^^^^^^^^^^^
-* Only ``clisops``<0.15.0 supported.
+* Only ``clisops``\<0.15.0 supported.
 
 
 v0.11.0 (2024-04-10)
