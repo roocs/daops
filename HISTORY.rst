@@ -15,10 +15,9 @@ Fixes
 
 Other Changes
 ^^^^^^^^^^^^^
-
 * Updated tests.
 * Updated dependencies.
-* Pinned ``elasticsearch``<9.0 to avoid compatibility issues.
+* Pinned ``elasticsearch``\<9.0 to avoid compatibility issues.
 
 v0.15.0 (2025-03-24)
 --------------------
