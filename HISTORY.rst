@@ -1,17 +1,23 @@
 Version History
 ===============
 
-v0.16.0 (2025-12-16)
+v0.16.0 (2025-12-17)
 --------------------
 
 Breaking Changes
 ^^^^^^^^^^^^^^^^
-* ``clisops``>=0.16.2, ``numpy``>=1.26, and ``xesmf``>=0.9.2 are now required.
+* ``clisops``>=0.17.0, ``numpy``>=1.26, and ``xesmf``>=0.9.2 are now required.
 * Dropped support for Python3.10. Added support for Python3.13.
 
 Fixes
 ^^^^^
 * Addressed thousands of `DeprecationWarning` messages emitted from ``xarray`` in the testing suite.
+
+Other Changes
+^^^^^^^^^^^^^
+* Updated tests.
+* Updated dependencies.
+* Pinned ``elasticsearch``\<9.0 to avoid compatibility issues.
 
 v0.15.0 (2025-03-24)
 --------------------
