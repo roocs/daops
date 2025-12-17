@@ -24,7 +24,7 @@ def config_():
     return cfg
 
 
-from .utils.common import enable_logging  # noqa
+from .utils.common import enable_logging as enable_logging  # noqa: E402
 
 # Disable logging for daops and remove the logger that is instantiated on import
 logger.disable("daops")

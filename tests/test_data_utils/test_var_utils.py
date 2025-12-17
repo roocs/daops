@@ -3,11 +3,12 @@ from daops.data_utils.var_utils import add_data_var
 
 
 def test_add_data_var(stratus):
+    time_coder = xr.coders.CFDatetimeCoder(use_cftime=True)
     ds = xr.open_mfdataset(
         f"{stratus.path}/badc/cmip5/data/cmip5/output1/INM/"
         "inmcm4/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc",
         combine="by_coords",
-        use_cftime=True,
+        decode_times=time_coder,
     )
 
     ds_id = "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga"

@@ -1,6 +1,9 @@
 import pytest
 import xarray as xr
 from daops.utils.core import Characterised, open_dataset
+from xarray.coders import CFDatetimeCoder
+
+TIME_CODER = CFDatetimeCoder(use_cftime=True)
 
 
 class TestOpenDataset:
@@ -13,9 +16,11 @@ class TestOpenDataset:
             "/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc"
         )
 
-        unfixed_ds = xr.open_mfdataset(fpath, use_cftime=True, combine="by_coords")
+        unfixed_ds = xr.open_mfdataset(
+            fpath, combine="by_coords", decode_times=TIME_CODER
+        )
         fixed_ds = open_dataset(self.ds_id, fpath)
-        assert unfixed_ds.dims != fixed_ds.dims
+        assert unfixed_ds.sizes != fixed_ds.sizes
         assert "lev" in unfixed_ds.dims
         assert "lev" not in fixed_ds.dims
 
@@ -25,9 +30,9 @@ class TestOpenDataset:
             "/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc"
         )
 
-        ds = xr.open_mfdataset(fpath, use_cftime=True, combine="by_coords")
+        ds = xr.open_mfdataset(fpath, combine="by_coords", decode_times=TIME_CODER)
         not_fixed_ds = open_dataset(self.ds_id, fpath, apply_fixes=False)
-        assert ds.dims == not_fixed_ds.dims
+        assert ds.sizes == not_fixed_ds.sizes
         assert "lev" in ds.dims
         assert "lev" in not_fixed_ds.dims
 

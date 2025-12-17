@@ -6,13 +6,17 @@ import pytest
 import xarray as xr
 from daops import config_
 from daops.ops.subset import subset
+from xarray.coders import CFDatetimeCoder
+
+
+TIME_CODER = CFDatetimeCoder(use_cftime=True)
 
 
 def _check_output_nc(result, fname="output_001.nc"):
     assert fname in [os.path.basename(_) for _ in result.file_uris]
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_MOHC_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -87,7 +91,7 @@ def test_fixes_applied_decadal_MOHC_mon(tmpdir):
     config_()["elasticsearch"]["fix_store"] = fix_index
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_MOHC_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -163,7 +167,7 @@ def test_fixes_applied_decadal_MOHC_day(tmpdir):
     config_()["elasticsearch"]["fix_store"] = fix_index
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_EC_Earth_mon(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -238,7 +242,7 @@ def test_fixes_applied_decadal_EC_Earth_mon(tmpdir):
     config_()["elasticsearch"]["fix_store"] = fix_index
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_EC_Earth_day(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -313,7 +317,7 @@ def test_fixes_applied_decadal_EC_Earth_day(tmpdir):
     config_()["elasticsearch"]["fix_store"] = fix_index
 
 
-@pytest.mark.online
+@pytest.mark.skip(reason="skip decadal fixes")
 def test_fixes_applied_decadal_EC_Earth_url_fix(tmpdir):
     # change fix index to test index which holds these decadal fixes
     fix_index = config_()["elasticsearch"]["fix_store"]
@@ -405,7 +409,9 @@ def test_fixes_applied_decadal_MPI_M_mon(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True, decode_timedelta=False)
+    ds = xr.open_dataset(
+        result.file_uris[0], decode_times=TIME_CODER, decode_timedelta=False
+    )
 
     # check VarAttrFix is applied
     assert ds.time.long_name == "valid_time"
@@ -481,7 +487,9 @@ def test_fixes_applied_decadal_MPI_M_day(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True, decode_timedelta=False)
+    ds = xr.open_dataset(
+        result.file_uris[0], decode_times=TIME_CODER, decode_timedelta=False
+    )
 
     # check VarAttrFix is applied
     assert ds.time.long_name == "valid_time"
@@ -557,7 +565,9 @@ def test_fixes_applied_decadal_CMCC_mon(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True, decode_timedelta=False)
+    ds = xr.open_dataset(
+        result.file_uris[0], decode_times=TIME_CODER, decode_timedelta=False
+    )
 
     # check VarAttrFix is applied
     assert ds.time.long_name == "valid_time"

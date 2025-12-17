@@ -58,7 +58,6 @@ def regrid(
     -------
     List of outputs in the selected type: a list of xarray Datasets or file paths.
 
-
     Examples
     --------
     | collection: ("cmip6.ukesm1.r1.gn.tasmax.v20200101",)

@@ -12,8 +12,7 @@ def _check_output_nc(result, fname="output_001.nc"):
     assert fname in [os.path.basename(_) for _ in result.file_uris]
 
 
-@pytest.mark.online
-@pytest.mark.xfail(reason="xarray needs to be fixed for regrid operation.")
+@pytest.mark.slow
 def test_regrid(tmpdir):
     xesmf = pytest.importorskip("xesmf")
     if Version(xesmf.__version__) < Version("0.8.2"):
@@ -32,6 +31,7 @@ def test_regrid(tmpdir):
     )
 
     _check_output_nc(result)
-    ds = xr.open_dataset(result.file_uris[0], use_cftime=True)
+    time_coder = xr.coders.CFDatetimeCoder(use_cftime=True)
+    ds = xr.open_dataset(result.file_uris[0], decode_times=time_coder)
     assert "time" in ds.dims
     assert "tos" in ds

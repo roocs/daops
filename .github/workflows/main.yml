@@ -6,13 +6,18 @@ on:
       - main
   pull_request:
 
+concurrency:
+  # For a given workflow, if we push to the same branch, cancel all previous builds on that branch except on master.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   build:
     name: Conda Build with Python${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.11", "3.12", "3.13"]
     defaults:
       run:
         shell: bash -l {0}
@@ -21,7 +26,7 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get -y install pandoc
-      if: matrix.python-version == 3.10
+      if: matrix.python-version == 3.11
     - name: Setup Conda (Micromamba) with Python${{ matrix.python-version }}
       uses: mamba-org/setup-micromamba@0dea6379afdaffa5d528b3d1dabc45da37f443fc # v2.0.4
       with:
@@ -41,4 +46,4 @@ jobs:
         python -m pytest -v tests
     - name: Build docs 🏗️
       run: make docs
-      if: matrix.python-version == 3.10
+      if: matrix.python-version == 3.11

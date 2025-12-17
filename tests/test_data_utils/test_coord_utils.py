@@ -2,6 +2,9 @@ import numpy as np
 import xarray as xr
 from daops.data_utils.coord_utils import add_coord, add_scalar_coord, squeeze_dims
 from clisops.utils.dataset_utils import open_xr_dataset
+from xarray.coders import CFDatetimeCoder
+
+TIME_CODER = CFDatetimeCoder(use_cftime=True)
 
 
 def test_squeeze_dims(stratus):
@@ -9,7 +12,7 @@ def test_squeeze_dims(stratus):
         f"{stratus.path}/badc/cmip5/data/cmip5/output1/INM/"
         "inmcm4/rcp45/mon/ocean/Omon/r1i1p1/latest/zostoga/*.nc",
         combine="by_coords",
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
     ds_id = "cmip5.output1.INM.inmcm4.rcp45.mon.ocean.Omon.r1i1p1.latest.zostoga"
 
@@ -25,14 +28,15 @@ def test_add_scalar_coord(stratus):
     ds_no_height = xr.open_mfdataset(
         f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         combine="by_coords",
-        use_cftime=True,
+        decode_times=TIME_CODER,
+        data_vars="all",
     )
     ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
 
     ds_with_height = xr.open_mfdataset(
         f"{stratus.path}/badc/cmip5/data/cmip5/output1/INM/inmcm4/historical/mon/atmos/Amon/r1i1p1/latest/tas/*.nc",
         combine="by_coords",
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
     operands = {
         "dtype": "float64",
@@ -80,7 +84,7 @@ def test_add_coord(stratus):
     ds_no_leadtime = xr.open_mfdataset(
         f"{stratus.path}/badc/cmip5/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/latest/tas/tas_Amon_EC-EARTH_historical_r1i1p1_185001-185912.nc",
         combine="by_coords",
-        use_cftime=True,
+        decode_times=TIME_CODER,
     )
     ds_id = "cmip5.output1.ICHEC.EC-EARTH.historical.mon.atmos.Amon.r1i1p1.latest.tas"
 
